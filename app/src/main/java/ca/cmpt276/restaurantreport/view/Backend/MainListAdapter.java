@@ -28,8 +28,11 @@ public class MainListAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         LayoutInflater layoutInflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View row = layoutInflater.inflate(R.layout.row, parent, false);
+        View row = layoutInflater.inflate(R.layout.list_row, parent, false);
+        //set the view we are working with
 
+
+        //get the
         TextView myName = row.findViewById(R.id.txtName);
         TextView myIssues = row.findViewById(R.id.txtIssues);
         TextView myDate = row.findViewById(R.id.txtDate);

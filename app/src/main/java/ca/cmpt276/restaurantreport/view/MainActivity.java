@@ -10,6 +10,11 @@ import android.widget.ListView;
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.view.Backend.MainListAdapter;
 
+/*
+restaurant icon from http://clipart-library.com/clipart/183878.htm
+Green diamond hazard Icon from http://clipart-library.com/clipart/2019534.htm
+Red and Yellow diamonds are edited by dolivera from the green one
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override
