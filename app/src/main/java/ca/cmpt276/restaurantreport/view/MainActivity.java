@@ -8,7 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import ca.cmpt276.restaurantreport.R;
-import ca.cmpt276.restaurantreport.view.Backend.MainListAdapter;
+import ca.cmpt276.restaurantreport.view.Backend.RestaurantListAdapter;
 
 /*
 restaurant icon from http://clipart-library.com/clipart/183878.htm
@@ -24,15 +24,20 @@ public class MainActivity extends AppCompatActivity {
 
         Manager manager = Manager.getInstance();
 
-        for(int i = 0; i < title.length; i++){
-            manager.add(new Restaurant(title[i], issues[i], date[i]));
-        }
+//        for(int i = 0; i < title.length; i++){
+//            manager.add(new Restaurant(title[i], issues[i], date[i]));
+//        }
 
+        setupListView(manager);
+    }
 
-        MainListAdapter adapter = new MainListAdapter(this, manager.restaurants, manager.getTitles());
+    private void setupListView(Manager manager){
+        //setup the adapter for the list view
+        RestaurantListAdapter adapter = new RestaurantListAdapter(this, manager.restaurants, manager.getTitles());
         ListView listView = findViewById(R.id.restaurantList);
         listView.setAdapter(adapter);
 
+        //TODO: allow user to click a restaurant and go to new activity
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

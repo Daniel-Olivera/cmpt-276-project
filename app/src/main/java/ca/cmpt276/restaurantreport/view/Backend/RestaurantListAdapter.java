@@ -11,15 +11,16 @@ import java.util.ArrayList;
 import ca.cmpt276.restaurantreport.R;
 
 /*
-MOST OF THE CODE WAS TAKEN/LEARNED FROM
+most of this code was learned/taken from:
 https://www.youtube.com/watch?v=5Tm--PHhbJo
 */
-public class MainListAdapter {
+public class RestaurantListAdapter {
 
     Context context;
+    //TODO: need the Restaurant Class
     private ArrayList<Restaurant> restaurants;
 
-    MainListAdapter(Context c, ArrayList<Restaurant> rest, String[] titles){
+    RestaurantListAdapter(Context c, ArrayList<Restaurant> rest, String[] titles){
         super(c,R.layout.list_row, R.id.txtName, titles);
         this.context = c;
         this.restaurants = rest;
@@ -32,19 +33,22 @@ public class MainListAdapter {
         //set the view we are working with
 
 
-        //get the
-        TextView myName = row.findViewById(R.id.txtName);
-        TextView myIssues = row.findViewById(R.id.txtIssues);
-        TextView myDate = row.findViewById(R.id.txtDate);
+        //get the text views
+        TextView restaurantName = row.findViewById(R.id.txtName);
+        TextView numIssues = row.findViewById(R.id.txtIssues);
+        TextView lastInspectDate = row.findViewById(R.id.txtDate);
 
+        //messages for display
         String issuesFound = " Issues Found";
         String inspectDate = "Date: ";
 
+        //avoid code clutter such as 'restaurants.get(position).getTitle()
         Restaurant currentRes = restaurants.get(position);
 
-        myName.setText(currentRes.getTitle());
-        myIssues.setText(String.format("%s%s", currentRes.getIssues(), issuesFound));
-        myDate.setText(String.format("%s%s", currentRes.getDate(), inspectDate));
+        //set the text views to display the proper information
+        restaurantName.setText(currentRes.getTitle());
+        numIssues.setText(String.format("%s%s", currentRes.getIssues(), issuesFound));
+        lastInspectDate.setText(String.format("%s%s", currentRes.getDate(), inspectDate));
 
         return row;
     }
