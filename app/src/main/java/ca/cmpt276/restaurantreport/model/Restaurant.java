@@ -1,7 +1,5 @@
 package ca.cmpt276.restaurantreport.model;
 
-import androidx.annotation.NonNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,7 +82,7 @@ public class Restaurant {
         this.facType = facType;
     }
 
-    String getTrackingNum() {
+    public String getTrackingNum() {
         return this.trackingNum;
     }
 
@@ -92,11 +90,10 @@ public class Restaurant {
         this.trackingNum = trackingNum;
     }
 
-    void addInspection(Inspection inspection) {
+    public void addInspection(Inspection inspection) {
         Inspections.add(inspection);
     }
 
-    @NonNull //Remove if nullable
     @Override
     public String toString() {
         return "Restaurant{" +

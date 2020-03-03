@@ -1,7 +1,5 @@
 package ca.cmpt276.restaurantreport.model;
 
-import androidx.annotation.NonNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +15,7 @@ public class Inspection {
 
     private List<String> violationList;
 
-    Inspection(String trackingNum,int date, String inspectionType,int numCritIssues, int numNonCritIssues, String hazardRating){
+    public Inspection(String trackingNum,int date, String inspectionType,int numCritIssues, int numNonCritIssues, String hazardRating){
         this.trackingNum = trackingNum;
         this.date = date;
         this.inspectionType = inspectionType;
@@ -30,7 +28,7 @@ public class Inspection {
 
 
 
-    String getTrackingNum() {
+    public String getTrackingNum() {
         return this.trackingNum;
     }
 
@@ -78,9 +76,8 @@ public class Inspection {
         this.hazardRating = hazardRating;
     }
 
-    void addViolation(String violation) { violationList.add(violation);}
+    public void addViolation(String violation) { violationList.add(violation);}
 
-    @NonNull //Remove if nullable
     @Override
     public String toString() {
         return "Inspection{" +

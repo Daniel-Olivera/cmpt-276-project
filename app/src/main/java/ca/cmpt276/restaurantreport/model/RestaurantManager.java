@@ -29,28 +29,27 @@ public class RestaurantManager implements Iterable<Restaurant> {
         readInspectionData();
     }
 
-    //adds a Restaurant object to the list of restaurants
-    private void add(Restaurant restaurant) {
+    public void add(Restaurant restaurant) {
         restaurantList.add(restaurant);
-    }
-    //overwrites the restaurant at index mentioned
-    public void set(int index, Restaurant restaurant) {
-        restaurantList.set(index, restaurant);
     }
     //returns the restaurant in the list at index
     public Restaurant get(int index) {
         return restaurantList.get(index);
     }
+    //overwrites the restaurant at index mentioned
+    public void set(int index, Restaurant restaurant) {
+        restaurantList.set(index, restaurant);
+    }
 
-    private RestaurantManager instance;
 
-    public RestaurantManager getInstance(Context context) {
+    private static RestaurantManager instance;
+
+    public static RestaurantManager getInstance(Context context) {
         if(instance == null) {
             instance = new RestaurantManager(context);
         }
         return instance;
     }
-
 
     @Override
     public Iterator<Restaurant> iterator() {
@@ -110,7 +109,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
             while ((line = inspectionReader.readLine()) != null) {
                 String [] tokens = line.split(",");
 
-                //Inspection(String trackingNum,int date, String inspectionType,int numCritIssues, int numNonCritIssues, String hazardRating)
+
                 inspectionList.add(new Inspection(
                         tokens[0],
                         Integer.parseInt(tokens[1]),
