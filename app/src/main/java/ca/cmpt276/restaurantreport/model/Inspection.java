@@ -70,6 +70,10 @@ public class Inspection {
         this.numNonCritIssues = numNonCritIssues;
     }
 
+    public int getTotalIssues(){
+        return getNumNonCritIssues() + getNumCritIssues();
+    }
+
     public String getHazardRating() {
         return hazardRating;
     }
@@ -79,6 +83,18 @@ public class Inspection {
     }
 
     void addViolation(String violation) { violationList.add(violation);}
+
+    //Formats the date from an integer into readable form
+    //(i.e. 2018/02/01)
+    public String formatDate(){
+        String tempFullDate = Integer.toString(date);
+
+        String tempYear = tempFullDate.substring(0,4);
+        String tempMonth = tempFullDate.substring(4,6);
+        String tempDay = tempFullDate.substring(6,8);
+
+        return tempYear + "/" + tempMonth + "/" + tempDay;
+    }
 
     @NonNull //Remove if nullable
     @Override

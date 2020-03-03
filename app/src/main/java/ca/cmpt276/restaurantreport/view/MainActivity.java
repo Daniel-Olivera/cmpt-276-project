@@ -7,9 +7,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.util.List;
+
 import ca.cmpt276.restaurantreport.R;
+import ca.cmpt276.restaurantreport.model.Inspection;
 import ca.cmpt276.restaurantreport.model.Restaurant;
 import ca.cmpt276.restaurantreport.model.RestaurantManager;
+import ca.cmpt276.restaurantreport.model.RestaurantListAdapter;
 
 /*
 restaurant icon from http://clipart-library.com/clipart/183878.htm
@@ -18,31 +22,35 @@ Red and Yellow diamonds are edited by dolivera from the green one
  */
 public class MainActivity extends AppCompatActivity {
 
-    RestaurantManager manager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        manager = RestaurantManager.getInstance(this);
+
+        RestaurantManager manager = RestaurantManager.getInstance(this);
 
         //debugging purposes
-        for(Restaurant r: manager) {
-            System.out.println("" + r);
-        }
-
-        Manager manager = Manager.getInstance();
-
-//        for(int i = 0; i < title.length; i++){
-//            manager.add(new Restaurant(title[i], issues[i], date[i]));
+//        for(Restaurant r: manager) {
+//            System.out.println("" + r);
 //        }
 
         setupListView(manager);
     }
 
-    private void setupListView(Manager manager){
+    private void setupListView(RestaurantManager manager){
+
+        List<Restaurant> restaurants = manager.getRestaurants();
+        String[] restTitles = new String[restaurants.size()];
+
+        //the adapter constructor requires a string array to work
+        for(int i = 0; i < restTitles.length; i++){
+           restTitles[i] = restaurants.get(i).getName();
+        }
+
         //setup the adapter for the list view
-        RestaurantListAdapter adapter = new RestaurantListAdapter(this, manager.restaurants, manager.getTitles());
+        RestaurantListAdapter adapter = new RestaurantListAdapter(this, restaurants, restTitles);
         ListView listView = findViewById(R.id.restaurantList);
         listView.setAdapter(adapter);
 

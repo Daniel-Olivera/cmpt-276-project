@@ -96,6 +96,28 @@ public class Restaurant {
         Inspections.add(inspection);
     }
 
+    public List<Inspection> getInspections(){
+        return Inspections;
+    }
+
+    //gets the date of the last inspection
+    public String getLatestInspection(){
+
+        int mostRecentInspectionDate = 0;
+        String result = "Never";
+
+        //date with a higher "number" is more recent (i.e. 2019 > 2018)
+        for (int i = 0; i < Inspections.size(); i++){
+            if(Inspections.get(i).getDate() > mostRecentInspectionDate){
+                mostRecentInspectionDate = Inspections.get(i).getDate();
+                //formats the date (i.e. 2018/02/14)
+                result = Inspections.get(i).formatDate();
+            }
+        }
+
+        return result;
+    }
+
     @NonNull //Remove if nullable
     @Override
     public String toString() {
