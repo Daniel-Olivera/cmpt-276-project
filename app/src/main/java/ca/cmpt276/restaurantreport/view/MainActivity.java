@@ -2,6 +2,7 @@ package ca.cmpt276.restaurantreport.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import ca.cmpt276.restaurantreport.R;
@@ -22,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
         for(Restaurant r: manager) {
             System.out.println("" + r);
         }
+
+        // testing purpose
+        startActivity(new Intent(MainActivity.this,RestaurantActivity.class));
     }
 
 }

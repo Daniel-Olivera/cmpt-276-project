@@ -20,6 +20,9 @@ public class RestaurantManager implements Iterable<Restaurant> {
 
     private Context context;
 
+    private static RestaurantManager instance;
+
+
     //constructor with context of an activity passed because we need the context when we want to access the data files to read from
     private RestaurantManager(Context context) {
         restaurantList = new ArrayList<>();
@@ -42,9 +45,8 @@ public class RestaurantManager implements Iterable<Restaurant> {
         return restaurantList.get(index);
     }
 
-    private RestaurantManager instance;
 
-    public RestaurantManager getInstance(Context context) {
+    public static RestaurantManager getInstance(Context context) {
         if(instance == null) {
             instance = new RestaurantManager(context);
         }
