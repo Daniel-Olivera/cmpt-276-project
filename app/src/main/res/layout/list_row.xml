@@ -12,7 +12,7 @@
         android:layout_height="40dp"
         android:id="@+id/image"
         android:src="@drawable/restaurant"
-        >
+        android:contentDescription="@string/restaurant_icon">
     </ImageView>
 
     <LinearLayout
@@ -69,7 +69,6 @@
             android:src="@drawable/low"
             android:layout_gravity="end"
             android:layout_marginTop="-32dp"
-            android:layout_marginBottom="32dp"
             android:contentDescription="@string/changeable_icon_for_hazard_level">
 
         </ImageView>
