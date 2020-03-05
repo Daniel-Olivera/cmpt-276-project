@@ -3,6 +3,7 @@ package ca.cmpt276.restaurantreport.model;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
 
@@ -117,10 +121,16 @@ public class RestaurantListAdapter extends ArrayAdapter<String> {
         }
 
         //format the inspection date
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyyMMdd",Locale.US);
-        LocalDate lastInspection = LocalDate.parse(lastInspectedDate,dateFormatter);
+        LocalDate lastInspection = null;
+        try {
+            lastInspection = LocalDate.parse(lastInspectedDate, DateTimeFormatter.BASIC_ISO_DATE);
+        } catch (DateTimeParseException e) {
+            Log.d("RestaurantListAdapter","String cannot be parsed into LocalDate");
+            e.printStackTrace();
+        }
 
         //get values of month, day and year of the inspection
+        assert lastInspection != null;
         int inspectionDay = lastInspection.getDayOfMonth();
         int inspectionYear = lastInspection.getYear();
         Month inspectionMonth = lastInspection.getMonth();
@@ -141,7 +151,10 @@ public class RestaurantListAdapter extends ArrayAdapter<String> {
                 if(result > 1){
                     output = result + " days ago.";
                 }
-                else{
+                else if(result < 1){
+                    output = "Inspection scheduled in " + result + " days";
+                }
+                else {
                     output = result + "day ago.";
                 }
             }
@@ -153,11 +166,11 @@ public class RestaurantListAdapter extends ArrayAdapter<String> {
                     output = result + " days ago.";
             }
             else{
-                output = inspectionMonth.name() + " " + inspectionDay;
+                output = inspectionMonth.getDisplayName(TextStyle.SHORT,Locale.US) + " " + inspectionDay;
             }
         }
         else{
-            output = inspectionMonth.name() + " " + inspectionYear;
+            output = inspectionMonth.getDisplayName(TextStyle.SHORT,Locale.US) + " " + inspectionYear;
         }
 
         return output;
