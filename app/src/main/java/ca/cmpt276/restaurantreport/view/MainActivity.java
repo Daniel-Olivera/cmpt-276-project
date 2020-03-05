@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         //setup the adapter for the list view
         RestaurantListAdapter adapter = new RestaurantListAdapter(this, restaurants, restTitles);
-        ListView listView = findViewById(R.id.restaurantList);
+        ListView listView = findViewById(R.id.listRestaurant);
         listView.setAdapter(adapter);
 
         //TODO: allow user to click a restaurant and go to new activity

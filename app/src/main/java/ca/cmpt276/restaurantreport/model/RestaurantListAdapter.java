@@ -1,5 +1,6 @@
 package ca.cmpt276.restaurantreport.model;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import ca.cmpt276.restaurantreport.R;
 
@@ -26,7 +28,7 @@ public class RestaurantListAdapter extends ArrayAdapter<String> {
     private List<Restaurant> res;
 
     public RestaurantListAdapter(Context c, List<Restaurant> rest, String[] titles){
-        super(c,R.layout.list_row, R.id.txtName, titles);
+        super(c,R.layout.list_row, R.id.txtRestaurantName, titles);
         this.res = rest;
     }
 
@@ -35,18 +37,19 @@ public class RestaurantListAdapter extends ArrayAdapter<String> {
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         //Sets up which layout is being modified
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View row = layoutInflater.inflate(R.layout.list_row, parent, false);
+        assert layoutInflater != null;
+        @SuppressLint("ViewHolder") View row = layoutInflater.inflate(R.layout.list_row, parent, false);
 
-        TextView resName = row.findViewById(R.id.txtName);
-        TextView resIssues = row.findViewById(R.id.txtIssues);
-        TextView resDate = row.findViewById(R.id.txtDate);
-        TextView resHaz = row.findViewById(R.id.txtHazard);
+        TextView resName = row.findViewById(R.id.txtRestaurantName);
+        TextView resIssues = row.findViewById(R.id.txtNumOfIssues);
+        TextView resDate = row.findViewById(R.id.txtInspectionDate);
+        TextView resHaz = row.findViewById(R.id.txtHazardLevel);
 
-        ImageView hazIcon = row.findViewById(R.id.hazIcon);
+        ImageView hazIcon = row.findViewById(R.id.imgHazardIcon);
 
         //Get the current restaurant information for the appropriate row and its inspections
-        Restaurant currentRes = res.get(position);
-        List<Inspection> insp = currentRes.getInspections();
+        Restaurant currentRestaurant = res.get(position);
+        List<Inspection> insp = currentRestaurant.getInspections();
 
 
         int issueCount = 0;
@@ -59,12 +62,12 @@ public class RestaurantListAdapter extends ArrayAdapter<String> {
         }
 
         String issuesFound = issueCount + " Issues Found";
-        String lastInspected = lastInspection(currentRes);
+        String lastInspected = lastInspection(currentRestaurant);
         String inspectDate = "Last Inspected: " + lastInspected;
-        String hazardText = currentRes.getLatestInspectionHazard();
+        String hazardText = currentRestaurant.getLatestInspectionHazard();
 
         //set the texts with the right parameters
-        resName.setText(currentRes.getName().replace("\"", ""));
+        resName.setText(currentRestaurant.getName().replace("\"", ""));
         resIssues.setText(issuesFound);
         resDate.setText(inspectDate);
         resHaz.setText(hazardText.replace("\"",""));
@@ -165,29 +168,29 @@ public class RestaurantListAdapter extends ArrayAdapter<String> {
         String output = "Never";
 
         //gets the current date on the phone
-        Date d = Calendar.getInstance().getTime();
+        Date date = Calendar.getInstance().getTime();
         //get the latest inspection of the current restaurant
         int dateLastInspection = restaurant.getLatestInspectionDate();
 
-        //formate the Date above
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
-        String currentDate = formatter.format(d);
+        //format the Date above
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd", Locale.US);
+        String currentDateString = formatter.format(date);
 
         //change into an integer
-        int currDate = Integer.parseInt(currentDate);
+        int currentDate = Integer.parseInt(currentDateString);
 
-        int inspYear = dateLastInspection / 10000;
-        int inspMonth = (dateLastInspection % 10000) / 100;
-        int inspDay = dateLastInspection % 100;
+        int inspectionYear = dateLastInspection / 10000;
+        int inspectionMonth = (dateLastInspection % 10000) / 100;
+        int inspectionDay = dateLastInspection % 100;
 
-        int currYear = currDate / 10000;
-        int currMonth = (currDate % 10000) / 100;
-        int currDay = currDate % 100;
+        int currentYear = currentDate / 10000;
+        int currentMonth = (currentDate % 10000) / 100;
+        int currentDay = currentDate % 100;
 
         //check the recency of the inspection compared to today's date
-        if(inspYear == currYear){
-            if(inspMonth == currMonth - 1){
-                int result = (currDay + 30) - inspDay;
+        if(inspectionYear == currentYear){
+            if(inspectionMonth == currentMonth - 1){
+                int result = (currentDay + 30) - inspectionDay;
                 if(result > 1) {
                     output = result + " days ago.";
                 }
@@ -195,8 +198,8 @@ public class RestaurantListAdapter extends ArrayAdapter<String> {
                     output = result + " day ago.";
                 }
             }
-            else if(inspMonth == currMonth){
-                int result = currDay - inspDay;
+            else if(inspectionMonth == currentMonth){
+                int result = currentDay - inspectionDay;
                 if(result > 1) {
                     output = result + " days ago.";
                 }
@@ -205,11 +208,11 @@ public class RestaurantListAdapter extends ArrayAdapter<String> {
                 }
             }
             String month = getMonth(restaurant);
-            output = month + inspDay;
+            output = month + inspectionDay;
         }
-        else if(inspYear != 0){
+        else if(inspectionYear != 0){
             String month = getMonth(restaurant);
-            output = month + inspYear;
+            output = month + inspectionYear;
         }
 
         return output;

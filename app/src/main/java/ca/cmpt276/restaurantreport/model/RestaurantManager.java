@@ -48,9 +48,9 @@ public class RestaurantManager implements Iterable<Restaurant> {
         return restaurantList.get(index);
     }
 
-    private static RestaurantManager instance;
+    private RestaurantManager instance;
 
-    public static RestaurantManager getInstance(Context context) {
+    public RestaurantManager getInstance(Context context) {
         if(instance == null) {
             instance = new RestaurantManager(context);
         }
@@ -186,26 +186,4 @@ public class RestaurantManager implements Iterable<Restaurant> {
             restaurantListIndex++;
         }
     }
-
-    private void setDate(){
-        String testDate = "20191013";
-        LocalDate localdate = LocalDate.parse(testDate, DateTimeFormatter.BASIC_ISO_DATE);
-        int testMonth = localdate.getMonthValue();
-
-
-        /*SimpleDateFormat format = new SimpleDateFormat("YYYYMMDD", Locale.ENGLISH);
-
-        try {
-            Date date = format.parse(testDate);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
-
-
-    }
-
-
-
-
 }
