@@ -96,12 +96,12 @@ public class Restaurant {
         Inspections.add(inspection);
     }
 
-    public List<Inspection> getInspections(){
+    List<Inspection> getInspections(){
         return Inspections;
     }
 
     //gets the hazard level from the most recent inspection
-    public String getLatestInspectionHazard() {
+    String getLatestInspectionHazard() {
 
         int mostRecentInspectionDate = 0;
         String result = "N/A";
@@ -117,7 +117,7 @@ public class Restaurant {
     }
 
     //gets the date of the most recent inspection
-    public int getLatestInspectionDate(){
+    int getLatestInspectionDate(){
 
         int mostRecentInspectionDate = 0;
         int result = 0;

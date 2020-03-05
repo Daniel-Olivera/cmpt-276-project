@@ -23,12 +23,10 @@ https://www.youtube.com/watch?v=5Tm--PHhbJo
 */
 public class RestaurantListAdapter extends ArrayAdapter<String> {
 
-    private Context context;
     private List<Restaurant> res;
 
     public RestaurantListAdapter(Context c, List<Restaurant> rest, String[] titles){
         super(c,R.layout.list_row, R.id.txtName, titles);
-        this.context = c;
         this.res = rest;
     }
 
@@ -77,8 +75,8 @@ public class RestaurantListAdapter extends ArrayAdapter<String> {
         return row;
     }
 
-    private void getHazardIcon(String haz, ImageView icon){
-        switch(haz){
+    private void getHazardIcon(String hazardLevel, ImageView icon){
+        switch(hazardLevel){
             case("\"Low\""):{
                 icon.setImageResource(R.drawable.low);
                 break;

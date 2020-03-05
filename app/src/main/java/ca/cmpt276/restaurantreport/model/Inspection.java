@@ -36,7 +36,7 @@ public class Inspection {
         this.trackingNum = trackingNum;
     }
 
-    public int getDate() {
+    int getDate() {
         return date;
     }
 
@@ -52,7 +52,7 @@ public class Inspection {
         this.inspectionType = inspectionType;
     }
 
-    public int getNumCritIssues() {
+    private int getNumCritIssues() {
         return numCritIssues;
     }
 
@@ -60,7 +60,7 @@ public class Inspection {
         this.numCritIssues = numCritIssues;
     }
 
-    public int getNumNonCritIssues() {
+    private int getNumNonCritIssues() {
         return numNonCritIssues;
     }
 
@@ -68,11 +68,11 @@ public class Inspection {
         this.numNonCritIssues = numNonCritIssues;
     }
 
-    public int getTotalIssues(){
+    int getTotalIssues(){
         return getNumNonCritIssues() + getNumCritIssues();
     }
 
-    public String getHazardRating() {
+    String getHazardRating() {
         return hazardRating;
     }
 

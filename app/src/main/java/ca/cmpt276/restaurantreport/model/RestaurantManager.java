@@ -8,9 +8,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import ca.cmpt276.restaurantreport.R;
 
@@ -180,6 +186,25 @@ public class RestaurantManager implements Iterable<Restaurant> {
             restaurantListIndex++;
         }
     }
+
+    private void setDate(){
+        String testDate = "20191013";
+        LocalDate localdate = LocalDate.parse(testDate, DateTimeFormatter.BASIC_ISO_DATE);
+        int testMonth = localdate.getMonthValue();
+
+
+        /*SimpleDateFormat format = new SimpleDateFormat("YYYYMMDD", Locale.ENGLISH);
+
+        try {
+            Date date = format.parse(testDate);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }*/
+
+
+    }
+
 
 
 
