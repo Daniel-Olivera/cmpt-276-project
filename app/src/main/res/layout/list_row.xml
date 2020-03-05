@@ -21,29 +21,6 @@
         android:orientation="vertical"
         >
 
-        <TextView
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:text="low"
-            android:layout_gravity="end"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="-26dp"
-            android:layout_marginEnd="32dp"
-            android:textColor="#000"
-            android:textSize="18sp"
-            android:id="@+id/txtHazard"
-            />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:id="@+id/image2"
-            android:src="@drawable/low"
-            android:layout_gravity="end"
-            android:layout_marginBottom="-32dp"
-            >
-
-        </ImageView>
 
         <TextView
             android:layout_width="match_parent"
@@ -71,6 +48,32 @@
             android:text="@string/last_inspected"
             android:textColor="#000"
             android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/low"
+            android:layout_gravity="end"
+            android:layout_marginTop="-26dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="36dp"
+            android:textColor="#000"
+            android:textSize="18sp"
+            android:id="@+id/txtHazard"
+            />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/hazIcon"
+            android:src="@drawable/low"
+            android:layout_gravity="end"
+            android:layout_marginTop="-32dp"
+            android:layout_marginBottom="32dp"
+            android:contentDescription="@string/changeable_icon_for_hazard_level">
+
+        </ImageView>
+
     </LinearLayout>
 
 </LinearLayout>

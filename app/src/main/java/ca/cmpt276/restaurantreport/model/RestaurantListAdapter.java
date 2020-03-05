@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,7 +25,6 @@ public class RestaurantListAdapter extends ArrayAdapter<String> {
 
     private Context context;
     private List<Restaurant> res;
-    private List<Inspection> insp;
 
     public RestaurantListAdapter(Context c, List<Restaurant> rest, String[] titles){
         super(c,R.layout.list_row, R.id.txtName, titles);
@@ -39,45 +39,69 @@ public class RestaurantListAdapter extends ArrayAdapter<String> {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View row = layoutInflater.inflate(R.layout.list_row, parent, false);
 
-        TextView myName = row.findViewById(R.id.txtName);
-        TextView myIssues = row.findViewById(R.id.txtIssues);
-        TextView myDate = row.findViewById(R.id.txtDate);
+        TextView resName = row.findViewById(R.id.txtName);
+        TextView resIssues = row.findViewById(R.id.txtIssues);
+        TextView resDate = row.findViewById(R.id.txtDate);
+        TextView resHaz = row.findViewById(R.id.txtHazard);
+
+        ImageView hazIcon = row.findViewById(R.id.hazIcon);
 
         //Get the current restaurant information for the appropriate row and its inspections
         Restaurant currentRes = res.get(position);
-        insp = res.get(position).getInspections();
+        List<Inspection> insp = currentRes.getInspections();
+
 
         int issueCount = 0;
+
+
 
         //counts all the issues (critical and non-critical) that a restaurant has
         for (int i = 0; i < insp.size(); i++) {
             issueCount += insp.get(i).getTotalIssues();
         }
 
-
         String issuesFound = issueCount + " Issues Found";
         String lastInspected = lastInspection(currentRes);
         String inspectDate = "Last Inspected: " + lastInspected;
-
+        String hazardText = currentRes.getLatestInspectionHazard();
 
         //set the texts with the right parameters
-        myName.setText(currentRes.getName().replace("\"", ""));
-        myIssues.setText(issuesFound);
-        myDate.setText(inspectDate);
+        resName.setText(currentRes.getName().replace("\"", ""));
+        resIssues.setText(issuesFound);
+        resDate.setText(inspectDate);
+        resHaz.setText(hazardText.replace("\"",""));
 
-        //TODO change hazard level icon and text
+        //changes the hazard icon based on the hazard level
+        getHazardIcon(hazardText,hazIcon);
 
         return row;
+    }
+
+    private void getHazardIcon(String haz, ImageView icon){
+        switch(haz){
+            case("\"Low\""):{
+                icon.setImageResource(R.drawable.low);
+                break;
+            }
+            case("\"Moderate\""):{
+                icon.setImageResource(R.drawable.medium);
+                break;
+            }
+            case("\"High\""):
+            default:{
+                icon.setImageResource(R.drawable.high);
+                break;
+            }
+        }
     }
 
     //converts the number of the month into the corresponding name
     private String getMonth(Restaurant restaurant){
 
         String result;
-        int numMonth = restaurant.getLatestInspection();
+        int numMonth = restaurant.getLatestInspectionDate();
 
         numMonth = (numMonth % 10000) / 100;
-
 
         switch(numMonth){
             case(1):{
@@ -145,7 +169,7 @@ public class RestaurantListAdapter extends ArrayAdapter<String> {
         //gets the current date on the phone
         Date d = Calendar.getInstance().getTime();
         //get the latest inspection of the current restaurant
-        int dateLastInspection = restaurant.getLatestInspection();
+        int dateLastInspection = restaurant.getLatestInspectionDate();
 
         //formate the Date above
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");

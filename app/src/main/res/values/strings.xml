@@ -3,4 +3,6 @@
     <string name="restaurant_name">Restaurant Name</string>
     <string name="issues_found"># Issues Found</string>
     <string name="last_inspected">Last Inspected: </string>
+    <string name="low">low</string>
+    <string name="changeable_icon_for_hazard_level">changeable icon for hazard level</string>
 </resources>

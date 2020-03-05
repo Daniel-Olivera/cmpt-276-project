@@ -10,7 +10,6 @@ import android.widget.ListView;
 import java.util.List;
 
 import ca.cmpt276.restaurantreport.R;
-import ca.cmpt276.restaurantreport.model.Inspection;
 import ca.cmpt276.restaurantreport.model.Restaurant;
 import ca.cmpt276.restaurantreport.model.RestaurantManager;
 import ca.cmpt276.restaurantreport.model.RestaurantListAdapter;

@@ -100,8 +100,24 @@ public class Restaurant {
         return Inspections;
     }
 
-    //gets the date of the last inspection
-    public int getLatestInspection(){
+    //gets the hazard level from the most recent inspection
+    public String getLatestInspectionHazard() {
+
+        int mostRecentInspectionDate = 0;
+        String result = "N/A";
+
+        for (int i = 0; i < Inspections.size(); i++) {
+            if (Inspections.get(i).getDate() > mostRecentInspectionDate) {
+                mostRecentInspectionDate = Inspections.get(i).getDate();
+
+                result = Inspections.get(i).getHazardRating();
+            }
+        }
+        return result;
+    }
+
+    //gets the date of the most recent inspection
+    public int getLatestInspectionDate(){
 
         int mostRecentInspectionDate = 0;
         int result = 0;
