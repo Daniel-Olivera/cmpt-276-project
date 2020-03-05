@@ -2,6 +2,7 @@ package ca.cmpt276.restaurantreport.model;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 
@@ -80,7 +82,8 @@ public class RestaurantListAdapter extends ArrayAdapter<String> {
 
     private void getHazardIcon(String hazardLevel, ImageView icon){
         switch(hazardLevel){
-            case("\"Low\""):{
+            case("\"Low\""):
+            default:{
                 icon.setImageResource(R.drawable.low);
                 break;
             }
@@ -88,135 +91,76 @@ public class RestaurantListAdapter extends ArrayAdapter<String> {
                 icon.setImageResource(R.drawable.medium);
                 break;
             }
-            case("\"High\""):
-            default:{
+            case("\"High\""):{
                 icon.setImageResource(R.drawable.high);
                 break;
             }
         }
     }
 
-    //converts the number of the month into the corresponding name
-    private String getMonth(Restaurant restaurant){
-
-        String result;
-        int numMonth = restaurant.getLatestInspectionDate();
-
-        numMonth = (numMonth % 10000) / 100;
-
-        switch(numMonth){
-            case(1):{
-                result = "Jan ";
-                break;
-            }
-            case(2):{
-                result = "Feb ";
-                break;
-            }
-            case(3):{
-                result = "Mar ";
-                break;
-            }
-            case(4):{
-                result = "Apr ";
-                break;
-            }
-            case(5):{
-                result = "May ";
-                break;
-            }
-            case(6):{
-                result = "Jun ";
-                break;
-            }
-            case(7):{
-                result = "Jul ";
-                break;
-            }
-            case(8):{
-                result = "Aug ";
-                break;
-            }
-            case(9):{
-                result = "Sep ";
-                break;
-            }
-            case(10):{
-                result = "Oct ";
-                break;
-            }
-            case(11):{
-                result = "Nov ";
-                break;
-            }
-            case(12):{
-                result = "Dec ";
-                break;
-            }
-            default:{
-                result = "Never";
-                break;
-            }
-        }
-
-        return result;
-    }
-
     //returns the day of the last inspection based on how long ago it was
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private String lastInspection(Restaurant restaurant){
 
-        String output = "Never";
+        String output;
 
         //gets the current date on the phone
-        Date date = Calendar.getInstance().getTime();
+        LocalDate currentDate = LocalDate.now();
+
         //get the latest inspection of the current restaurant
         int dateLastInspection = restaurant.getLatestInspectionDate();
 
-        //format the Date above
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd", Locale.US);
-        String currentDateString = formatter.format(date);
+        //convert the inspection date to string
+        String lastInspectedDate = Integer.toString(dateLastInspection);
+        if(lastInspectedDate.equals("0")){
+            return "Never";
+        }
 
-        //change into an integer
-        int currentDate = Integer.parseInt(currentDateString);
+        //format the inspection date
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyyMMdd",Locale.US);
+        LocalDate lastInspection = LocalDate.parse(lastInspectedDate,dateFormatter);
 
-        int inspectionYear = dateLastInspection / 10000;
-        int inspectionMonth = (dateLastInspection % 10000) / 100;
-        int inspectionDay = dateLastInspection % 100;
+        //get values of month, day and year of the inspection
+        int inspectionDay = lastInspection.getDayOfMonth();
+        int inspectionYear = lastInspection.getYear();
+        Month inspectionMonth = lastInspection.getMonth();
 
-        int currentYear = currentDate / 10000;
-        int currentMonth = (currentDate % 10000) / 100;
-        int currentDay = currentDate % 100;
+        //get values of the current date
+        int currentDay = currentDate.getDayOfMonth();
+        int currentYear = currentDate.getYear();
+        Month currentMonth = currentDate.getMonth();
+
+        //get month number for calculations
+        int numInspMon = inspectionMonth.getValue();
+        int numCurMon = currentMonth.getValue();
 
         //check the recency of the inspection compared to today's date
-        if(inspectionYear == currentYear){
-            if(inspectionMonth == currentMonth - 1){
-                int result = (currentDay + 30) - inspectionDay;
-                if(result > 1) {
-                    output = result + " days ago.";
-                }
-                else if (result == 1){
-                    output = result + " day ago.";
-                }
-            }
-            else if(inspectionMonth == currentMonth){
+        if(inspectionYear == currentYear) {
+            if(numInspMon == numCurMon){
                 int result = currentDay - inspectionDay;
-                if(result > 1) {
+                if(result > 1){
                     output = result + " days ago.";
                 }
-                else if (result == 1){
-                    output = result + " day ago.";
+                else{
+                    output = result + "day ago.";
                 }
             }
-            String month = getMonth(restaurant);
-            output = month + inspectionDay;
+            //if within the last month, calculate how many days ago
+            else if(numInspMon == numCurMon - 1){
+                    int inspMonthLen = inspectionMonth.length(lastInspection.isLeapYear());
+                    int result = currentDay + inspMonthLen;
+                    result -= inspectionDay;
+                    output = result + " days ago.";
+            }
+            else{
+                output = inspectionMonth.name() + " " + inspectionDay;
+            }
         }
-        else if(inspectionYear != 0){
-            String month = getMonth(restaurant);
-            output = month + inspectionYear;
+        else{
+            output = inspectionMonth.name() + " " + inspectionYear;
         }
 
         return output;
-
     }
 
 
