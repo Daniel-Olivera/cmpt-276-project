@@ -96,6 +96,44 @@ public class Restaurant {
         Inspections.add(inspection);
     }
 
+    List<Inspection> getInspections(){
+        return Inspections;
+    }
+
+    //gets the hazard level from the most recent inspection
+    String getLatestInspectionHazard() {
+
+        int mostRecentInspectionDate = 0;
+        String result = "N/A";
+
+        for (int i = 0; i < Inspections.size(); i++) {
+            if (Inspections.get(i).getDate() > mostRecentInspectionDate) {
+                mostRecentInspectionDate = Inspections.get(i).getDate();
+
+                result = Inspections.get(i).getHazardRating();
+            }
+        }
+        return result;
+    }
+
+    //gets the date of the most recent inspection
+    int getLatestInspectionDate(){
+
+        int mostRecentInspectionDate = 0;
+        int result = 0;
+
+        //date with a higher "number" is more recent (i.e. 2019 > 2018)
+        for (int i = 0; i < Inspections.size(); i++){
+            if(Inspections.get(i).getDate() > mostRecentInspectionDate){
+                mostRecentInspectionDate = Inspections.get(i).getDate();
+
+                result = Inspections.get(i).getDate();
+            }
+        }
+
+        return result;
+    }
+
     @NonNull //Remove if nullable
     @Override
     public String toString() {
