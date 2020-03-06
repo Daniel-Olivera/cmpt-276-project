@@ -83,7 +83,7 @@ public class RestaurantActivity extends AppCompatActivity {
 
         MyAdapter(Context c, String title[], String detail1[],String detail2[],String detail3[])
         {
-            super(c,R.layout.inspection_row,R.id.inspectorReport,title);
+            super(c,R.layout.inspection_row,R.id.inspectorDetail1,title);
             this.context= c;
             this.inspection = title;
             this.detail1 = detail1;
@@ -96,7 +96,7 @@ public class RestaurantActivity extends AppCompatActivity {
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             LayoutInflater layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row = layoutInflater.inflate(R.layout.inspection_row,parent,false);
-            TextView title = row.findViewById(R.id.inspectorReport);
+            TextView title = row.findViewById(R.id.inspectorDetail1);
             TextView details1 = row.findViewById(R.id.inspectorDetail1);
             TextView details2 = row.findViewById(R.id.inspectorDetail2);
             TextView details3 = row.findViewById(R.id.inspectorDetail3);
