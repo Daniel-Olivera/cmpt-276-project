@@ -53,8 +53,7 @@ public class MainActivity extends AppCompatActivity {
         RestaurantListAdapter adapter = new RestaurantListAdapter(this, restaurants, restTitles);
         ListView listView = findViewById(R.id.listRestaurant);
         listView.setAdapter(adapter);
-
-        //TODO: allow user to click a restaurant and go to new activity
+        
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
