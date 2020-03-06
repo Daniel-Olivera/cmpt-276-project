@@ -1,9 +1,17 @@
 package ca.cmpt276.restaurantreport.model;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class Inspection {
 
@@ -28,8 +36,6 @@ public class Inspection {
         violationList = new ArrayList<>();
     }
 
-
-
     String getTrackingNum() {
         return this.trackingNum;
     }
@@ -38,7 +44,7 @@ public class Inspection {
         this.trackingNum = trackingNum;
     }
 
-    public int getDate() {
+    int getDate() {
         return date;
     }
 
@@ -70,7 +76,11 @@ public class Inspection {
         this.numNonCritIssues = numNonCritIssues;
     }
 
-    public String getHazardRating() {
+    public int getTotalIssues(){
+        return getNumNonCritIssues() + getNumCritIssues();
+    }
+
+    String getHazardRating() {
         return hazardRating;
     }
 
@@ -79,6 +89,79 @@ public class Inspection {
     }
 
     void addViolation(String violation) { violationList.add(violation);}
+
+    public String dayFromLastInspection()
+    {
+        String output;
+
+        //gets the current date on the phone
+        LocalDate currentDate = LocalDate.now();
+
+        //get the latest inspection of the current restaurant
+        int dateLastInspection = date;
+
+        //convert the inspection date to string
+        String lastInspectedDate = Integer.toString(dateLastInspection);
+        if(lastInspectedDate.equals("0")){
+            return "Never";
+        }
+
+        //format the inspection date
+        LocalDate lastInspection = null;
+        try {
+            lastInspection = LocalDate.parse(lastInspectedDate, DateTimeFormatter.BASIC_ISO_DATE);
+        } catch (DateTimeParseException e) {
+            Log.d("RestaurantListAdapter","String cannot be parsed into LocalDate");
+            e.printStackTrace();
+        }
+
+        //get values of month, day and year of the inspection
+        assert lastInspection != null;
+        int inspectionDay = lastInspection.getDayOfMonth();
+        int inspectionYear = lastInspection.getYear();
+        Month inspectionMonth = lastInspection.getMonth();
+
+        //get values of the current date
+        int currentDay = currentDate.getDayOfMonth();
+        int currentYear = currentDate.getYear();
+        Month currentMonth = currentDate.getMonth();
+
+        //get month number for calculations
+        int numInspMon = inspectionMonth.getValue();
+        int numCurMon = currentMonth.getValue();
+
+        //check the recency of the inspection compared to today's date
+        if(inspectionYear == currentYear) {
+            if(numInspMon == numCurMon){
+                int result = currentDay - inspectionDay;
+                if(result > 1){
+                    output = result + " days ago.";
+                }
+                else if(result < 1){
+                    output = "Inspection scheduled in " + result + " days";
+                }
+                else {
+                    output = result + "day ago.";
+                }
+            }
+            //if within the last month, calculate how many days ago
+            else if(numInspMon == numCurMon - 1){
+                int inspMonthLen = inspectionMonth.length(lastInspection.isLeapYear());
+                int result = currentDay + inspMonthLen;
+                result -= inspectionDay;
+                output = result + " days ago.";
+            }
+            else{
+                output = inspectionMonth.getDisplayName(TextStyle.SHORT, Locale.US) + " " + inspectionDay;
+            }
+        }
+        else{
+            output = inspectionMonth.getDisplayName(TextStyle.SHORT,Locale.US) + " " + inspectionYear;
+        }
+
+        return output;
+
+    }
 
     @NonNull //Remove if nullable
     @Override

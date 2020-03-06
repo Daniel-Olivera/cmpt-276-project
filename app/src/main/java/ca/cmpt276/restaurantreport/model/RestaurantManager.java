@@ -8,9 +8,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import ca.cmpt276.restaurantreport.R;
 
@@ -19,9 +26,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
     private List<Restaurant> restaurantList;
 
     private Context context;
-
-    private static RestaurantManager instance;
-
 
     //constructor with context of an activity passed because we need the context when we want to access the data files to read from
     private RestaurantManager(Context context) {
@@ -45,12 +49,17 @@ public class RestaurantManager implements Iterable<Restaurant> {
         return restaurantList.get(index);
     }
 
+    private static RestaurantManager instance;
 
     public static RestaurantManager getInstance(Context context) {
         if(instance == null) {
             instance = new RestaurantManager(context);
         }
         return instance;
+    }
+
+    public List<Restaurant> getRestaurants(){
+        return this.restaurantList;
     }
 
 
@@ -67,7 +76,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
 
         InputStream is = context.getResources().openRawResource(R.raw.restaurants_itr1);
         BufferedReader reader = new BufferedReader(
-                new InputStreamReader(is, Charset.forName("UTF-8"))
+                new InputStreamReader(is, StandardCharsets.UTF_8)
         );
         String line = "";
         try {
@@ -104,7 +113,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
         //reading from the inspectionreports_itr1 and adding inspection to the temporary inspectionList above
         InputStream isInspection = context.getResources().openRawResource(R.raw.inspectionreports_itr1);
         BufferedReader inspectionReader = new BufferedReader(
-                new InputStreamReader(isInspection, Charset.forName("UTF-8"))
+                new InputStreamReader(isInspection, StandardCharsets.UTF_8)
         );
         String line = "";
         try {
@@ -131,7 +140,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
         //reading violations from the separated_values_2 file and adding the violations to the inspections in the above inspectionList
         InputStream isViolation = context.getResources().openRawResource(R.raw.separated_values_2);
         BufferedReader violationReader = new BufferedReader(
-                new InputStreamReader(isViolation, Charset.forName("UTF-8"))
+                new InputStreamReader(isViolation, StandardCharsets.UTF_8)
         );
         line = "";
         try {
@@ -179,7 +188,4 @@ public class RestaurantManager implements Iterable<Restaurant> {
             restaurantListIndex++;
         }
     }
-
-
-
 }

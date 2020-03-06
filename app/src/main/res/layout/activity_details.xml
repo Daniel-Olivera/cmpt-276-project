@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="restaurant name"
-            android:textSize="20dp"
+            android:textSize="26sp"
             android:textStyle="bold"
             tools:layout_editor_absoluteX="131dp"
             tools:layout_editor_absoluteY="14dp" />
@@ -31,30 +31,36 @@
     <TextView
         android:id="@+id/address"
         android:layout_width="310dp"
-        android:layout_height="41dp"
+        android:layout_height="30dp"
         android:layout_marginStart="18dp"
         android:layout_marginTop="20dp"
+        android:textColor="#000"
         android:text="TextView"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <TextView
         android:id="@+id/latitude"
         android:layout_width="310dp"
-        android:layout_height="41dp"
+        android:layout_height="30dp"
+        android:textColor="#000"
         android:layout_marginStart="18dp"
         android:layout_marginTop="20dp"
         android:text="TextView"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/address" />
 
     <TextView
         android:id="@+id/longtitude"
         android:layout_width="310dp"
-        android:layout_height="41dp"
+        android:layout_height="30dp"
         android:layout_marginStart="18dp"
+        android:textColor="#000"
         android:layout_marginTop="20dp"
         android:text="TextView"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/latitude" />
 
