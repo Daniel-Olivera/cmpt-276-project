@@ -2,10 +2,12 @@ package ca.cmpt276.restaurantreport.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -52,10 +54,14 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.listRestaurant);
         listView.setAdapter(adapter);
 
-        //TODO: allow user to click a restaurant and go to new activity
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String resName = ((TextView) view.findViewById(R.id.txtRestaurantName)).getText().toString();
+                String totalIssues = ((TextView) view.findViewById(R.id.txtNumOfIssues)).getText().toString();
+                totalIssues = totalIssues.substring(0,totalIssues.indexOf(" "));
+                Intent intent = RestaurantActivity.makeIntent(MainActivity.this,resName,totalIssues);
+                startActivity(intent);
 
             }
         });

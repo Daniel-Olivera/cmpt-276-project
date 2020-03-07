@@ -92,11 +92,11 @@ public class Restaurant {
         this.trackingNum = trackingNum;
     }
 
-    void addInspection(Inspection inspection) {
+    public void addInspection(Inspection inspection) {
         Inspections.add(inspection);
     }
 
-    List<Inspection> getInspections(){
+    public List<Inspection> getInspections(){
         return Inspections;
     }
 
