@@ -6,4 +6,7 @@
     <string name="low">low</string>
     <string name="changeable_icon_for_hazard_level">changeable icon for hazard level</string>
     <string name="restaurant_icon">Restaurant Icon</string>
+    <string name="short_description_of_violaition">Short description of violaition</string>
+    <string name="critical">critical</string>
+    <string name="_07_march_2019">07 March 2019</string>
 </resources>
