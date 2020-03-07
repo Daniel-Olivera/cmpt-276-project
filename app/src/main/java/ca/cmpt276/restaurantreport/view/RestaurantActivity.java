@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,10 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Collections;
 import java.util.List;
 
 import ca.cmpt276.restaurantreport.R;
@@ -70,13 +73,22 @@ public class RestaurantActivity extends AppCompatActivity {
         latitude.setText("Latitude: " + manager.get(index).getLatitude());
         TextView longitude = findViewById(R.id.longtitude);
         longitude.setText("Longitude: " + manager.get(index).getLongitude());
+        TextView inspection = findViewById(R.id.inspection);
+        inspection.setText("Inspection:");
 
         List<Inspection> inspectionList = manager.get(index).getInspections();
 
+        //Sort the inspection list according to date
+        Collections.sort(inspectionList,Collections.reverseOrder());
+
+        // Adding values to appropriate
         String[] title = new String[inspectionList.size()];
         int []critIssue  = new int [inspectionList.size()];
         int []nonCritIssue = new int [inspectionList.size()];
         String[]lastInspec =  new String[inspectionList.size()];
+        String[]hazardLevel = new String[inspectionList.size()];
+
+
 
 
 
@@ -86,9 +98,13 @@ public class RestaurantActivity extends AppCompatActivity {
             nonCritIssue[i] = inspectionList.get(i).getNumNonCritIssues();
             title[i] = "Inspection " + (i+1);
             lastInspec[i]=inspectionList.get(i).dayFromLastInspection();
+            hazardLevel[i]=inspectionList.get(i).getHazardRating();
 
 
         }
+        // Setting hazard level
+
+
 
 
         ListView listView;
@@ -96,7 +112,7 @@ public class RestaurantActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.listView);
 
-        MyAdapter adapter = new MyAdapter(this,title,critIssue,nonCritIssue,lastInspec);
+        MyAdapter adapter = new MyAdapter(this,title,critIssue,nonCritIssue,lastInspec,hazardLevel);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -128,9 +144,10 @@ public class RestaurantActivity extends AppCompatActivity {
         int critNum[];
         int nonCritNum[];
         String lastInspec[];
+        String hazardLevels[];
 
 
-        MyAdapter(Context c, String title[], int critNum[],int nonCritNum[],String lastInspec[])
+        MyAdapter(Context c, String title[], int critNum[],int nonCritNum[],String lastInspec[],String hazardLevel[])
         {
             super(c,R.layout.inspection_row,R.id.inspectorDetail1,title);
             this.context= c;
@@ -138,6 +155,7 @@ public class RestaurantActivity extends AppCompatActivity {
             this.critNum = critNum;
             this.nonCritNum = nonCritNum;
             this.lastInspec = lastInspec;
+            this.hazardLevels = hazardLevel;
         }
 
         @NonNull
@@ -148,16 +166,39 @@ public class RestaurantActivity extends AppCompatActivity {
             TextView title = row.findViewById(R.id.inspectorReport);
             TextView details1 = row.findViewById(R.id.inspectorDetail1);
             TextView details2 = row.findViewById(R.id.inspectorDetail2);
-            TextView details3 = row.findViewById(R.id.inspectorDetail3);
+            //TextView details3 = row.findViewById(R.id.inspectorDetail3);
+            TextView hazard = row.findViewById(R.id.inspectionHazardLevel);
+
+            ImageView hazardLevel = row.findViewById(R.id.inspectionHazardIcon);
 
 
-            title.setText(inspection[position]);
+            title.setText("Date: " + lastInspec[position]);
             details1.setText("Number of critical issue is: "+ critNum[position]);
             details2.setText("Number of non-critical issue is: " + nonCritNum[position]);
-            details3.setText("Date: " + lastInspec[position]);
+            //details3.setText("Date: " + lastInspec[position]);
+            hazard.setText(hazardLevels[position].replace("\"", ""));
 
+            getHazardIcon(hazardLevels[position],hazardLevel);
 
             return row;
+        }
+    }
+
+    private void getHazardIcon(String hazardLevel, ImageView icon){
+        switch(hazardLevel){
+            case("\"Low\""):
+            default:{
+                icon.setImageResource(R.drawable.low);
+                break;
+            }
+            case("\"Moderate\""):{
+                icon.setImageResource(R.drawable.medium);
+                break;
+            }
+            case("\"High\""):{
+                icon.setImageResource(R.drawable.high);
+                break;
+            }
         }
     }
     public static Intent makeIntent(Context context, String resName, String totalIssues)
