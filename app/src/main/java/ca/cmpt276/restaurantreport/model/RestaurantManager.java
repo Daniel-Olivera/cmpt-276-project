@@ -3,7 +3,6 @@ package ca.cmpt276.restaurantreport.model;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.icu.util.ULocale;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -191,6 +190,10 @@ public class RestaurantManager implements Iterable<Restaurant> {
         }
     }
 
+    /*
+    * Code snippet modified from:
+    * https://basememara.com/storing-multidimensional-resource-arrays-in-android/
+    * */
     private void fillViolationList(){
         for (TypedArray item: ResourceHelper.getMultiTypedArray(context)) {
             @SuppressLint("ResourceType") ShortViolation shortViolation = new ShortViolation(item.getInt(0,0),item.getString(1));
