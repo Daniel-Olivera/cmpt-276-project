@@ -11,7 +11,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:contentDescription="@string/restaurant_icon"
-        android:src="@drawable/restaurant"/>
+        android:src="@drawable/dinner_attr_freepik"/>
 
     <LinearLayout
         android:id="@+id/layoutListRowText"
