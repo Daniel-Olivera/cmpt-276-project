@@ -1,10 +1,5 @@
 package ca.cmpt276.restaurantreport.view;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,13 +13,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Collections;
 import java.util.List;
 
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.model.Inspection;
 import ca.cmpt276.restaurantreport.model.Restaurant;
-import ca.cmpt276.restaurantreport.model.RestaurantListAdapter;
 import ca.cmpt276.restaurantreport.model.RestaurantManager;
 
 public class RestaurantActivity extends AppCompatActivity {
@@ -34,7 +32,7 @@ public class RestaurantActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_details);
+        setContentView(R.layout.activity_restaurant);
         manager = RestaurantManager.getInstance(this);
 
         // get Restaurant name and total issues
@@ -67,13 +65,13 @@ public class RestaurantActivity extends AppCompatActivity {
         String addr = manager.get(index).getPhysicalAddr().replace("\"", "");
         TextView textView = findViewById(R.id.toolbar_title);
         textView.setText(resName);
-        TextView address = findViewById(R.id.address);
+        TextView address = findViewById(R.id.txtAddress);
         address.setText("Address: " + addr);
-        TextView latitude = findViewById(R.id.latitude);
+        TextView latitude = findViewById(R.id.txtLattitude);
         latitude.setText("Latitude: " + manager.get(index).getLatitude());
-        TextView longitude = findViewById(R.id.longtitude);
+        TextView longitude = findViewById(R.id.txtLongtitude);
         longitude.setText("Longitude: " + manager.get(index).getLongitude());
-        TextView inspection = findViewById(R.id.inspection);
+        TextView inspection = findViewById(R.id.txtInspHeader);
         inspection.setText("Inspection:");
 
         List<Inspection> inspectionList = manager.get(index).getInspections();
@@ -149,7 +147,7 @@ public class RestaurantActivity extends AppCompatActivity {
 
         MyAdapter(Context c, String title[], int critNum[],int nonCritNum[],String lastInspec[],String hazardLevel[])
         {
-            super(c,R.layout.inspection_row,R.id.inspectorDetail1,title);
+            super(c,R.layout.inspection_row,R.id.txtInspCritNum,title);
             this.context= c;
             this.inspection = title;
             this.critNum = critNum;
@@ -163,13 +161,13 @@ public class RestaurantActivity extends AppCompatActivity {
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             LayoutInflater layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row = layoutInflater.inflate(R.layout.inspection_row,parent,false);
-            TextView title = row.findViewById(R.id.inspectorReport);
-            TextView details1 = row.findViewById(R.id.inspectorDetail1);
-            TextView details2 = row.findViewById(R.id.inspectorDetail2);
+            TextView title = row.findViewById(R.id.txtInspName);
+            TextView details1 = row.findViewById(R.id.txtInspCritNum);
+            TextView details2 = row.findViewById(R.id.txtInspNCrtiNum);
             //TextView details3 = row.findViewById(R.id.inspectorDetail3);
-            TextView hazard = row.findViewById(R.id.inspectionHazardLevel);
+            TextView hazard = row.findViewById(R.id.txtInspHazLvl);
 
-            ImageView hazardLevel = row.findViewById(R.id.inspectionHazardIcon);
+            ImageView hazardLevel = row.findViewById(R.id.imgInspHazIcon);
 
 
             title.setText("Date: " + lastInspec[position]);

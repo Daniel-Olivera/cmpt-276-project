@@ -1,9 +1,19 @@
 <resources>
     <string name="app_name">Restaurant Report</string>
+
     <string name="restaurant_name">Restaurant Name</string>
     <string name="issues_found"># Issues Found</string>
     <string name="last_inspected">Last Inspected: </string>
-    <string name="low">low</string>
-    <string name="changeable_icon_for_hazard_level">changeable icon for hazard level</string>
     <string name="restaurant_icon">Restaurant Icon</string>
+
+
+    <string name="placehold_toolbar_title_1">restaurant name</string>
+    <string name="placehold_textView">TextView</string>
+    <string name="placehold_insp_name">Inspection Name</string>
+    <string name="placehold_detail_1">Detail 1</string>
+    <string name="placehold_detail_2">Detail 2</string>
+    <string name="placehold_haz_lvl">level</string>
+    <string name="restaurant_logo_desc">Restaurant Logo</string>
+    <string name="changeable_icon_for_hazard_level">Changeable icon for hazard level</string>
+
 </resources>

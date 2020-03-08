@@ -2,17 +2,19 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutRestaurant"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.RestaurantActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/tbrRestanurant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -21,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="restaurant name"
+            android:text="@string/placehold_toolbar_title_1"
             android:textColor="#ffffff"
             android:textSize="26sp"
             android:textStyle="bold"
@@ -30,62 +32,61 @@
     </androidx.appcompat.widget.Toolbar>
 
     <TextView
-        android:id="@+id/address"
+        android:id="@+id/txtAddress"
         android:layout_width="310dp"
         android:layout_height="30dp"
         android:layout_marginStart="18dp"
         android:layout_marginTop="15dp"
-        android:text="TextView"
+        android:text="@string/placehold_textView"
         android:textColor="#000"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/tbrRestanurant" />
 
     <TextView
-        android:id="@+id/latitude"
+        android:id="@+id/txtLattitude"
         android:layout_width="250dp"
         android:layout_height="30dp"
         android:layout_marginStart="18dp"
         android:layout_marginTop="15dp"
-        android:text="TextView"
+        android:text="@string/placehold_textView"
         android:textColor="#000"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/address" />
+        app:layout_constraintTop_toBottomOf="@+id/txtAddress" />
 
     <TextView
-        android:id="@+id/longtitude"
+        android:id="@+id/txtLongtitude"
         android:layout_width="250dp"
         android:layout_height="30dp"
         android:layout_marginStart="18dp"
         android:layout_marginTop="15dp"
-        android:text="TextView"
+        android:text="@string/placehold_textView"
         android:textColor="#000"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/latitude" />
+        app:layout_constraintTop_toBottomOf="@+id/txtLattitude" />
 
     <TextView
-        android:id="@+id/inspection"
+        android:id="@+id/txtInspHeader"
         android:layout_width="250dp"
         android:layout_height="35dp"
         android:layout_marginStart="18dp"
         android:layout_marginTop="15dp"
-        android:text="TextView"
+        android:text="@string/placehold_textView"
         android:textColor="#000"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/longtitude" />
+        app:layout_constraintTop_toBottomOf="@+id/txtLongtitude" />
 
     <LinearLayout
-        android:layout_width="397dp"
-        android:layout_height="427dp"
-        android:layout_marginTop="25dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inspection">
+        app:layout_constraintTop_toBottomOf="@+id/txtInspHeader">
 
         <ListView
             android:id="@+id/listView"
@@ -101,9 +102,10 @@
         android:layout_height="127dp"
         android:layout_marginTop="44dp"
         android:layout_marginEnd="12dp"
+        android:contentDescription="@string/restaurant_logo_desc"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:srcCompat="@drawable/restaurant3" />
+        app:layout_constraintTop_toBottomOf="@+id/tbrRestanurant"
+        app:srcCompat="@drawable/cutlery_attr_freepik" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

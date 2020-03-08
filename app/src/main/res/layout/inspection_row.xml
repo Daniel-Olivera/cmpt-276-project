@@ -1,68 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutInspRow"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:padding="16dp"
 
-    >
+    android:padding="16dp">
+
     <LinearLayout
+        android:id="@+id/layoutInspRowText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        >
+        tools:ignore="UselessParent">
 
         <TextView
-            android:id="@+id/inspectorReport"
+            android:id="@+id/txtInspName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="Inspection Name"
+            android:text="@string/placehold_insp_name"
             android:textColor="#000"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/inspectorDetail1"
+            android:id="@+id/txtInspCritNum"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="details1"
+            android:text="@string/placehold_detail_1"
             android:textColor="#a9a9a9"
             android:textSize="15sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/inspectionHazardLevel"
+            android:id="@+id/txtInspHazLvl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginTop="-26dp"
             android:layout_marginEnd="36dp"
-            android:text="@string/low"
+            android:text="@string/placehold_haz_lvl"
             android:textColor="#000"
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/inspectorDetail2"
+            android:id="@+id/txtInspNCrtiNum"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="details2"
+            android:text="@string/placehold_detail_2"
             android:textColor="#a9a9a9"
             android:textSize="15sp"
             android:textStyle="bold" />
 
 
         <ImageView
-            android:id="@+id/inspectionHazardIcon"
+            android:id="@+id/imgInspHazIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="end"
             android:layout_marginTop="-60dp"
             android:contentDescription="@string/changeable_icon_for_hazard_level"
-            android:src="@drawable/low"></ImageView>
+            android:src="@drawable/low"/>
     </LinearLayout>
 
 </LinearLayout>
