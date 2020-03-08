@@ -91,10 +91,6 @@ public class RestaurantActivity extends AppCompatActivity {
         String[]lastInspec =  new String[inspectionList.size()];
         String[]hazardLevel = new String[inspectionList.size()];
 
-
-
-
-
         for(int i = 0 ; i < inspectionList.size(); i++)
         {
             critIssue[i] = inspectionList.get(i).getNumCritIssues();
@@ -102,16 +98,9 @@ public class RestaurantActivity extends AppCompatActivity {
             title[i] = "Inspection " + (i+1);
             lastInspec[i]=inspectionList.get(i).dayFromLastInspection();
             hazardLevel[i]=inspectionList.get(i).getHazardRating();
-
-
         }
         // Setting hazard level
-
-
-
-
         ListView listView;
-
 
         listView = findViewById(R.id.listView);
 
@@ -148,7 +137,6 @@ public class RestaurantActivity extends AppCompatActivity {
         int[] nonCritNum;
         String[] lastInspec;
         String[] hazardLevels;
-
 
         MyAdapter(Context c, String[] title, int[] critNum, int[] nonCritNum, String[] lastInspec, String[] hazardLevel)
         {
@@ -218,7 +206,4 @@ public class RestaurantActivity extends AppCompatActivity {
         intent.putExtra("totalIssues", totalIssues);
         return intent;
     }
-
-
-
 }
