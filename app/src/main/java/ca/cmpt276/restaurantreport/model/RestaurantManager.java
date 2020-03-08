@@ -99,7 +99,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
                 ));
             }
         }catch (IOException e) {
-            Log.wtf("Main Activity", "Error Reading Data File on Line" + line,e);
+            Log.e("Main Activity", "Error Reading Data File on Line" + line,e);
             e.printStackTrace();
         }
     }
@@ -133,7 +133,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
                 ));
             }
         }catch (IOException e) {
-            Log.wtf("Inspection Data", "Error Reading Data File on Line" + line,e);
+            Log.e("Inspection Data", "Error Reading Data File on Line" + line,e);
             e.printStackTrace();
         }
 
@@ -160,7 +160,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
                 index++;
             }
         }catch (IOException e) {
-            Log.wtf("Violation Data", "Error Reading Data File on Line" + line,e);
+            Log.e("Violation Data", "Error Reading Data File on Line" + line,e);
             e.printStackTrace();
         }
 
