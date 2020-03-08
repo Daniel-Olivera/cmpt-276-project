@@ -102,7 +102,7 @@ public class RestaurantActivity extends AppCompatActivity {
         // Setting hazard level
         ListView listView;
 
-        listView = findViewById(R.id.listView);
+        listView = findViewById(R.id.lstInspections);
 
         MyAdapter adapter = new MyAdapter(this,title,critIssue,nonCritIssue,lastInspec,hazardLevel);
         listView.setAdapter(adapter);
