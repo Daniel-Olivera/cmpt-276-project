@@ -15,5 +15,16 @@
     <string name="placehold_haz_lvl">level</string>
     <string name="restaurant_logo_desc">Restaurant Logo</string>
     <string name="changeable_icon_for_hazard_level">Changeable icon for hazard level</string>
+    <string name="rest_addr_prefix">Address: %1$s</string>
+    <string name="rest_lat_prefix">Latitude: %1$s</string>
+    <string name="rest_long_prefix">Longitude: %1$s</string>
+    <string name="rest_insp_prefix">Past Inspections: </string>
+    
+    <string name="insp_date_prefix">Date: %1$s</string>
+    <string name="insp_crit_postfix">%1$s critical issue</string>
+    <string name="insp_crit_postfix_s">%1$s critical issues</string>
+    <string name="insp_non_crit_postfix">%1$s non-critical issue</string>
+    <string name="insp_non_crit_postfix_s">%1$s non-critical issues</string>
+
 
 </resources>
