@@ -11,6 +11,9 @@ public class Violation {
         this.violationDescriptor = violationDescriptor;
     }
 
+    Violation() {
+    }
+
     public String getViolationCode() {
         return violationCode;
     }

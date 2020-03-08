@@ -152,9 +152,33 @@ public class RestaurantManager implements Iterable<Restaurant> {
                 String [] tokens = line.split("\\|");
 
                 Inspection sampleInspection = inspectionList.get(index);
-
                 for(String violation: tokens) {
-                    sampleInspection.addViolation(violation);
+
+                    String [] tokens2 = violation.split(",");
+
+                    Violation newViolation = new Violation();
+                    int i = 0;
+                    for(String v: tokens2) {
+                        switch (i) {
+                            case 0:
+                                newViolation.setViolationCode(v);
+                                i++;
+                                break;
+                            case 1:
+                                newViolation.setViolationCriticality(v);
+                                i++;
+                                break;
+                            case 2:
+                                newViolation.setViolationDescriptor(v);
+                                i++;
+                                break;
+                            default:
+                                i = 0;
+                                break;
+                        }
+                    }
+                    sampleInspection.addNewViolation(newViolation);
+//
                 }
                 inspectionList.set(index,sampleInspection);
                 index++;
@@ -183,7 +207,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
                     tempRestaurant.addInspection(inspection);
                 }
             }
-            //System.out.println("" + tempRestaurant);
 
             restaurantList.set(restaurantListIndex,tempRestaurant);
             restaurantListIndex++;
@@ -200,5 +223,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
             shortViolationList.add(shortViolation);
             Log.d("shortViolationList",shortViolation.toString());
         }
+
     }
 }
