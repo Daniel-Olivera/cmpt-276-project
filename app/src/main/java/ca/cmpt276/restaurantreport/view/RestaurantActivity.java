@@ -29,7 +29,9 @@ import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.model.Inspection;
 import ca.cmpt276.restaurantreport.model.Restaurant;
 import ca.cmpt276.restaurantreport.model.RestaurantManager;
-
+/*
+* cutlery_attr_freepik by Freepik from: https://www.flaticon.com/free-icon/cutlery_263125
+* */
 public class RestaurantActivity extends AppCompatActivity {
     RestaurantManager manager;
     String resName;
