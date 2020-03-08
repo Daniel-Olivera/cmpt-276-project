@@ -14,7 +14,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 
 import ca.cmpt276.restaurantreport.R;
 
@@ -50,6 +49,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
         return restaurantList.get(index);
     }
 
+    @SuppressLint("StaticFieldLeak")
     private static RestaurantManager instance;
 
     public static RestaurantManager getInstance(Context context) {
@@ -62,6 +62,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
     public List<Restaurant> getRestaurants(){
         return this.restaurantList;
     }
+
 
 
     @Override

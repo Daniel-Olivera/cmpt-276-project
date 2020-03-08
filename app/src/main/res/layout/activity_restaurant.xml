@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutRestaurant"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.RestaurantActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbrRestanurant"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:text="@string/placehold_toolbar_title_1"
+            android:textColor="#ffffff"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="131dp"
+            tools:layout_editor_absoluteY="14dp" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/txtAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/placehold_textView"
+        android:textColor="#000"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/tbrRestanurant"
+        app:layout_constraintTop_toBottomOf="@+id/tbrRestanurant" />
+
+    <TextView
+        android:id="@+id/txtLattitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/placehold_textView"
+        android:textColor="@android:color/tertiary_text_light"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/txtAddress"
+        app:layout_constraintTop_toBottomOf="@+id/txtAddress" />
+
+    <TextView
+        android:id="@+id/txtLongtitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/placehold_textView"
+        android:textColor="@android:color/tertiary_text_light"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/txtLattitude"
+        app:layout_constraintTop_toBottomOf="@+id/txtLattitude" />
+
+    <TextView
+        android:id="@+id/txtInspHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/placehold_textView"
+        android:textColor="#000"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/txtLongtitude"
+        app:layout_constraintTop_toBottomOf="@+id/txtLongtitude" />
+
+    <LinearLayout
+        android:id="@+id/layoutInspListWrapper"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtInspHeader">
+
+        <ListView
+            android:id="@+id/lstInspections"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </ListView>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imgRestaurantLogo"
+        android:layout_width="100dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
+        android:contentDescription="@string/restaurant_logo_desc"
+        app:layout_constraintBottom_toTopOf="@+id/layoutInspListWrapper"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtAddress"
+        app:srcCompat="@drawable/cutlery_attr_freepik" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
