@@ -1,9 +1,5 @@
 package ca.cmpt276.restaurantreport.view;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -18,15 +14,24 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.model.Inspection;
 import ca.cmpt276.restaurantreport.model.Restaurant;
-import ca.cmpt276.restaurantreport.model.RestaurantListAdapter;
 import ca.cmpt276.restaurantreport.model.RestaurantManager;
-
+/*
+* cutlery_attr_freepik by Freepik from: https://www.flaticon.com/free-icon/cutlery_263125
+* */
 public class RestaurantActivity extends AppCompatActivity {
     RestaurantManager manager;
     String resName;
@@ -34,13 +39,13 @@ public class RestaurantActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_details);
+        setContentView(R.layout.activity_restaurant);
         manager = RestaurantManager.getInstance(this);
 
         // get Restaurant name and total issues
         Intent intent = getIntent();
         resName = intent.getStringExtra("resName");
-        totalIssues = Integer.parseInt(intent.getStringExtra("totalIssues"));
+        totalIssues = Integer.parseInt(Objects.requireNonNull(intent.getStringExtra("totalIssues")));
 
         //get restaurant details
         List<Restaurant> listRes = manager.getRestaurants();
@@ -58,25 +63,25 @@ public class RestaurantActivity extends AppCompatActivity {
                     index = i;
                     break;
                 }
-                else
-                    continue;
             }
         }
-        final Restaurant restaurant = manager.get(index);
+        Restaurant restaurant = manager.get(index);
+        DecimalFormat decimalFormat = new DecimalFormat("0",DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+        decimalFormat.setMaximumFractionDigits(340);
         // parse out the double quote
         String addr = manager.get(index).getPhysicalAddr().replace("\"", "");
         TextView textView = findViewById(R.id.toolbar_title);
         textView.setText(resName);
-        TextView address = findViewById(R.id.address);
-        address.setText("Address: " + addr);
-        TextView latitude = findViewById(R.id.latitude);
-        latitude.setText("Latitude: " + manager.get(index).getLatitude());
-        TextView longitude = findViewById(R.id.longtitude);
-        longitude.setText("Longitude: " + manager.get(index).getLongitude());
-        TextView inspection = findViewById(R.id.inspection);
-        inspection.setText("Inspection:");
+        TextView address = findViewById(R.id.txtAddress);
+        address.setText(getString(R.string.rest_addr_prefix, addr));
+        TextView latitude = findViewById(R.id.txtLattitude);
+        latitude.setText(getString(R.string.rest_lat_prefix, Double.toString(manager.get(index).getLatitude())));
+        TextView longitude = findViewById(R.id.txtLongtitude);
+        longitude.setText(getString(R.string.rest_long_prefix, Double.toString(manager.get(index).getLongitude())));
+        TextView inspection = findViewById(R.id.txtInspHeader);
+        inspection.setText(R.string.rest_insp_prefix);
 
-        final List<Inspection> inspectionList = manager.get(index).getInspections();
+        List<Inspection> inspectionList = manager.get(index).getInspections();
 
         //Sort the inspection list according to date
         Collections.sort(inspectionList,Collections.reverseOrder());
@@ -88,10 +93,6 @@ public class RestaurantActivity extends AppCompatActivity {
         String[]lastInspec =  new String[inspectionList.size()];
         String[]hazardLevel = new String[inspectionList.size()];
 
-
-
-
-
         for(int i = 0 ; i < inspectionList.size(); i++)
         {
             critIssue[i] = inspectionList.get(i).getNumCritIssues();
@@ -99,28 +100,33 @@ public class RestaurantActivity extends AppCompatActivity {
             title[i] = "Inspection " + (i+1);
             lastInspec[i]=inspectionList.get(i).dayFromLastInspection();
             hazardLevel[i]=inspectionList.get(i).getHazardRating();
-
-
         }
         // Setting hazard level
-
-
-
-
         ListView listView;
 
-
-        listView = findViewById(R.id.listView);
+        listView = findViewById(R.id.lstInspections);
 
         MyAdapter adapter = new MyAdapter(this,title,critIssue,nonCritIssue,lastInspec,hazardLevel);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Restaurant restaurantClicked = restaurant;
-                String trackingNumber = restaurantClicked.getTrackingNum();
-                Intent intent = InspectionActivity.makeIntent(RestaurantActivity.this,trackingNumber,position);
-                startActivity(intent);
+                if(position ==0)
+                {
+                    Toast.makeText(RestaurantActivity.this,"clickedd hahahaha",Toast.LENGTH_SHORT).show();
+                }
+                if(position ==0)
+                {
+                    Toast.makeText(RestaurantActivity.this,"123 hahahaha",Toast.LENGTH_SHORT).show();
+                }
+                if(position ==0)
+                {
+                    Toast.makeText(RestaurantActivity.this,"456  hahahaha",Toast.LENGTH_SHORT).show();
+                }
+                if(position ==0)
+                {
+                    Toast.makeText(RestaurantActivity.this,"789 hahahaha",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -128,16 +134,15 @@ public class RestaurantActivity extends AppCompatActivity {
     class MyAdapter extends ArrayAdapter<String>
     {
         Context context;
-        String inspection[];
-        int critNum[];
-        int nonCritNum[];
-        String lastInspec[];
-        String hazardLevels[];
+        String[] inspection;
+        int[] critNum;
+        int[] nonCritNum;
+        String[] lastInspec;
+        String[] hazardLevels;
 
-
-        MyAdapter(Context c, String title[], int critNum[],int nonCritNum[],String lastInspec[],String hazardLevel[])
+        MyAdapter(Context c, String[] title, int[] critNum, int[] nonCritNum, String[] lastInspec, String[] hazardLevel)
         {
-            super(c,R.layout.inspection_row,R.id.inspectorDetail1,title);
+            super(c,R.layout.inspection_row,R.id.txtInspCritNum,title);
             this.context= c;
             this.inspection = title;
             this.critNum = critNum;
@@ -150,20 +155,27 @@ public class RestaurantActivity extends AppCompatActivity {
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             LayoutInflater layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View row = layoutInflater.inflate(R.layout.inspection_row,parent,false);
-            TextView title = row.findViewById(R.id.inspectorReport);
-            TextView details1 = row.findViewById(R.id.inspectorDetail1);
-            TextView details2 = row.findViewById(R.id.inspectorDetail2);
-            //TextView details3 = row.findViewById(R.id.inspectorDetail3);
-            TextView hazard = row.findViewById(R.id.inspectionHazardLevel);
+            assert layoutInflater != null;
+            @SuppressLint("ViewHolder") View row = layoutInflater.inflate(R.layout.inspection_row,parent,false);
+            TextView title = row.findViewById(R.id.txtInspName);
+            TextView details1 = row.findViewById(R.id.txtInspCritNum);
+            TextView details2 = row.findViewById(R.id.txtInspNCrtiNum);
+            TextView hazard = row.findViewById(R.id.txtInspHazLvl);
 
-            ImageView hazardLevel = row.findViewById(R.id.inspectionHazardIcon);
+            ImageView hazardLevel = row.findViewById(R.id.imgInspHazIcon);
 
 
-            title.setText("Date: " + lastInspec[position]);
-            details1.setText("Number of critical issue is: "+ critNum[position]);
-            details2.setText("Number of non-critical issue is: " + nonCritNum[position]);
-            //details3.setText("Date: " + lastInspec[position]);
+            title.setText(getString(R.string.insp_date_prefix, lastInspec[position]));
+            if(critNum[position] == 1){
+                details1.setText(getString(R.string.insp_crit_postfix,Integer.toString(critNum[position])));
+            } else {
+                details1.setText(getString(R.string.insp_crit_postfix_s,Integer.toString(critNum[position])));
+            }
+            if(nonCritNum[position] == 1){
+                details2.setText(getString(R.string.insp_non_crit_postfix,Integer.toString(nonCritNum[position])));
+            } else {
+                details2.setText(getString(R.string.insp_non_crit_postfix_s,Integer.toString(nonCritNum[position])));
+            }
             hazard.setText(hazardLevels[position].replace("\"", ""));
 
             getHazardIcon(hazardLevels[position],hazardLevel);
@@ -196,7 +208,4 @@ public class RestaurantActivity extends AppCompatActivity {
         intent.putExtra("totalIssues", totalIssues);
         return intent;
     }
-
-
-
 }
