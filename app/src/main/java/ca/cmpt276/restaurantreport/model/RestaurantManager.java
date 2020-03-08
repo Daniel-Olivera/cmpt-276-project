@@ -2,6 +2,7 @@ package ca.cmpt276.restaurantreport.model;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -19,15 +20,19 @@ public class RestaurantManager implements Iterable<Restaurant> {
 
     private List<Restaurant> restaurantList;
 
+    private List<ShortViolation> shortViolationList;
+
     private Context context;
 
     //constructor with context of an activity passed because we need the context when we want to access the data files to read from
     private RestaurantManager(Context context) {
         restaurantList = new ArrayList<>();
+        shortViolationList = new ArrayList<>();
         this.context = context;
 
         readRestaurantData();
         readInspectionData();
+        fillViolationList();
     }
 
     //adds a Restaurant object to the list of restaurants
@@ -182,6 +187,18 @@ public class RestaurantManager implements Iterable<Restaurant> {
 
             restaurantList.set(restaurantListIndex,tempRestaurant);
             restaurantListIndex++;
+        }
+    }
+
+    /*
+    * Code snippet modified from:
+    * https://basememara.com/storing-multidimensional-resource-arrays-in-android/
+    * */
+    private void fillViolationList(){
+        for (TypedArray item: ResourceHelper.getMultiTypedArray(context)) {
+            @SuppressLint("ResourceType") ShortViolation shortViolation = new ShortViolation(item.getInt(0,0),item.getString(1));
+            shortViolationList.add(shortViolation);
+            Log.d("shortViolationList",shortViolation.toString());
         }
     }
 }
