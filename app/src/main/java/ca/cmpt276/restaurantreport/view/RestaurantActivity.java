@@ -62,7 +62,7 @@ public class RestaurantActivity extends AppCompatActivity {
                     continue;
             }
         }
-        Restaurant restaurant = manager.get(index);
+        final Restaurant restaurant = manager.get(index);
         // parse out the double quote
         String addr = manager.get(index).getPhysicalAddr().replace("\"", "");
         TextView textView = findViewById(R.id.toolbar_title);
@@ -76,7 +76,7 @@ public class RestaurantActivity extends AppCompatActivity {
         TextView inspection = findViewById(R.id.inspection);
         inspection.setText("Inspection:");
 
-        List<Inspection> inspectionList = manager.get(index).getInspections();
+        final List<Inspection> inspectionList = manager.get(index).getInspections();
 
         //Sort the inspection list according to date
         Collections.sort(inspectionList,Collections.reverseOrder());
@@ -117,22 +117,10 @@ public class RestaurantActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position ==0)
-                {
-                    Toast.makeText(RestaurantActivity.this,"clickedd hahahaha",Toast.LENGTH_SHORT).show();
-                }
-                if(position ==0)
-                {
-                    Toast.makeText(RestaurantActivity.this,"123 hahahaha",Toast.LENGTH_SHORT).show();
-                }
-                if(position ==0)
-                {
-                    Toast.makeText(RestaurantActivity.this,"456  hahahaha",Toast.LENGTH_SHORT).show();
-                }
-                if(position ==0)
-                {
-                    Toast.makeText(RestaurantActivity.this,"789 hahahaha",Toast.LENGTH_SHORT).show();
-                }
+                Restaurant restaurantClicked = restaurant;
+                String trackingNumber = restaurantClicked.getTrackingNum();
+                Intent intent = InspectionActivity.makeIntent(RestaurantActivity.this,trackingNumber,position);
+                startActivity(intent);
             }
         });
 

@@ -164,14 +164,14 @@ public class RestaurantManager implements Iterable<Restaurant> {
         }
 
         //debugging purposes
-        for(Restaurant r: restaurantList) {
+       /* for(Restaurant r: restaurantList) {
             System.out.println("Restaurant list before" + r);
         }
 
         //debugging purposes prints the fully completed inspections from the temporary inspectionList above
         for(Inspection i: inspectionList) {
             System.out.println(" " + i);
-        }
+        }*/
 
         //for each inspection in the temporary inspectionList match the tracking number to the restaurant in the
         //restaurantList and add the inspection to the restaurant
