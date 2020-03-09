@@ -63,6 +63,7 @@ public class InspectionActivity extends AppCompatActivity {
 
     }
 
+    //Displays the Date, number of Critical and non-Critical issues and hazard Level
     private void updateUI() {
         List<Restaurant> restaurants = manager.getRestaurants();
         Restaurant restaurant = manager.get(0);
@@ -76,6 +77,8 @@ public class InspectionActivity extends AppCompatActivity {
         final List<Inspection> inspectionList = restaurant.getInspections();
 
         //Sort the inspection list according to date
+        //So it's easier to figure out which inspection was clicked from the previous activity
+        //as the inspections were sorted according to recent Date first
         Collections.sort(inspectionList,Collections.reverseOrder());
 
         int date = inspectionList.get(inspectionPosition).getDate();
@@ -98,6 +101,7 @@ public class InspectionActivity extends AppCompatActivity {
         int inspectionYear = inspectionDate.getYear();
         Month inspectionMonth = inspectionDate.getMonth();
 
+        //set the texts for Date, Crit Issues and Non Crit Issues and hazard level
         TextView dateTextView = (TextView) findViewById(R.id.txtDate);
         dateTextView.setText("" + inspectionDay +" " + inspectionMonth + " " + inspectionYear);
 
@@ -112,8 +116,6 @@ public class InspectionActivity extends AppCompatActivity {
         int nonCriticalIssues = inspectionList.get(inspectionPosition).getNumNonCritIssues();
         TextView nonCriticalIssuesTextView = (TextView) findViewById(R.id.txtNonCriticalIssues);
         nonCriticalIssuesTextView.setText("" + nonCriticalIssues +" Non-Critical Issues");
-
-        totalIssues = criticalIssues + nonCriticalIssues;
 
         String hazardLevel = inspectionList.get(inspectionPosition).getHazardRating().replace("\"","");
         TextView hazardLevelTextView = (TextView) findViewById(R.id.txtHazardLevel);
@@ -135,9 +137,13 @@ public class InspectionActivity extends AppCompatActivity {
                 break;
             }
         }
+
+        //Incase there are no issues we won't need to setup the listView
+        totalIssues = criticalIssues + nonCriticalIssues;
     }
 
     private void setupListView() {
+        //No need to setup ListView if there are no issues
         if(Objects.equals(totalIssues,0)){
             return;
         }
@@ -154,12 +160,15 @@ public class InspectionActivity extends AppCompatActivity {
         final List<Inspection> inspectionList = restaurant.getInspections();
 
         //Sort the inspection list according to date
+        //So it's easier to figure out which inspection was clicked from the previous activity
+        //as the inspections were sorted according to recent Date first
         Collections.sort(inspectionList,Collections.reverseOrder());
 
         final List<Violation> violationList = inspectionList.get(inspectionPosition).getViolations();
 
         List<ShortViolation> shortViolationList = new ArrayList<>();
 
+        //For the violationList of the inspection creating a shortViolation List for use in the listView
         for(Violation violation: violationList) {
             String sampleViolationCode = violation.getViolationCode().replace("\"","");
             int violationCode;
@@ -170,16 +179,17 @@ public class InspectionActivity extends AppCompatActivity {
                 violationCode = Integer.parseInt(sampleViolationCode);
             }
 
-            //int violationCode = Integer.parseInt(violation.getViolationCode());
             ShortViolation shortViolation = manager.getShortViolation(violationCode);
             shortViolationList.add(shortViolation);
         }
 
+        //Required arrays for use in the ListView
         int [] violationCodes = new int[violationList.size()];
         String[] shortDescription = new String[violationList.size()];
         String [] violationCriticalities = new String[violationList.size()];
 
-        int index = 0;
+
+        int index = 0;//index for accessing the long violation to get criticality as shortViolation object doesn't have criticality field
         for(ShortViolation s:shortViolationList) {
             violationCodes[index] = s.getViolationCode();
             shortDescription[index] = s.getShortDescriptor();

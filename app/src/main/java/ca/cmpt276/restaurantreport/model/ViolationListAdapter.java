@@ -50,7 +50,6 @@ public class ViolationListAdapter extends ArrayAdapter<String> {
         setCriticalityIcon(violationCriticalities[position],criticalityIcon);
 
         setViolationNatureIcon(violationCodes[position],violationNature);
-        //violationNature.setImageResource(R.drawable.pest);
 
         return row;
     }
@@ -66,6 +65,7 @@ public class ViolationListAdapter extends ArrayAdapter<String> {
         }
     }
 
+    //Icons used below from https://www.flaticon.com/
     private void setViolationNatureIcon(int violationCode, ImageView violationNature) {
         if((violationCode > 100) && (violationCode < 105)){
             violationNature.setImageResource(R.drawable.premise_coloured);
