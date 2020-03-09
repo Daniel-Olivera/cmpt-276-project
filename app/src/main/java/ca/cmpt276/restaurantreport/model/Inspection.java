@@ -100,6 +100,7 @@ public class Inspection implements Comparable< Inspection > {
 
     public List getViolations() {return this.ViolationList;}
 
+
     public String dayFromLastInspection()
     {
         String output;
