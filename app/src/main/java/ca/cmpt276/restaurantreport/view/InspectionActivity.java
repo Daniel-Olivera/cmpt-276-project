@@ -6,7 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -15,19 +18,25 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.model.Inspection;
 import ca.cmpt276.restaurantreport.model.Restaurant;
 import ca.cmpt276.restaurantreport.model.RestaurantManager;
+import ca.cmpt276.restaurantreport.model.ShortViolation;
+import ca.cmpt276.restaurantreport.model.Violation;
+import ca.cmpt276.restaurantreport.model.ViolationListAdapter;
 
 public class InspectionActivity extends AppCompatActivity {
 
     RestaurantManager manager;
     String trackingNumber;
     int inspectionPosition;
+    int totalIssues;
 
     public static Intent makeIntent(Context context, String trackingNumber,int inspectionPosition)
     {
@@ -49,9 +58,11 @@ public class InspectionActivity extends AppCompatActivity {
         inspectionPosition = intent.getIntExtra("inspectionPosition",0);
 
         updateUI();
+        setupListView();
+
 
     }
-
+    
     private void updateUI() {
         List<Restaurant> restaurants = manager.getRestaurants();
         Restaurant restaurant = manager.get(0);
@@ -102,6 +113,8 @@ public class InspectionActivity extends AppCompatActivity {
         TextView nonCriticalIssuesTextView = (TextView) findViewById(R.id.txtNonCriticalIssues);
         nonCriticalIssuesTextView.setText("" + nonCriticalIssues +" Non-Critical Issues");
 
+        totalIssues = criticalIssues + nonCriticalIssues;
+
         String hazardLevel = inspectionList.get(inspectionPosition).getHazardRating().replace("\"","");
         TextView hazardLevelTextView = (TextView) findViewById(R.id.txtHazardLevel);
         hazardLevelTextView.setText("" + hazardLevel);
@@ -122,6 +135,68 @@ public class InspectionActivity extends AppCompatActivity {
                 break;
             }
         }
+    }
+
+    private void setupListView() {
+        if(Objects.equals(totalIssues,0)){
+            return;
+        }
+
+        List<Restaurant> restaurants = manager.getRestaurants();
+        Restaurant restaurant = manager.get(0);
+
+        for(Restaurant r : restaurants) {
+            if(r.getTrackingNum().equalsIgnoreCase(trackingNumber)) {
+                restaurant = r;
+            }
+        }
+
+        final List<Inspection> inspectionList = restaurant.getInspections();
+
+        //Sort the inspection list according to date
+        Collections.sort(inspectionList,Collections.reverseOrder());
+
+        final List<Violation> violationList = inspectionList.get(inspectionPosition).getViolations();
+
+        List<ShortViolation> shortViolationList = new ArrayList<>();
+
+        for(Violation violation: violationList) {
+            String sampleViolationCode = violation.getViolationCode().replace("\"","");
+            int violationCode;
+            if(sampleViolationCode.equalsIgnoreCase("")){
+                violationCode = 0;
+            }
+            else{
+                violationCode = Integer.parseInt(sampleViolationCode);
+            }
+
+            //int violationCode = Integer.parseInt(violation.getViolationCode());
+            ShortViolation shortViolation = manager.getShortViolation(violationCode);
+            shortViolationList.add(shortViolation);
+        }
+
+        int [] violationCodes = new int[violationList.size()];
+        String[] shortDescription = new String[violationList.size()];
+        String [] violationCriticalities = new String[violationList.size()];
+
+        int index = 0;
+        for(ShortViolation s:shortViolationList) {
+            violationCodes[index] = s.getViolationCode();
+            shortDescription[index] = s.getShortDescriptor();
+            violationCriticalities[index] = violationList.get(index).getViolationCriticality();
+            index++;
+        }
+
+        ViolationListAdapter adapter = new ViolationListAdapter(this, violationCodes,shortDescription,violationCriticalities);
+        ListView listView = findViewById(R.id.violationListView);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
     }
 
 }

@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import ca.cmpt276.restaurantreport.R;
 
@@ -62,8 +63,16 @@ public class RestaurantManager implements Iterable<Restaurant> {
         return this.restaurantList;
     }
 
+    public List<ShortViolation> getShortViolationList() {return this.shortViolationList; }
 
-
+    public ShortViolation getShortViolation(int violationCode) {
+        for(ShortViolation s :shortViolationList) {
+            if(Objects.equals(s.getViolationCode(), violationCode)) {
+                return s;
+            }
+        }
+        return null;
+    }
     @Override
     public Iterator<Restaurant> iterator() {
         return restaurantList.iterator();
