@@ -62,7 +62,7 @@ public class InspectionActivity extends AppCompatActivity {
 
 
     }
-    
+
     private void updateUI() {
         List<Restaurant> restaurants = manager.getRestaurants();
         Restaurant restaurant = manager.get(0);
