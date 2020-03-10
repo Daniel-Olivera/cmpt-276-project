@@ -1,7 +1,5 @@
 package ca.cmpt276.restaurantreport.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,15 +7,17 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.List;
 
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.model.Restaurant;
-import ca.cmpt276.restaurantreport.model.RestaurantManager;
 import ca.cmpt276.restaurantreport.model.RestaurantListAdapter;
+import ca.cmpt276.restaurantreport.model.RestaurantManager;
 
 /*
-restaurant icon from http://clipart-library.com/clipart/183878.htm
+dinner_attr_freepik by Freepik from: https://www.flaticon.com/free-icon/dinner_272186
 Green diamond hazard Icon from http://clipart-library.com/clipart/2019534.htm
 Red and Yellow diamonds are edited by dolivera from the green one
  */
@@ -30,12 +30,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         RestaurantManager manager = RestaurantManager.getInstance(this);
-
-        //debugging purposes
-//        for(Restaurant r: manager) {
-//            System.out.println("" + r);
-//        }
-
         setupListView(manager);
     }
 

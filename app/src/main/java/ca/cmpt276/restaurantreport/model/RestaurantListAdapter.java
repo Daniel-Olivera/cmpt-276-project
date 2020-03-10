@@ -14,7 +14,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
@@ -57,10 +56,7 @@ public class RestaurantListAdapter extends ArrayAdapter<String> {
         Restaurant currentRestaurant = res.get(position);
         List<Inspection> insp = currentRestaurant.getInspections();
 
-
         int issueCount = 0;
-
-
 
         //counts all the issues (critical and non-critical) that a restaurant has
         for (int i = 0; i < insp.size(); i++) {

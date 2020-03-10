@@ -8,10 +8,12 @@
 
     <ImageView
         android:id="@+id/imgRestaurantIcon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="fill"
+        android:baselineAligned="false"
         android:contentDescription="@string/restaurant_icon"
-        android:src="@drawable/restaurant"/>
+        android:src="@drawable/dinner_attr_freepik" />
 
     <LinearLayout
         android:id="@+id/layoutListRowText"
@@ -54,7 +56,7 @@
             android:layout_marginTop="-26dp"
             android:layout_marginEnd="36dp"
             android:layout_marginBottom="5dp"
-            android:text="@string/low"
+            android:text="@string/placehold_haz_lvl"
             android:textColor="#000"
             android:textSize="18sp" />
 
