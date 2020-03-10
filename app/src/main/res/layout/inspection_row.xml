@@ -26,7 +26,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/txtInspCritNum"
+            android:id="@+id/txtInspCritNums"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -47,7 +47,7 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/txtInspNCrtiNum"
+            android:id="@+id/txtInspNCrtiNums"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"

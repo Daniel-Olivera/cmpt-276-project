@@ -27,6 +27,7 @@ import java.util.Objects;
 
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.model.Inspection;
+import ca.cmpt276.restaurantreport.model.InspectionListAdapter;
 import ca.cmpt276.restaurantreport.model.Restaurant;
 import ca.cmpt276.restaurantreport.model.RestaurantManager;
 /*
@@ -87,7 +88,6 @@ public class RestaurantActivity extends AppCompatActivity {
         Collections.sort(inspectionList,Collections.reverseOrder());
 
         // Adding values to appropriate
-        String[] title = new String[inspectionList.size()];
         int []critIssue  = new int [inspectionList.size()];
         int []nonCritIssue = new int [inspectionList.size()];
         String[]lastInspec =  new String[inspectionList.size()];
@@ -97,7 +97,6 @@ public class RestaurantActivity extends AppCompatActivity {
         {
             critIssue[i] = inspectionList.get(i).getNumCritIssues();
             nonCritIssue[i] = inspectionList.get(i).getNumNonCritIssues();
-            title[i] = "Inspection " + (i+1);
             lastInspec[i]=inspectionList.get(i).dayFromLastInspection();
             hazardLevel[i]=inspectionList.get(i).getHazardRating();
         }
@@ -106,7 +105,7 @@ public class RestaurantActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.lstInspections);
 
-        MyAdapter adapter = new MyAdapter(this,title,critIssue,nonCritIssue,lastInspec,hazardLevel);
+        InspectionListAdapter adapter = new InspectionListAdapter(this,critIssue,nonCritIssue,lastInspec,hazardLevel);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -132,76 +131,6 @@ public class RestaurantActivity extends AppCompatActivity {
 
     }
 
-    class MyAdapter extends ArrayAdapter<String>
-    {
-        Context context;
-        String[] inspection;
-        int[] critNum;
-        int[] nonCritNum;
-        String[] lastInspec;
-        String[] hazardLevels;
-
-        MyAdapter(Context c, String[] title, int[] critNum, int[] nonCritNum, String[] lastInspec, String[] hazardLevel)
-        {
-            super(c,R.layout.inspection_row,R.id.txtInspCritNum,title);
-            this.context= c;
-            this.inspection = title;
-            this.critNum = critNum;
-            this.nonCritNum = nonCritNum;
-            this.lastInspec = lastInspec;
-            this.hazardLevels = hazardLevel;
-        }
-
-        @NonNull
-        @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            LayoutInflater layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            assert layoutInflater != null;
-            @SuppressLint("ViewHolder") View row = layoutInflater.inflate(R.layout.inspection_row,parent,false);
-            TextView title = row.findViewById(R.id.txtInspName);
-            TextView details1 = row.findViewById(R.id.txtInspCritNum);
-            TextView details2 = row.findViewById(R.id.txtInspNCrtiNum);
-            TextView hazard = row.findViewById(R.id.txtInspHazLvl);
-
-            ImageView hazardLevel = row.findViewById(R.id.imgInspHazIcon);
-
-
-            title.setText(getString(R.string.insp_date_prefix, lastInspec[position]));
-            if(critNum[position] == 1){
-                details1.setText(getString(R.string.insp_crit_postfix,Integer.toString(critNum[position])));
-            } else {
-                details1.setText(getString(R.string.insp_crit_postfix_s,Integer.toString(critNum[position])));
-            }
-            if(nonCritNum[position] == 1){
-                details2.setText(getString(R.string.insp_non_crit_postfix,Integer.toString(nonCritNum[position])));
-            } else {
-                details2.setText(getString(R.string.insp_non_crit_postfix_s,Integer.toString(nonCritNum[position])));
-            }
-            hazard.setText(hazardLevels[position].replace("\"", ""));
-
-            getHazardIcon(hazardLevels[position],hazardLevel);
-
-            return row;
-        }
-    }
-
-    private void getHazardIcon(String hazardLevel, ImageView icon){
-        switch(hazardLevel){
-            case("\"Low\""):
-            default:{
-                icon.setImageResource(R.drawable.low);
-                break;
-            }
-            case("\"Moderate\""):{
-                icon.setImageResource(R.drawable.medium);
-                break;
-            }
-            case("\"High\""):{
-                icon.setImageResource(R.drawable.high);
-                break;
-            }
-        }
-    }
     public static Intent makeIntent(Context context, String resName, String totalIssues)
     {
         Intent intent = new Intent(context, RestaurantActivity.class);

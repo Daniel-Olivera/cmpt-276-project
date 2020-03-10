@@ -1,5 +1,6 @@
 package ca.cmpt276.restaurantreport.model;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +27,7 @@ public class InspectionListAdapter extends ArrayAdapter<String> {
 
 
     public InspectionListAdapter(Context c, int critNum[], int nonCritNum[], String lastInspec[], String hazardLevel[]) {
-        super(c, R.layout.inspection_row, R.id.numCritical, lastInspec);
+        super(c, R.layout.inspection_row, R.id.txtInspCritNums, lastInspec);
         this.context = c;
         this.critNum = critNum;
         this.nonCritNum = nonCritNum;
@@ -37,21 +38,37 @@ public class InspectionListAdapter extends ArrayAdapter<String> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        // Setup the layout
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View row = layoutInflater.inflate(R.layout.inspection_row, parent, false);
-        TextView date = row.findViewById(R.id.inspectorReport);
-        TextView numCritical = row.findViewById(R.id.numCritical);
-        TextView numNonCritical = row.findViewById(R.id.numNonCritical);
-        TextView hazard = row.findViewById(R.id.inspectionHazardLevel);
-        ImageView hazardLevel = row.findViewById(R.id.inspectionHazardIcon);
+        assert layoutInflater != null;
+        @SuppressLint("ViewHolder") View row = layoutInflater.inflate(R.layout.inspection_row,parent,false);
+        TextView date = row.findViewById(R.id.txtInspName);
+        TextView numCritical = row.findViewById(R.id.txtInspCritNums);
+        TextView numNonCritical = row.findViewById(R.id.txtInspNCrtiNums);
+        TextView hazard = row.findViewById(R.id.txtInspHazLvl);
 
-        //Modify the appropriate layout
+        ImageView hazardLevel = row.findViewById(R.id.imgInspHazIcon);
+
+
+          /*  title.setText(getString(R.string.insp_date_prefix, lastInspec[position]));
+            if(critNum[position] == 1){
+                details1.setText(getString(R.string.insp_crit_postfix,Integer.toString(critNum[position])));
+            } else {
+                details1.setText(getString(R.string.insp_crit_postfix_s,Integer.toString(critNum[position])));
+            }
+            if(nonCritNum[position] == 1){
+                details2.setText(getString(R.string.insp_non_crit_postfix,Integer.toString(nonCritNum[position])));
+            } else {
+                details2.setText(getString(R.string.insp_non_crit_postfix_s,Integer.toString(nonCritNum[position])));
+            }*/
+
         date.setText("Date: " + lastInspec[position]);
         numCritical.setText("Number of critical issue: " + critNum[position]);
         numNonCritical.setText("Number of non-critical issue: " + nonCritNum[position]);
+
+
         hazard.setText(hazardLevels[position].replace("\"", ""));
-        getHazardIcon(hazardLevels[position], hazardLevel);
+
+        getHazardIcon(hazardLevels[position],hazardLevel);
 
         return row;
     }
