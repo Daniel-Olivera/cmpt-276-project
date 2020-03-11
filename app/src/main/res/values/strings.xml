@@ -24,10 +24,10 @@
     <string name="rest_insp_prefix">Past Inspections: </string>
 
     <string name="insp_date_prefix">%1$s</string>
-    <string name="crit_postfix">%1$s critical issue</string>
-    <string name="crit_postfix_s">%1$s critical issues</string>
-    <string name="non_crit_postfix">%1$s non-critical issue</string>
-    <string name="non_crit_postfix_s">%1$s non-critical issues</string>
+    <string name="crit_postfix">%1$s Critical Issue</string>
+    <string name="crit_postfix_s">%1$s Critical Issues</string>
+    <string name="non_crit_postfix">%1$s Non - Critical Issue</string>
+    <string name="non_crit_postfix_s">%1$s Non - Critical Issues</string>
 
     <string name="inspection_report">Inspection Report</string>
     <string name="inspection_type_routine">Inspection Type : Routine</string>
@@ -35,6 +35,7 @@
     <string name="non_critical_issues"># Non - Critical Issues</string>
     <string name="hazard_icon">hazard icon</string>
 
+    <string name="inpect_type_prefix">Inspection Type: %1$s</string>
 
 
 

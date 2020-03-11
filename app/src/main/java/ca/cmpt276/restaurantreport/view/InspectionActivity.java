@@ -13,7 +13,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -93,26 +92,31 @@ public class InspectionActivity extends AppCompatActivity {
 
         //get values of month, day and year of the inspection
         assert inspectionDate != null;
-        int inspectionDay = inspectionDate.getDayOfMonth();
-        int inspectionYear = inspectionDate.getYear();
-        Month inspectionMonth = inspectionDate.getMonth();
+        String inspectionDateFull = inspectionDate.format(DateTimeFormatter.ofPattern("d MMMM yyyy"));
 
         //set the texts for Date, Crit Issues and Non Crit Issues and hazard level
         TextView dateTextView = findViewById(R.id.txtDate);
-        dateTextView.setText("" + inspectionDay +" " + inspectionMonth + " " + inspectionYear);
-        //setText(dateTextView, );
+        dateTextView.setText(inspectionDateFull);
 
         String inspectionType = inspectionList.get(inspectionPosition).getInspectionType().replace("\"", "");
         TextView inspectionTypeTextView = findViewById(R.id.txtInspectionType);
-        inspectionTypeTextView.setText("Inspection Type : " + inspectionType);
+        setText(inspectionTypeTextView, inspectionType);
 
         int criticalIssues = inspectionList.get(inspectionPosition).getNumCritIssues();
         TextView criticalIssuesTextView = findViewById(R.id.txtCriticalIssues);
-        criticalIssuesTextView.setText("" + criticalIssues +" Critical Issues");
+        if(criticalIssues == 1){
+            setText(criticalIssuesTextView, R.string.crit_postfix, criticalIssues);
+        } else {
+            setText(criticalIssuesTextView, R.string.crit_postfix_s, criticalIssues);
+        }
 
         int nonCriticalIssues = inspectionList.get(inspectionPosition).getNumNonCritIssues();
         TextView nonCriticalIssuesTextView = findViewById(R.id.txtNonCriticalIssues);
-        nonCriticalIssuesTextView.setText("" + nonCriticalIssues +" Non-Critical Issues");
+        if(nonCriticalIssues == 1){
+            setText(nonCriticalIssuesTextView, R.string.non_crit_postfix,nonCriticalIssues);
+        } else {
+            setText(nonCriticalIssuesTextView,R.string.non_crit_postfix_s,nonCriticalIssues);
+        }
 
         String hazardLevel = inspectionList.get(inspectionPosition).getHazardRating().replace("\"","");
         TextView hazardLevelTextView = findViewById(R.id.txtHazardLevel);
@@ -206,12 +210,11 @@ public class InspectionActivity extends AppCompatActivity {
         });
     }
 
-    private void setText(TextView textBox, int stringResID, int day, int year, Month month){
-        //textBox.setText(getString(, arrayItem));
+    private void setText(TextView textBox, int stringResID, int item ){
+        textBox.setText(getString(stringResID, Integer.toString(item)));
     }
 
-    private void setText(TextView textBox, int stringResID, int arrayItem ){
-        textBox.setText(getString(stringResID, Integer.toString(arrayItem)));
+    private void setText(TextView textBox, String item){
+        textBox.setText(getString(R.string.inpect_type_prefix, item));
     }
-
 }
