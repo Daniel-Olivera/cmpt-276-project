@@ -35,7 +35,7 @@
     <string name="non_critical_issues"># Non - Critical Issues</string>
     <string name="hazard_icon">hazard icon</string>
 
-    <string name="inpect_type_prefix">Inspection Type: %1$s</string>
+    <string name="inpect_type_prefix">%1$s Inspection</string>
 
 
 
