@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -103,8 +102,7 @@ public class RestaurantActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Restaurant restaurantClicked = restaurant;
-                String trackingNumber = restaurantClicked.getTrackingNum();
+                String trackingNumber = restaurant.getTrackingNum();
                 Intent intent = InspectionActivity.makeIntent(RestaurantActivity.this,trackingNumber,position);
                 startActivity(intent);
             }
