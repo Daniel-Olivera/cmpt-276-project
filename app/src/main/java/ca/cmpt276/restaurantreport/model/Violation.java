@@ -24,10 +24,6 @@ public class Violation {
         this.violationCriticality = violationCriticality;
     }
 
-    public String getViolationDescriptor() {
-        return violationDescriptor;
-    }
-
     void setViolationDescriptor(String violationDescriptor) {
         this.violationDescriptor = violationDescriptor;
     }

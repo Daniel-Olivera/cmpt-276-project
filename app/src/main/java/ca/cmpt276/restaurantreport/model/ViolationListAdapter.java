@@ -67,7 +67,7 @@ public class ViolationListAdapter extends ArrayAdapter<String> {
         }
     }
 
-    //Icons used below from https://www.flaticon.com/
+
     private void setViolationNatureIcon(int violationCode, ImageView violationNature) {
         if((violationCode > 100) && (violationCode < 105)){
             violationNature.setImageResource(R.drawable.premise_coloured);

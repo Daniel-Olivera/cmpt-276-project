@@ -114,14 +114,10 @@ public class RestaurantManager implements Iterable<Restaurant> {
         }
     }
 
-    // reads the inspectionreports_itr1 and instantiates new inspection with the data read
-    // also reads the separated_values_2 file containing only the violations and adds the violations to the respective inspections in the inspectionList
-    // Finally it adds the inspection to the respective restaurants in our restaurantList
     private void readInspectionData() {
 
         List<Inspection> inspectionList = new ArrayList<>(); //temporary inspectionList
 
-        //reading from the inspectionreports_itr1 and adding inspection to the temporary inspectionList above
         InputStream isInspection = context.getResources().openRawResource(R.raw.inspectionreports_itr1);
         BufferedReader inspectionReader = new BufferedReader(
                 new InputStreamReader(isInspection, StandardCharsets.UTF_8)
@@ -132,7 +128,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
             while ((line = inspectionReader.readLine()) != null) {
                 String [] tokens = line.split(",");
 
-                //Inspection(String trackingNum,int date, String inspectionType,int numCritIssues, int numNonCritIssues, String hazardRating)
                 inspectionList.add(new Inspection(
                         tokens[0],
                         Integer.parseInt(tokens[1]),
@@ -167,18 +162,18 @@ public class RestaurantManager implements Iterable<Restaurant> {
 
                     Violation newViolation = new Violation();
                     int i = 0;
-                    for(String v: tokens2) {
+                    for(String violationString: tokens2) {
                         switch (i) {
                             case 0:
-                                newViolation.setViolationCode(v);
+                                newViolation.setViolationCode(violationString);
                                 i++;
                                 break;
                             case 1:
-                                newViolation.setViolationCriticality(v);
+                                newViolation.setViolationCriticality(violationString);
                                 i++;
                                 break;
                             case 2:
-                                newViolation.setViolationDescriptor(v);
+                                newViolation.setViolationDescriptor(violationString);
                                 i++;
                                 break;
                             default:

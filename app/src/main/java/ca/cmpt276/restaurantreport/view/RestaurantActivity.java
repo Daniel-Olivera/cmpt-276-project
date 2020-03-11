@@ -40,12 +40,10 @@ public class RestaurantActivity extends AppCompatActivity {
         setContentView(R.layout.activity_restaurant);
         manager = RestaurantManager.getInstance(this);
 
-        // get Restaurant name and total issues
         Intent intent = getIntent();
         resName = intent.getStringExtra("resName");
         totalIssues = Integer.parseInt(Objects.requireNonNull(intent.getStringExtra("totalIssues")));
 
-        //get restaurant details
         List<Restaurant> listRes = manager.getRestaurants();
         int index = 0;
         for (int i = 0 ; i < listRes.size();i++)
@@ -68,23 +66,22 @@ public class RestaurantActivity extends AppCompatActivity {
         decimalFormat.setMaximumFractionDigits(340);
         // parse out the double quote
         String addr = manager.get(index).getPhysicalAddr().replace("\"", "");
-        TextView textView = findViewById(R.id.toolbar_title);
-        textView.setText(resName);
-        TextView address = findViewById(R.id.txtAddress);
-        address.setText(getString(R.string.rest_addr_prefix, addr));
-        TextView latitude = findViewById(R.id.txtLattitude);
-        latitude.setText(getString(R.string.rest_lat_prefix, Double.toString(manager.get(index).getLatitude())));
-        TextView longitude = findViewById(R.id.txtLongtitude);
-        longitude.setText(getString(R.string.rest_long_prefix, Double.toString(manager.get(index).getLongitude())));
-        TextView inspection = findViewById(R.id.txtInspHeader);
-        inspection.setText(R.string.rest_insp_prefix);
+        TextView toolbar_title = findViewById(R.id.toolbar_title);
+        toolbar_title.setText(resName);
+        TextView txtAddress = findViewById(R.id.txtAddress);
+        txtAddress.setText(getString(R.string.rest_addr_prefix, addr));
+        TextView txtLattitude = findViewById(R.id.txtLattitude);
+        txtLattitude.setText(getString(R.string.rest_lat_prefix, Double.toString(manager.get(index).getLatitude())));
+        TextView txtLongtitude = findViewById(R.id.txtLongtitude);
+        txtLongtitude.setText(getString(R.string.rest_long_prefix, Double.toString(manager.get(index).getLongitude())));
+        TextView txtInspHeader = findViewById(R.id.txtInspHeader);
+        txtInspHeader.setText(R.string.rest_insp_prefix);
 
         List<Inspection> inspectionList = manager.get(index).getInspections();
 
         //Sort the inspection list according to date
         Collections.sort(inspectionList,Collections.reverseOrder());
 
-        // Adding values to appropriate
         int []critIssue  = new int [inspectionList.size()];
         int []nonCritIssue = new int [inspectionList.size()];
         String[]lastInspec =  new String[inspectionList.size()];
@@ -97,7 +94,6 @@ public class RestaurantActivity extends AppCompatActivity {
             lastInspec[i]=inspectionList.get(i).dayFromLastInspection();
             hazardLevel[i]=inspectionList.get(i).getHazardRating();
         }
-        // Setting hazard level
         ListView listView;
 
         listView = findViewById(R.id.lstInspections);

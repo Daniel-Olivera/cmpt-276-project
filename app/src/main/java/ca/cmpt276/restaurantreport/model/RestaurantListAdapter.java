@@ -45,15 +45,16 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+
         //Sets up which layout is being modified
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         assert layoutInflater != null;
         @SuppressLint("ViewHolder") View row = layoutInflater.inflate(R.layout.list_row, parent, false);
 
-        TextView resName = row.findViewById(R.id.txtRestaurantName);
-        TextView resIssues = row.findViewById(R.id.txtNumOfIssues);
-        TextView resDate = row.findViewById(R.id.txtInspectionDate);
-        TextView resHaz = row.findViewById(R.id.txtHazardLevel);
+        TextView txtRestaurantName = row.findViewById(R.id.txtRestaurantName);
+        TextView txtNumOfIssues = row.findViewById(R.id.txtNumOfIssues);
+        TextView txtInspectionDate = row.findViewById(R.id.txtInspectionDate);
+        TextView txtHazardLevel = row.findViewById(R.id.txtHazardLevel);
 
         ImageView hazIcon = row.findViewById(R.id.imgHazardIcon);
 
@@ -74,10 +75,10 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
         String hazardText = currentRestaurant.getLatestInspectionHazard();
 
         //set the texts with the right parameters
-        resName.setText(currentRestaurant.getName().replace("\"", ""));
-        resIssues.setText(issuesFound);
-        resDate.setText(inspectDate);
-        resHaz.setText(hazardText.replace("\"",""));
+        txtRestaurantName.setText(currentRestaurant.getName().replace("\"", ""));
+        txtNumOfIssues.setText(issuesFound);
+        txtInspectionDate.setText(inspectDate);
+        txtHazardLevel.setText(hazardText.replace("\"",""));
 
         //changes the hazard icon based on the hazard level
         getHazardIcon(hazardText,hazIcon);

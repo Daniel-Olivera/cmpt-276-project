@@ -19,7 +19,7 @@ public class Restaurant {
     private double latitude;
     private double longitude;
 
-    private List<Inspection> Inspections;
+    private List<Inspection> Inspections = new ArrayList<>();
 
     public Restaurant(String trackingNum, String Name, String physicalAddr, String physicalCity,String facType,double latitude, double longitude) {
 
@@ -30,8 +30,6 @@ public class Restaurant {
         this.facType = facType;
         this.latitude = latitude;
         this.longitude = longitude;
-
-        Inspections = new ArrayList<>();
     }
 
     public Restaurant() {
@@ -50,48 +48,16 @@ public class Restaurant {
         return physicalAddr;
     }
 
-    public void setPhysicalAddr(String physicalAddr) {
-        this.physicalAddr = physicalAddr;
-    }
-
-    public String getPhysicalCity() {
-        return physicalCity;
-    }
-
-    public void setPhysicalCity(String physicalCity) {
-        this.physicalCity = physicalCity;
-    }
-
     public double getLongitude() {
         return longitude;
-    }
-
-    public void setLongitude(int longitude) {
-        this.longitude = longitude;
     }
 
     public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(int latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getFacType() {
-        return facType;
-    }
-
-    public void setFacType(String facType) {
-        this.facType = facType;
-    }
-
     public String getTrackingNum() {
         return this.trackingNum;
-    }
-
-    public void setTrackingNum(String trackingNum) {
-        this.trackingNum = trackingNum;
     }
 
     public void addInspection(Inspection inspection) {
@@ -102,7 +68,6 @@ public class Restaurant {
         return Inspections;
     }
 
-    //gets the hazard level from the most recent inspection
     String getLatestInspectionHazard() {
 
         int mostRecentInspectionDate = 0;
@@ -118,13 +83,10 @@ public class Restaurant {
         return result;
     }
 
-    //gets the date of the most recent inspection
     int getLatestInspectionDate(){
 
         int mostRecentInspectionDate = 0;
         int result = 0;
-
-        //date with a higher "number" is more recent (i.e. 2019 > 2018)
         for (int i = 0; i < Inspections.size(); i++){
             if(Inspections.get(i).getDate() > mostRecentInspectionDate){
                 mostRecentInspectionDate = Inspections.get(i).getDate();
@@ -134,20 +96,5 @@ public class Restaurant {
         }
 
         return result;
-    }
-
-    @NonNull //Remove if nullable
-    @Override
-    public String toString() {
-        return "Restaurant{" +
-                "trackingNum='" + trackingNum + '\'' +
-                ", Name='" + Name + '\'' +
-                ", physicalAddr='" + physicalAddr + '\'' +
-                ", physicalCity='" + physicalCity + '\'' +
-                ", facType='" + facType + '\'' +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
-                ", Inspections=" + Inspections +
-                '}';
     }
 }
