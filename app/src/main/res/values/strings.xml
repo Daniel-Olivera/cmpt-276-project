@@ -29,10 +29,10 @@
     <string name="non_crit_postfix">%1$s non-critical issue</string>
     <string name="non_crit_postfix_s">%1$s non-critical issues</string>
 
-    <string name="non_critical_issues"># Non - Critical Issues</string>
     <string name="inspection_report">Inspection Report</string>
     <string name="inspection_type_routine">Inspection Type : Routine</string>
     <string name="critical_issues"># Critical Issues</string>
+    <string name="non_critical_issues"># Non - Critical Issues</string>
     <string name="hazard_icon">hazard icon</string>
 
 

@@ -57,8 +57,6 @@ public class InspectionActivity extends AppCompatActivity {
 
         updateUI();
         setupListView();
-
-
     }
 
     //Displays the Date, number of Critical and non-Critical issues and hazard Level
@@ -102,6 +100,7 @@ public class InspectionActivity extends AppCompatActivity {
         //set the texts for Date, Crit Issues and Non Crit Issues and hazard level
         TextView dateTextView = findViewById(R.id.txtDate);
         dateTextView.setText("" + inspectionDay +" " + inspectionMonth + " " + inspectionYear);
+        //setText(dateTextView, );
 
         String inspectionType = inspectionList.get(inspectionPosition).getInspectionType().replace("\"", "");
         TextView inspectionTypeTextView = findViewById(R.id.txtInspectionType);
@@ -117,7 +116,7 @@ public class InspectionActivity extends AppCompatActivity {
 
         String hazardLevel = inspectionList.get(inspectionPosition).getHazardRating().replace("\"","");
         TextView hazardLevelTextView = findViewById(R.id.txtHazardLevel);
-        hazardLevelTextView.setText("" + hazardLevel);
+        hazardLevelTextView.setText(hazardLevel);
 
         ImageView hazardLevelIcon = findViewById(R.id.imgHazardIcon);
         switch(hazardLevel){
@@ -205,6 +204,14 @@ public class InspectionActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void setText(TextView textBox, int stringResID, int day, int year, Month month){
+        //textBox.setText(getString(, arrayItem));
+    }
+
+    private void setText(TextView textBox, int stringResID, int arrayItem ){
+        textBox.setText(getString(stringResID, Integer.toString(arrayItem)));
     }
 
 }
