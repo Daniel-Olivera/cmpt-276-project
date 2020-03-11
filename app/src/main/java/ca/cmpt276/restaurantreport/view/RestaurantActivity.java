@@ -59,7 +59,7 @@ public class RestaurantActivity extends AppCompatActivity {
                 }
             }
         }
-        Restaurant restaurant = manager.get(index);
+        final Restaurant restaurant = manager.get(index);
         DecimalFormat decimalFormat = new DecimalFormat("0",DecimalFormatSymbols.getInstance(Locale.ENGLISH));
         decimalFormat.setMaximumFractionDigits(340);
         // parse out the double quote
@@ -103,22 +103,10 @@ public class RestaurantActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position ==0)
-                {
-                    Toast.makeText(RestaurantActivity.this,"clickedd hahahaha",Toast.LENGTH_SHORT).show();
-                }
-                if(position ==0)
-                {
-                    Toast.makeText(RestaurantActivity.this,"123 hahahaha",Toast.LENGTH_SHORT).show();
-                }
-                if(position ==0)
-                {
-                    Toast.makeText(RestaurantActivity.this,"456  hahahaha",Toast.LENGTH_SHORT).show();
-                }
-                if(position ==0)
-                {
-                    Toast.makeText(RestaurantActivity.this,"789 hahahaha",Toast.LENGTH_SHORT).show();
-                }
+                Restaurant restaurantClicked = restaurant;
+                String trackingNumber = restaurantClicked.getTrackingNum();
+                Intent intent = InspectionActivity.makeIntent(RestaurantActivity.this,trackingNumber,position);
+                startActivity(intent);
             }
         });
 
