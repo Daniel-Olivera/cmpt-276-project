@@ -18,14 +18,12 @@ import ca.cmpt276.restaurantreport.R;
 
 public class ViolationListAdapter extends ArrayAdapter<String> {
 
-    Context context;
-    int [] violationCodes;
-    String[] shortDescriptions;
-    String [] violationCriticalities;
+    private int [] violationCodes;
+    private String[] shortDescriptions;
+    private String [] violationCriticalities;
 
     public ViolationListAdapter(@NonNull Context context, int [] violationCodes, String[] shortDescriptions, String[] violationCriticalities) {
         super(context, R.layout.violation_row,R.id.txtShortDescription,shortDescriptions);
-        this.context = context;
         this.violationCodes = violationCodes;
         this.shortDescriptions = shortDescriptions;
         this.violationCriticalities = violationCriticalities;
