@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import ca.cmpt276.restaurantreport.R;
@@ -35,16 +37,25 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupListView(RestaurantManager manager){
 
-        List<Restaurant> restaurants = manager.getRestaurants();
-        String[] restTitles = new String[restaurants.size()];
+        List<Restaurant> allRestaurantsList = manager.getRestaurants();
+
+        //Sorts all the restaurants by name
+        Collections.sort(allRestaurantsList, new Comparator<Restaurant>() {
+            @Override
+            public int compare(Restaurant firstRes, Restaurant nextRes) {
+                return firstRes.getName().compareTo(nextRes.getName());
+            }
+        });
+
+        String[] restTitles = new String[allRestaurantsList.size()];
 
         //the adapter constructor requires a string array to work
         for(int i = 0; i < restTitles.length; i++){
-           restTitles[i] = restaurants.get(i).getName();
+           restTitles[i] = allRestaurantsList.get(i).getName();
         }
 
         //setup the adapter for the list view
-        RestaurantListAdapter adapter = new RestaurantListAdapter(this, restaurants, restTitles);
+        RestaurantListAdapter adapter = new RestaurantListAdapter(this, allRestaurantsList, restTitles);
         ListView listView = findViewById(R.id.listRestaurant);
         listView.setAdapter(adapter);
 
