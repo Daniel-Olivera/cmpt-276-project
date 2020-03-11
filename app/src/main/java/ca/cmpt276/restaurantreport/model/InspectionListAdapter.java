@@ -19,16 +19,14 @@ most of the code was learned/taken from:
 https://www.youtube.com/watch?v=5Tm--PHhbJo
 */
 public class InspectionListAdapter extends ArrayAdapter<String> {
-    Context context;
-    int critNum[];
-    int nonCritNum[];
-    String lastInspec[];
-    String hazardLevels[];
+    private int[] critNum;
+    private int[] nonCritNum;
+    private String[] lastInspec;
+    private String[] hazardLevels;
 
 
-    public InspectionListAdapter(Context c, int critNum[], int nonCritNum[], String lastInspec[], String hazardLevel[]) {
+    public InspectionListAdapter(Context c, int[] critNum, int[] nonCritNum, String[] lastInspec, String[] hazardLevel) {
         super(c, R.layout.inspection_row, R.id.txtInspCritNums, lastInspec);
-        this.context = c;
         this.critNum = critNum;
         this.nonCritNum = nonCritNum;
         this.lastInspec = lastInspec;
@@ -48,23 +46,17 @@ public class InspectionListAdapter extends ArrayAdapter<String> {
 
         ImageView hazardLevel = row.findViewById(R.id.imgInspHazIcon);
 
-
-          /*  title.setText(getString(R.string.insp_date_prefix, lastInspec[position]));
+            setText(date, lastInspec[position]);
             if(critNum[position] == 1){
-                details1.setText(getString(R.string.insp_crit_postfix,Integer.toString(critNum[position])));
+                setText(numCritical, R.string.insp_crit_postfix, critNum[position]);
             } else {
-                details1.setText(getString(R.string.insp_crit_postfix_s,Integer.toString(critNum[position])));
+                setText(numCritical, R.string.insp_crit_postfix_s, critNum[position]);
             }
             if(nonCritNum[position] == 1){
-                details2.setText(getString(R.string.insp_non_crit_postfix,Integer.toString(nonCritNum[position])));
+                setText(numNonCritical, R.string.insp_non_crit_postfix,nonCritNum[position]);
             } else {
-                details2.setText(getString(R.string.insp_non_crit_postfix_s,Integer.toString(nonCritNum[position])));
-            }*/
-
-        date.setText("Date: " + lastInspec[position]);
-        numCritical.setText("Number of critical issue: " + critNum[position]);
-        numNonCritical.setText("Number of non-critical issue: " + nonCritNum[position]);
-
+                setText(numNonCritical,R.string.insp_non_crit_postfix_s,nonCritNum[position]);
+            }
 
         hazard.setText(hazardLevels[position].replace("\"", ""));
 
@@ -73,6 +65,13 @@ public class InspectionListAdapter extends ArrayAdapter<String> {
         return row;
     }
 
+    private void setText(TextView textBox, String arrayItem){
+        textBox.setText(getContext().getString(R.string.insp_date_prefix, arrayItem));
+    }
+
+    private void setText(TextView textBox, int stringResID, int arrayItem ){
+        textBox.setText(getContext().getString(stringResID, Integer.toString(arrayItem)));
+    }
 
     private void getHazardIcon(String hazardLevel, ImageView icon) {
         switch (hazardLevel) {
