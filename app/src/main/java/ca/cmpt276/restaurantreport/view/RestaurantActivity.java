@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -156,14 +155,14 @@ public class RestaurantActivity extends AppCompatActivity {
 
             title.setText(getString(R.string.insp_date_prefix, lastInspec[position]));
             if(critNum[position] == 1){
-                details1.setText(getString(R.string.insp_crit_postfix,Integer.toString(critNum[position])));
+                details1.setText(getString(R.string.crit_postfix,Integer.toString(critNum[position])));
             } else {
-                details1.setText(getString(R.string.insp_crit_postfix_s,Integer.toString(critNum[position])));
+                details1.setText(getString(R.string.crit_postfix_s,Integer.toString(critNum[position])));
             }
             if(nonCritNum[position] == 1){
-                details2.setText(getString(R.string.insp_non_crit_postfix,Integer.toString(nonCritNum[position])));
+                details2.setText(getString(R.string.non_crit_postfix,Integer.toString(nonCritNum[position])));
             } else {
-                details2.setText(getString(R.string.insp_non_crit_postfix_s,Integer.toString(nonCritNum[position])));
+                details2.setText(getString(R.string.non_crit_postfix_s,Integer.toString(nonCritNum[position])));
             }
             hazard.setText(hazardLevels[position].replace("\"", ""));
 
