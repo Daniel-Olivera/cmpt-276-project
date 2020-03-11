@@ -17,7 +17,7 @@ import java.util.Locale;
 
 import ca.cmpt276.restaurantreport.R;
 
-public class Inspection implements Comparable< Inspection > {
+public class Inspection implements Comparable<Inspection> {
 
     private String trackingNum;
 

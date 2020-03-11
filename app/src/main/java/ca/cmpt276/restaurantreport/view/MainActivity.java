@@ -48,11 +48,13 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.listRestaurant);
         listView.setAdapter(adapter);
 
+        //Onclick Event
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String resName = ((TextView) view.findViewById(R.id.txtRestaurantName)).getText().toString();
                 String totalIssues = ((TextView) view.findViewById(R.id.txtNumOfIssues)).getText().toString();
+                //parse out the number part
                 totalIssues = totalIssues.substring(0,totalIssues.indexOf(" "));
                 Intent intent = RestaurantActivity.makeIntent(MainActivity.this,resName,totalIssues);
                 startActivity(intent);
