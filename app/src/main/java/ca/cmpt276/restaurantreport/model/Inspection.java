@@ -17,7 +17,7 @@ import java.util.Locale;
 
 import ca.cmpt276.restaurantreport.R;
 
-public class Inspection implements Comparable< Inspection > {
+public class Inspection implements Comparable<Inspection> {
 
     private String trackingNum;
 
@@ -27,7 +27,8 @@ public class Inspection implements Comparable< Inspection > {
     private int numNonCritIssues;
     private String hazardRating;
 
-    private List<String> violationList;
+    //private List<String> violationList;
+    private List<Violation> ViolationList;
 
     Inspection(String trackingNum,int date, String inspectionType,int numCritIssues, int numNonCritIssues, String hazardRating){
         this.trackingNum = trackingNum;
@@ -37,7 +38,8 @@ public class Inspection implements Comparable< Inspection > {
         this.numNonCritIssues = numNonCritIssues;
         this.hazardRating = hazardRating;
 
-        violationList = new ArrayList<>();
+       // violationList = new ArrayList<>();
+        ViolationList = new ArrayList<>();
     }
 
     String getTrackingNum() {
@@ -92,7 +94,12 @@ public class Inspection implements Comparable< Inspection > {
         this.hazardRating = hazardRating;
     }
 
-    void addViolation(String violation) { violationList.add(violation);}
+    //public void addViolation(String violation) { violationList.add(violation);}
+
+    public void addNewViolation(Violation violation) { ViolationList.add(violation);}
+
+    public List getViolations() {return this.ViolationList;}
+
 
     public String dayFromLastInspection()
     {
@@ -177,9 +184,8 @@ public class Inspection implements Comparable< Inspection > {
                 ", inspectionType='" + inspectionType + '\'' +
                 ", numCritIssues=" + numCritIssues +
                 ", numNonCritIssues=" + numNonCritIssues +
-                ", hazardRating='" + hazardRating + '\'' +
-                ", violationList=" + violationList +
-                '}';
+                ", hazardRating='" + hazardRating + '\''
+                +'}';
     }
     @Override
     public int compareTo(Inspection o) {

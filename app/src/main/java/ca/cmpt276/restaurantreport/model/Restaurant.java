@@ -84,7 +84,7 @@ public class Restaurant {
         this.facType = facType;
     }
 
-    String getTrackingNum() {
+    public String getTrackingNum() {
         return this.trackingNum;
     }
 

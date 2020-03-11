@@ -4,8 +4,11 @@
     <string name="restaurant_name">Restaurant Name</string>
     <string name="issues_found"># Issues Found</string>
     <string name="last_inspected">Last Inspected: </string>
+    <string name="low">low</string>
     <string name="restaurant_icon">Restaurant Icon</string>
-
+    <string name="short_description_of_violaition">Short description of violaition</string>
+    <string name="critical">critical</string>
+    <string name="_07_march_2019">07 March 2019</string>
 
     <string name="placehold_toolbar_title_1">restaurant name</string>
     <string name="placehold_textView">TextView</string>
@@ -19,12 +22,18 @@
     <string name="rest_lat_prefix">Latitude: %1$s</string>
     <string name="rest_long_prefix">Longitude: %1$s</string>
     <string name="rest_insp_prefix">Past Inspections: </string>
-    
-    <string name="insp_date_prefix">Date: %1$s</string>
-    <string name="insp_crit_postfix">%1$s critical issue</string>
-    <string name="insp_crit_postfix_s">%1$s critical issues</string>
-    <string name="insp_non_crit_postfix">%1$s non-critical issue</string>
-    <string name="insp_non_crit_postfix_s">%1$s non-critical issues</string>
 
+    <string name="insp_date_prefix">%1$s</string>
+    <string name="crit_postfix">%1$s Critical Issue</string>
+    <string name="crit_postfix_s">%1$s Critical Issues</string>
+    <string name="non_crit_postfix">%1$s Non - Critical Issue</string>
+    <string name="non_crit_postfix_s">%1$s Non - Critical Issues</string>
 
+    <string name="inspection_report">Inspection Report</string>
+    <string name="inspection_type_routine">Inspection Type : Routine</string>
+    <string name="critical_issues"># Critical Issues</string>
+    <string name="non_critical_issues"># Non - Critical Issues</string>
+    <string name="hazard_icon">hazard icon</string>
+
+    <string name="inpect_type_prefix">%1$s Inspection</string>
 </resources>

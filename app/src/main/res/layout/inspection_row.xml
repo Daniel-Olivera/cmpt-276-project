@@ -6,12 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
 
-    android:padding="16dp">
+    android:padding="5dp">
 
     <LinearLayout
         android:id="@+id/layoutInspRowText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="0dp"
         android:orientation="vertical"
         tools:ignore="UselessParent">
 
@@ -19,20 +20,24 @@
             android:id="@+id/txtInspName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="3dp"
             android:text="@string/placehold_insp_name"
             android:textColor="#000"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/txtInspCritNum"
+            android:id="@+id/txtInspCritNums"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
             android:text="@string/placehold_detail_1"
             android:textColor="#a9a9a9"
-            android:textSize="15sp"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <TextView
@@ -40,20 +45,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginTop="-26dp"
+            android:layout_marginTop="-25dp"
             android:layout_marginEnd="36dp"
             android:text="@string/placehold_haz_lvl"
             android:textColor="#000"
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/txtInspNCrtiNum"
+            android:id="@+id/txtInspNCrtiNums"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="0dp"
             android:text="@string/placehold_detail_2"
             android:textColor="#a9a9a9"
-            android:textSize="15sp"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
 
@@ -62,9 +69,9 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="end"
-            android:layout_marginTop="-60dp"
+            android:layout_marginTop="-50dp"
             android:contentDescription="@string/changeable_icon_for_hazard_level"
-            android:src="@drawable/low"/>
+            android:src="@drawable/low" />
     </LinearLayout>
 
 </LinearLayout>
