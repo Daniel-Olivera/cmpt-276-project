@@ -23,7 +23,7 @@
     <string name="rest_long_prefix">Longitude: %1$s</string>
     <string name="rest_insp_prefix">Past Inspections: </string>
 
-    <string name="insp_date_prefix">Date: %1$s</string>
+    <string name="insp_date_prefix">%1$s</string>
     <string name="crit_postfix">%1$s critical issue</string>
     <string name="crit_postfix_s">%1$s critical issues</string>
     <string name="non_crit_postfix">%1$s non-critical issue</string>
