@@ -33,6 +33,13 @@ public class Violation {
         return violationCriticality.equals("Critical");
     }
 
+    public String getDescription()
+    {
+        return "Violation Code: " + violationCode +"\n\n" +
+                "Critical Level: " + violationCriticality +"\n\n" +
+                "Description: " + violationDescriptor.substring(0,violationDescriptor.indexOf("[")) + "\n";
+
+    }
     @Override
     public String toString() {
         return "Violation{" +
