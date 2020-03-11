@@ -1,7 +1,5 @@
 package ca.cmpt276.restaurantreport.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -102,26 +100,26 @@ public class InspectionActivity extends AppCompatActivity {
         Month inspectionMonth = inspectionDate.getMonth();
 
         //set the texts for Date, Crit Issues and Non Crit Issues and hazard level
-        TextView dateTextView = (TextView) findViewById(R.id.txtDate);
+        TextView dateTextView = findViewById(R.id.txtDate);
         dateTextView.setText("" + inspectionDay +" " + inspectionMonth + " " + inspectionYear);
 
         String inspectionType = inspectionList.get(inspectionPosition).getInspectionType().replace("\"", "");
-        TextView inspectionTypeTextView = (TextView) findViewById(R.id.txtInspectionType);
+        TextView inspectionTypeTextView = findViewById(R.id.txtInspectionType);
         inspectionTypeTextView.setText("Inspection Type : " + inspectionType);
 
         int criticalIssues = inspectionList.get(inspectionPosition).getNumCritIssues();
-        TextView criticalIssuesTextView = (TextView) findViewById(R.id.txtCriticalIssues);
+        TextView criticalIssuesTextView = findViewById(R.id.txtCriticalIssues);
         criticalIssuesTextView.setText("" + criticalIssues +" Critical Issues");
 
         int nonCriticalIssues = inspectionList.get(inspectionPosition).getNumNonCritIssues();
-        TextView nonCriticalIssuesTextView = (TextView) findViewById(R.id.txtNonCriticalIssues);
+        TextView nonCriticalIssuesTextView = findViewById(R.id.txtNonCriticalIssues);
         nonCriticalIssuesTextView.setText("" + nonCriticalIssues +" Non-Critical Issues");
 
         String hazardLevel = inspectionList.get(inspectionPosition).getHazardRating().replace("\"","");
-        TextView hazardLevelTextView = (TextView) findViewById(R.id.txtHazardLevel);
+        TextView hazardLevelTextView = findViewById(R.id.txtHazardLevel);
         hazardLevelTextView.setText("" + hazardLevel);
 
-        ImageView hazardLevelIcon = (ImageView) findViewById(R.id.imgHazardIcon);
+        ImageView hazardLevelIcon = findViewById(R.id.imgHazardIcon);
         switch(hazardLevel){
             case("Low"):
             default:{

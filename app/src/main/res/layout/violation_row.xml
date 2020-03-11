@@ -13,10 +13,13 @@
         android:layout_marginTop="5dp"
         android:contentDescription="@string/restaurant_icon"
         android:src="@drawable/pest"/>
+
     <LinearLayout
+        android:id="@+id/layoutViolationText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="2dp">
 
         <TextView
             android:id="@+id/txtShortDescription"
@@ -45,9 +48,9 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="end"
-            android:layout_marginTop="-35dp"
+            android:layout_marginTop="-40dp"
             android:contentDescription="@string/changeable_icon_for_hazard_level"
-            android:src="@drawable/critical"/>
+            android:src="@drawable/critical" />
 
 
     </LinearLayout>

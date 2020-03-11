@@ -7,7 +7,7 @@
     tools:context=".view.InspectionActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar2"
+        android:id="@+id/toolbarInspection"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
@@ -28,9 +28,9 @@
             android:textColor="#ffffff"
             android:textSize="26sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/toolbar2"
+            app:layout_constraintBottom_toBottomOf="@+id/toolbarInspection"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/toolbar2"
+            app:layout_constraintStart_toStartOf="@+id/toolbarInspection"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.appcompat.widget.Toolbar>
 
@@ -44,7 +44,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarInspection" />
 
     <TextView
         android:id="@+id/txtInspectionType"
@@ -63,67 +63,63 @@
         android:id="@+id/txtCriticalIssues"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/critical_issues"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/txtInspectionType"
         app:layout_constraintTop_toBottomOf="@+id/txtInspectionType" />
 
     <TextView
         android:id="@+id/txtNonCriticalIssues"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/non_critical_issues"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/txtCriticalIssues"
         app:layout_constraintTop_toBottomOf="@+id/txtCriticalIssues" />
 
     <TextView
         android:id="@+id/txtHazardLevel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
-        android:layout_marginEnd="104dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/low"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/txtDate" />
+        app:layout_constraintBottom_toBottomOf="@+id/imgHazardIcon"
+        app:layout_constraintEnd_toStartOf="@+id/imgHazardIcon"
+        app:layout_constraintTop_toTopOf="@+id/imgHazardIcon" />
 
     <ImageView
         android:id="@+id/imgHazardIcon"
         android:layout_width="40dp"
         android:layout_height="59dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="36dp"
+        android:layout_marginEnd="24dp"
         android:contentDescription="@string/hazard_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/txtNonCriticalIssues"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.368"
-        app:layout_constraintStart_toEndOf="@+id/txtHazardLevel"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
+        app:layout_constraintTop_toTopOf="@+id/txtInspectionType"
         app:srcCompat="@drawable/low" />
 
     <View
         android:id="@+id/divider"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="2dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtNonCriticalIssues" />
 
     <LinearLayout
-        android:layout_width="391dp"
-        android:layout_height="493dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="25dp"
+        android:id="@+id/layoutVioListWrapper"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
