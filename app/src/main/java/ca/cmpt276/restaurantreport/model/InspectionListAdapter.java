@@ -18,6 +18,11 @@ import ca.cmpt276.restaurantreport.R;
 most of the code was learned/taken from:
 https://www.youtube.com/watch?v=5Tm--PHhbJo
 */
+/*
+This class is used for putting data about each inspection
+to a Linear Layout that show all the inspection of a restaurant
+*/
+
 public class InspectionListAdapter extends ArrayAdapter<String> {
     private int[] critNum;
     private int[] nonCritNum;

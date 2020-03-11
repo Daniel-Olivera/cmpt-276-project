@@ -2,9 +2,7 @@ package ca.cmpt276.restaurantreport.model;
 
 import android.util.Log;
 import android.widget.ImageView;
-
 import androidx.annotation.NonNull;
-
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
@@ -14,8 +12,12 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
-
 import ca.cmpt276.restaurantreport.R;
+
+/*
+This class store all data about each Inspection of the restaurants in the
+data base
+ */
 
 public class Inspection implements Comparable<Inspection> {
 

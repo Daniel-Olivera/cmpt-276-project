@@ -17,6 +17,11 @@ import java.util.Objects;
 
 import ca.cmpt276.restaurantreport.R;
 
+/*
+This class is a singleton that store all the Restaurant as
+a list and can be call in every Activity to get all the data
+in the database
+ */
 public class RestaurantManager implements Iterable<Restaurant> {
 
     private List<Restaurant> restaurantList;

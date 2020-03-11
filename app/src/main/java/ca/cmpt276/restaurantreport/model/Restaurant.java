@@ -1,10 +1,12 @@
 package ca.cmpt276.restaurantreport.model;
 
 import androidx.annotation.NonNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+This class store data of every Restaurant in the database
+ */
 public class Restaurant {
 
     private String trackingNum;

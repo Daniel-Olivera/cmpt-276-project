@@ -15,8 +15,10 @@ import androidx.annotation.Nullable;
 import java.util.Objects;
 
 import ca.cmpt276.restaurantreport.R;
+
 /*
- //Icons used below from https://www.flaticon.com/
+This class is used for putting data about each violation
+to a Linear Layout that show all the violation of a Inspection
  */
 public class ViolationListAdapter extends ArrayAdapter<String> {
 
