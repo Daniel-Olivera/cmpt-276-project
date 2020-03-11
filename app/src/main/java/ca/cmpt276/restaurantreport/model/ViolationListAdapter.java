@@ -15,7 +15,9 @@ import androidx.annotation.Nullable;
 import java.util.Objects;
 
 import ca.cmpt276.restaurantreport.R;
-
+/*
+ //Icons used below from https://www.flaticon.com/
+ */
 public class ViolationListAdapter extends ArrayAdapter<String> {
 
     private int [] violationCodes;
@@ -63,7 +65,7 @@ public class ViolationListAdapter extends ArrayAdapter<String> {
         }
     }
 
-    //Icons used below from https://www.flaticon.com/
+
     private void setViolationNatureIcon(int violationCode, ImageView violationNature) {
         if((violationCode > 100) && (violationCode < 105)){
             violationNature.setImageResource(R.drawable.premise_coloured);

@@ -78,10 +78,8 @@ public class InspectionActivity extends AppCompatActivity {
 
         int date = inspectionList.get(inspectionPosition).getDate();
 
-        //convert the inspection date to string
         String dateOfInspection = Integer.toString(date);
 
-        //format the inspection date
         LocalDate inspectionDate = null;
         try {
             inspectionDate = LocalDate.parse(dateOfInspection, DateTimeFormatter.BASIC_ISO_DATE);
@@ -95,46 +93,46 @@ public class InspectionActivity extends AppCompatActivity {
         String inspectionDateFull = inspectionDate.format(DateTimeFormatter.ofPattern("d MMMM yyyy"));
 
         //set the texts for Date, Crit Issues and Non Crit Issues and hazard level
-        TextView dateTextView = findViewById(R.id.txtDate);
-        dateTextView.setText(inspectionDateFull);
+        TextView txtDate = findViewById(R.id.txtDate);
+        txtDate.setText(inspectionDateFull);
 
         String inspectionType = inspectionList.get(inspectionPosition).getInspectionType().replace("\"", "");
-        TextView inspectionTypeTextView = findViewById(R.id.txtInspectionType);
-        setText(inspectionTypeTextView, inspectionType);
+        TextView txtInspectionType = findViewById(R.id.txtInspectionType);
+        setText(txtInspectionType, inspectionType);
 
         int criticalIssues = inspectionList.get(inspectionPosition).getNumCritIssues();
-        TextView criticalIssuesTextView = findViewById(R.id.txtCriticalIssues);
+        TextView txtCriticalIssues = findViewById(R.id.txtCriticalIssues);
         if(criticalIssues == 1){
-            setText(criticalIssuesTextView, R.string.crit_postfix, criticalIssues);
+            setText(txtCriticalIssues, R.string.crit_postfix, criticalIssues);
         } else {
-            setText(criticalIssuesTextView, R.string.crit_postfix_s, criticalIssues);
+            setText(txtCriticalIssues, R.string.crit_postfix_s, criticalIssues);
         }
 
         int nonCriticalIssues = inspectionList.get(inspectionPosition).getNumNonCritIssues();
-        TextView nonCriticalIssuesTextView = findViewById(R.id.txtNonCriticalIssues);
+        TextView txtNonCriticalIssues = findViewById(R.id.txtNonCriticalIssues);
         if(nonCriticalIssues == 1){
-            setText(nonCriticalIssuesTextView, R.string.non_crit_postfix,nonCriticalIssues);
+            setText(txtNonCriticalIssues, R.string.non_crit_postfix,nonCriticalIssues);
         } else {
-            setText(nonCriticalIssuesTextView,R.string.non_crit_postfix_s,nonCriticalIssues);
+            setText(txtNonCriticalIssues,R.string.non_crit_postfix_s,nonCriticalIssues);
         }
 
         String hazardLevel = inspectionList.get(inspectionPosition).getHazardRating().replace("\"","");
-        TextView hazardLevelTextView = findViewById(R.id.txtHazardLevel);
-        hazardLevelTextView.setText(hazardLevel);
+        TextView txtHazardLevel = findViewById(R.id.txtHazardLevel);
+        txtHazardLevel.setText(hazardLevel);
 
-        ImageView hazardLevelIcon = findViewById(R.id.imgHazardIcon);
+        ImageView imgHazardIcon = findViewById(R.id.imgHazardIcon);
         switch(hazardLevel){
             case("Low"):
             default:{
-                hazardLevelIcon.setImageResource(R.drawable.low);
+                imgHazardIcon.setImageResource(R.drawable.low);
                 break;
             }
             case("Moderate"):{
-                hazardLevelIcon.setImageResource(R.drawable.medium);
+                imgHazardIcon.setImageResource(R.drawable.medium);
                 break;
             }
             case("High"):{
-                hazardLevelIcon.setImageResource(R.drawable.high);
+                imgHazardIcon.setImageResource(R.drawable.high);
                 break;
             }
         }
@@ -184,7 +182,6 @@ public class InspectionActivity extends AppCompatActivity {
             shortViolationList.add(shortViolation);
         }
 
-        //Required arrays for use in the ListView
         int [] violationCodes = new int[violationList.size()];
         String[] shortDescription = new String[violationList.size()];
         String [] violationCriticalities = new String[violationList.size()];

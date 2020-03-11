@@ -21,24 +21,8 @@ public class Violation {
         this.violationCriticality = violationCriticality;
     }
 
-    public String getViolationDescriptor() {
-        return violationDescriptor;
-    }
-
     void setViolationDescriptor(String violationDescriptor) {
         this.violationDescriptor = violationDescriptor;
     }
 
-    public boolean isCritical(){
-        return violationCriticality.equals("Critical");
-    }
-
-    @Override
-    public String toString() {
-        return "Violation{" +
-                "violationCode='" + violationCode + '\'' +
-                ", violationCriticality='" + violationCriticality + '\'' +
-                ", violationDescriptor='" + violationDescriptor + '\'' +
-                '}';
-    }
 }

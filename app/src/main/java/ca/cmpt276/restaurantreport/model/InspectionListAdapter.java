@@ -38,28 +38,28 @@ public class InspectionListAdapter extends ArrayAdapter<String> {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         assert layoutInflater != null;
         @SuppressLint("ViewHolder") View row = layoutInflater.inflate(R.layout.inspection_row,parent,false);
-        TextView date = row.findViewById(R.id.txtInspName);
-        TextView numCritical = row.findViewById(R.id.txtInspCritNums);
-        TextView numNonCritical = row.findViewById(R.id.txtInspNCrtiNums);
-        TextView hazard = row.findViewById(R.id.txtInspHazLvl);
+        TextView txtInspName = row.findViewById(R.id.txtInspName);
+        TextView txtInspCritNums = row.findViewById(R.id.txtInspCritNums);
+        TextView txtInspNCrtiNums = row.findViewById(R.id.txtInspNCrtiNums);
+        TextView txtInspHazLvl = row.findViewById(R.id.txtInspHazLvl);
 
-        ImageView hazardLevel = row.findViewById(R.id.imgInspHazIcon);
+        ImageView imgInspHazIcon = row.findViewById(R.id.imgInspHazIcon);
 
-            setText(date, lastInspec[position]);
+            setText(txtInspName, lastInspec[position]);
             if(critNum[position] == 1){
-                setText(numCritical, R.string.crit_postfix, critNum[position]);
+                setText(txtInspCritNums, R.string.crit_postfix, critNum[position]);
             } else {
-                setText(numCritical, R.string.crit_postfix_s, critNum[position]);
+                setText(txtInspCritNums, R.string.crit_postfix_s, critNum[position]);
             }
             if(nonCritNum[position] == 1){
-                setText(numNonCritical, R.string.non_crit_postfix,nonCritNum[position]);
+                setText(txtInspNCrtiNums, R.string.non_crit_postfix,nonCritNum[position]);
             } else {
-                setText(numNonCritical,R.string.non_crit_postfix_s,nonCritNum[position]);
+                setText(txtInspNCrtiNums,R.string.non_crit_postfix_s,nonCritNum[position]);
             }
 
-        hazard.setText(hazardLevels[position].replace("\"", ""));
+        txtInspHazLvl.setText(hazardLevels[position].replace("\"", ""));
 
-        getHazardIcon(hazardLevels[position],hazardLevel);
+        getHazardIcon(hazardLevels[position],imgInspHazIcon);
 
         return row;
     }
