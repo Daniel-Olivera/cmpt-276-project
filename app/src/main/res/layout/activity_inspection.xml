@@ -85,6 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:text="@string/low"
+        android:textColor="@android:color/primary_text_light"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imgHazardIcon"
