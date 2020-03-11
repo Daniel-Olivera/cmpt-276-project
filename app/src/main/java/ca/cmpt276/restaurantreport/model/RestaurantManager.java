@@ -11,7 +11,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -21,9 +20,7 @@ import ca.cmpt276.restaurantreport.R;
 public class RestaurantManager implements Iterable<Restaurant> {
 
     private List<Restaurant> restaurantList;
-
     private List<ShortViolation> shortViolationList;
-
     private Context context;
 
     //constructor with context of an activity passed because we need the context when we want to access the data files to read from
@@ -78,8 +75,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
     public Iterator<Restaurant> iterator() {
         return restaurantList.iterator();
     }
-
-
 
     //method for reading the restaurant_itr1 file containing the restaurant details
     // and populating the restaurantList
@@ -147,7 +142,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
             e.printStackTrace();
         }
 
-
         //reading violations from the separated_values_2 file and adding the violations to the inspections in the above inspectionList
         InputStream isViolation = context.getResources().openRawResource(R.raw.separated_values_2);
         BufferedReader violationReader = new BufferedReader(
@@ -197,16 +191,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
             Log.e("Violation Data", "Error Reading Data File on Line" + line,e);
             e.printStackTrace();
         }
-
-        //debugging purposes
-       /* for(Restaurant r: restaurantList) {
-            System.out.println("Restaurant list before" + r);
-        }
-
-        //debugging purposes prints the fully completed inspections from the temporary inspectionList above
-        for(Inspection i: inspectionList) {
-            System.out.println(" " + i);
-        }*/
 
         //for each inspection in the temporary inspectionList match the tracking number to the restaurant in the
         //restaurantList and add the inspection to the restaurant

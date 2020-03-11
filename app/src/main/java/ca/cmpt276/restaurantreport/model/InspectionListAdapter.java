@@ -24,7 +24,6 @@ public class InspectionListAdapter extends ArrayAdapter<String> {
     private String[] lastInspec;
     private String[] hazardLevels;
 
-
     public InspectionListAdapter(Context c, int[] critNum, int[] nonCritNum, String[] lastInspec, String[] hazardLevel) {
         super(c, R.layout.inspection_row, R.id.txtInspCritNums, lastInspec);
         this.critNum = critNum;
