@@ -5,17 +5,11 @@ public class Violation {
     private String violationCriticality;
     private String violationDescriptor;
 
-    Violation(String violationCode, String violationCriticality, String violationDescriptor) {
-        this.violationCode = violationCode;
-        this.violationCriticality = violationCriticality;
-        this.violationDescriptor = violationDescriptor;
-    }
-
     public String getViolationCode() {
         return violationCode;
     }
 
-    public void setViolationCode(String violationCode) {
+    void setViolationCode(String violationCode) {
         this.violationCode = violationCode;
     }
 
@@ -23,7 +17,7 @@ public class Violation {
         return violationCriticality;
     }
 
-    public void setViolationCriticality(String violationCriticality) {
+    void setViolationCriticality(String violationCriticality) {
         this.violationCriticality = violationCriticality;
     }
 
@@ -31,7 +25,7 @@ public class Violation {
         return violationDescriptor;
     }
 
-    public void setViolationDescriptor(String violationDescriptor) {
+    void setViolationDescriptor(String violationDescriptor) {
         this.violationDescriptor = violationDescriptor;
     }
 

@@ -24,7 +24,6 @@ public class InspectionListAdapter extends ArrayAdapter<String> {
     private String[] lastInspec;
     private String[] hazardLevels;
 
-
     public InspectionListAdapter(Context c, int[] critNum, int[] nonCritNum, String[] lastInspec, String[] hazardLevel) {
         super(c, R.layout.inspection_row, R.id.txtInspCritNums, lastInspec);
         this.critNum = critNum;
@@ -48,14 +47,14 @@ public class InspectionListAdapter extends ArrayAdapter<String> {
 
             setText(date, lastInspec[position]);
             if(critNum[position] == 1){
-                setText(numCritical, R.string.insp_crit_postfix, critNum[position]);
+                setText(numCritical, R.string.crit_postfix, critNum[position]);
             } else {
-                setText(numCritical, R.string.insp_crit_postfix_s, critNum[position]);
+                setText(numCritical, R.string.crit_postfix_s, critNum[position]);
             }
             if(nonCritNum[position] == 1){
-                setText(numNonCritical, R.string.insp_non_crit_postfix,nonCritNum[position]);
+                setText(numNonCritical, R.string.non_crit_postfix,nonCritNum[position]);
             } else {
-                setText(numNonCritical,R.string.insp_non_crit_postfix_s,nonCritNum[position]);
+                setText(numNonCritical,R.string.non_crit_postfix_s,nonCritNum[position]);
             }
 
         hazard.setText(hazardLevels[position].replace("\"", ""));

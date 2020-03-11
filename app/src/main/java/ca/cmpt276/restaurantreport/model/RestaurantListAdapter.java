@@ -19,6 +19,7 @@ import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.TextStyle;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,11 +29,11 @@ import ca.cmpt276.restaurantreport.R;
 most of the code was learned/taken from:
 https://www.youtube.com/watch?v=5Tm--PHhbJo
 */
-public class RestaurantListAdapter extends ArrayAdapter<String> {
+public class RestaurantListAdapter extends ArrayAdapter<String>{
 
     private List<Restaurant> res;
 
-    public RestaurantListAdapter(Context c, List<Restaurant> rest, String[] titles){
+    public RestaurantListAdapter (Context c, List<Restaurant> rest, String[] titles){
         super(c,R.layout.list_row, R.id.txtRestaurantName, titles);
         this.res = rest;
     }

@@ -13,15 +13,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import ca.cmpt276.restaurantreport.R;
 
 public class RestaurantManager implements Iterable<Restaurant> {
 
     private List<Restaurant> restaurantList;
-
     private List<ShortViolation> shortViolationList;
-
     private Context context;
 
     //constructor with context of an activity passed because we need the context when we want to access the data files to read from
@@ -62,14 +61,20 @@ public class RestaurantManager implements Iterable<Restaurant> {
         return this.restaurantList;
     }
 
+    public List<ShortViolation> getShortViolationList() {return this.shortViolationList; }
 
-
+    public ShortViolation getShortViolation(int violationCode) {
+        for(ShortViolation s :shortViolationList) {
+            if(Objects.equals(s.getViolationCode(), violationCode)) {
+                return s;
+            }
+        }
+        return null;
+    }
     @Override
     public Iterator<Restaurant> iterator() {
         return restaurantList.iterator();
     }
-
-
 
     //method for reading the restaurant_itr1 file containing the restaurant details
     // and populating the restaurantList
@@ -137,7 +142,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
             e.printStackTrace();
         }
 
-
         //reading violations from the separated_values_2 file and adding the violations to the inspections in the above inspectionList
         InputStream isViolation = context.getResources().openRawResource(R.raw.separated_values_2);
         BufferedReader violationReader = new BufferedReader(
@@ -152,9 +156,33 @@ public class RestaurantManager implements Iterable<Restaurant> {
                 String [] tokens = line.split("\\|");
 
                 Inspection sampleInspection = inspectionList.get(index);
-
                 for(String violation: tokens) {
-                    sampleInspection.addViolation(violation);
+
+                    String [] tokens2 = violation.split(",");
+
+                    Violation newViolation = new Violation();
+                    int i = 0;
+                    for(String v: tokens2) {
+                        switch (i) {
+                            case 0:
+                                newViolation.setViolationCode(v);
+                                i++;
+                                break;
+                            case 1:
+                                newViolation.setViolationCriticality(v);
+                                i++;
+                                break;
+                            case 2:
+                                newViolation.setViolationDescriptor(v);
+                                i++;
+                                break;
+                            default:
+                                i = 0;
+                                break;
+                        }
+                    }
+                    sampleInspection.addNewViolation(newViolation);
+//
                 }
                 inspectionList.set(index,sampleInspection);
                 index++;
@@ -162,16 +190,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
         }catch (IOException e) {
             Log.e("Violation Data", "Error Reading Data File on Line" + line,e);
             e.printStackTrace();
-        }
-
-        //debugging purposes
-        for(Restaurant r: restaurantList) {
-            System.out.println("Restaurant list before" + r);
-        }
-
-        //debugging purposes prints the fully completed inspections from the temporary inspectionList above
-        for(Inspection i: inspectionList) {
-            System.out.println(" " + i);
         }
 
         //for each inspection in the temporary inspectionList match the tracking number to the restaurant in the
@@ -183,7 +201,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
                     tempRestaurant.addInspection(inspection);
                 }
             }
-            //System.out.println("" + tempRestaurant);
 
             restaurantList.set(restaurantListIndex,tempRestaurant);
             restaurantListIndex++;
@@ -200,5 +217,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
             shortViolationList.add(shortViolation);
             Log.d("shortViolationList",shortViolation.toString());
         }
+
     }
 }
