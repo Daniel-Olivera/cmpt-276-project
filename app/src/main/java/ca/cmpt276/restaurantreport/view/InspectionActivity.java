@@ -30,6 +30,12 @@ import ca.cmpt276.restaurantreport.model.ShortViolation;
 import ca.cmpt276.restaurantreport.model.Violation;
 import ca.cmpt276.restaurantreport.model.ViolationListAdapter;
 
+/*
+This class show the details about the inspection
+and list of violation related to it
+
+ */
+
 public class InspectionActivity extends AppCompatActivity {
 
     RestaurantManager manager;

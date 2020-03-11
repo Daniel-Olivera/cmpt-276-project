@@ -1,5 +1,8 @@
 package ca.cmpt276.restaurantreport.model;
 
+/*
+This class is use to store data of each Violation
+ */
 public class Violation {
     private String violationCode;
     private String violationCriticality;
@@ -35,10 +38,7 @@ public class Violation {
 
     public String getDescription()
     {
-        return "Violation Code: " + violationCode +"\n\n" +
-                "Critical Level: " + violationCriticality +"\n\n" +
-                "Description: " + violationDescriptor.substring(0,violationDescriptor.indexOf("[")) + "\n";
-
+        return  violationDescriptor + "\n";
     }
     @Override
     public String toString() {

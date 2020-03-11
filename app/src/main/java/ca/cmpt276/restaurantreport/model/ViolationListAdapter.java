@@ -16,6 +16,10 @@ import java.util.Objects;
 
 import ca.cmpt276.restaurantreport.R;
 
+/*
+This class is used for putting data about each violation
+to a Linear Layout that show all the violation of a Inspection
+ */
 public class ViolationListAdapter extends ArrayAdapter<String> {
 
     private int [] violationCodes;

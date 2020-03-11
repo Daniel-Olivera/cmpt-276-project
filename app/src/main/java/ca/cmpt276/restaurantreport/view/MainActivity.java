@@ -23,6 +23,9 @@ dinner_attr_freepik by Freepik from: https://www.flaticon.com/free-icon/dinner_2
 Green diamond hazard Icon from http://clipart-library.com/clipart/2019534.htm
 Red and Yellow diamonds are edited by dolivera from the green one
  */
+/*
+This class show the list of all restaurants in the database
+ */
 public class MainActivity extends AppCompatActivity {
 
 
