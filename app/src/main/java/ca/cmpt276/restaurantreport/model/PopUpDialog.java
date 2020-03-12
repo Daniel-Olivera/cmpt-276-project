@@ -3,8 +3,12 @@ package ca.cmpt276.restaurantreport.model;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+
+import java.util.Objects;
+
 import ca.cmpt276.restaurantreport.R;
 
 /*
@@ -24,7 +28,7 @@ public class PopUpDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
         builder.setTitle("Details")
                 .setMessage(message)
                 .setNegativeButton(R.string.back, new DialogInterface.OnClickListener() {
