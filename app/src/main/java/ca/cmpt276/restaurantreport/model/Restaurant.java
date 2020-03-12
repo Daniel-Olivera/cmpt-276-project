@@ -1,6 +1,5 @@
 package ca.cmpt276.restaurantreport.model;
 
-import androidx.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,6 +78,9 @@ public class Restaurant {
 
                 result = Inspections.get(i).getHazardRating();
             }
+        }
+        if(result.equals("\"Moderate\"")){
+            result = "\"Med\"";
         }
         return result;
     }

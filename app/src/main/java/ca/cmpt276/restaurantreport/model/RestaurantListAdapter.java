@@ -19,7 +19,6 @@ import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.TextStyle;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -38,7 +37,7 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
     private List<Restaurant> res;
 
     public RestaurantListAdapter (Context c, List<Restaurant> rest, String[] titles){
-        super(c,R.layout.list_row, R.id.txtRestaurantName, titles);
+        super(c,R.layout.restaurant_row, R.id.txtRestaurantName, titles);
         this.res = rest;
     }
 
@@ -49,7 +48,7 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
         //Sets up which layout is being modified
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         assert layoutInflater != null;
-        @SuppressLint("ViewHolder") View row = layoutInflater.inflate(R.layout.list_row, parent, false);
+        @SuppressLint("ViewHolder") View row = layoutInflater.inflate(R.layout.restaurant_row, parent, false);
 
         TextView txtRestaurantName = row.findViewById(R.id.txtRestaurantName);
         TextView txtNumOfIssues = row.findViewById(R.id.txtNumOfIssues);
