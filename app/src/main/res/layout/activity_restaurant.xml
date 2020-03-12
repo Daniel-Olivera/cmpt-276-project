@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/toolbar_title"
+            android:id="@+id/toolbarTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
@@ -76,6 +76,27 @@
         app:layout_constraintStart_toStartOf="@+id/txtLongtitude"
         app:layout_constraintTop_toBottomOf="@+id/txtLongtitude" />
 
+    <ImageView
+        android:id="@+id/imgRestaurantLogo"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="4dp"
+        android:contentDescription="@string/restaurant_logo_desc"
+        app:layout_constraintBottom_toTopOf="@+id/layoutInspListWrapper"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtAddress"
+        app:srcCompat="@drawable/cutlery_attr_freepik" />
+
+    <View
+        android:id="@+id/divRestaurantView"
+        android:layout_width="409dp"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtInspHeader" />
+
     <LinearLayout
         android:id="@+id/layoutInspListWrapper"
         android:layout_width="0dp"
@@ -84,7 +105,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtInspHeader">
+        app:layout_constraintTop_toBottomOf="@+id/divRestaurantView">
 
         <ListView
             android:id="@+id/lstInspections"
@@ -93,18 +114,6 @@
 
         </ListView>
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/imgRestaurantLogo"
-        android:layout_width="100dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="4dp"
-        android:contentDescription="@string/restaurant_logo_desc"
-        app:layout_constraintBottom_toTopOf="@+id/layoutInspListWrapper"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtAddress"
-        app:srcCompat="@drawable/cutlery_attr_freepik" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

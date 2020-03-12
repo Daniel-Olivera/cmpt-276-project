@@ -66,7 +66,7 @@ public class RestaurantActivity extends AppCompatActivity {
         decimalFormat.setMaximumFractionDigits(340);
         // parse out the double quote
         String addr = manager.get(index).getPhysicalAddr().replace("\"", "");
-        TextView toolbar_title = findViewById(R.id.toolbar_title);
+        TextView toolbar_title = findViewById(R.id.toolbarTitle);
         toolbar_title.setText(resName);
         TextView txtAddress = findViewById(R.id.txtAddress);
         txtAddress.setText(getString(R.string.rest_addr_prefix, addr));
