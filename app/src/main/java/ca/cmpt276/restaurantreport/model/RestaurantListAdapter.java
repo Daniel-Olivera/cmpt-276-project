@@ -72,7 +72,9 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
         String lastInspected = lastInspection(currentRestaurant);
         String inspectDate = "Last Inspected: " + lastInspected;
         String hazardText = currentRestaurant.getLatestInspectionHazard();
-
+        if(hazardText.equals("\"Moderate\"")){
+            hazardText = "\"Med\"";
+        }
         //set the texts with the right parameters
         txtRestaurantName.setText(currentRestaurant.getName().replace("\"", ""));
         txtNumOfIssues.setText(issuesFound);
@@ -85,19 +87,20 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
         return row;
     }
 
-    private void getHazardIcon(String hazardLevel, ImageView icon){
-        switch(hazardLevel){
+    private void getHazardIcon(String hazardText, ImageView hazIcon){
+        switch(hazardText){
             case("\"Low\""):
             default:{
-                icon.setImageResource(R.drawable.low);
+                hazIcon.setImageResource(R.drawable.low);
                 break;
             }
+            case("\"Med\""):
             case("\"Moderate\""):{
-                icon.setImageResource(R.drawable.medium);
+                hazIcon.setImageResource(R.drawable.medium);
                 break;
             }
             case("\"High\""):{
-                icon.setImageResource(R.drawable.high);
+                hazIcon.setImageResource(R.drawable.high);
                 break;
             }
         }

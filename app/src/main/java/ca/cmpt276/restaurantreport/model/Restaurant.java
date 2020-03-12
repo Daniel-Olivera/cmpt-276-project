@@ -59,7 +59,7 @@ public class Restaurant {
         return this.trackingNum;
     }
 
-    public void addInspection(Inspection inspection) {
+    void addInspection(Inspection inspection) {
         Inspections.add(inspection);
     }
 
@@ -78,9 +78,6 @@ public class Restaurant {
 
                 result = Inspections.get(i).getHazardRating();
             }
-        }
-        if(result.equals("\"Moderate\"")){
-            result = "\"Med\"";
         }
         return result;
     }
