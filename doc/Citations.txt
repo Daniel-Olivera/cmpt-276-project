@@ -1,0 +1,22 @@
+References and Royalty Free Resources:
+
+CSV Import:
+https://www.youtube.com/watch?v=i-TqNzUryn8
+
+Multi-Row ListView Items:
+https://www.youtube.com/watch?v=5Tm--PHhbJo
+
+Multi-Dimensional resource arrays in xml:
+https://basememara.com/storing-multidimensional-resource-arrays-in-android/
+
+Custom Icons:
+Green diamond hazard Icon from http://clipart-library.com/clipart/2019534.htm
+Red and Yellow diamonds are modified by dolivera from the green one
+All other icons are from: https://www.flaticon.com/ by Author(s) Freepik
+
+Sorting:
+https://www.codebyamir.com/blog/sort-list-of-objects-by-field-java
+https://www.geeksforgeeks.org/collections-sort-java-examples/
+
+Java Date:
+https://www.baeldung.com/java-string-to-date
