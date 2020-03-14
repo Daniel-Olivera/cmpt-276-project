@@ -61,6 +61,8 @@ public class InspectionActivity extends AppCompatActivity {
 
         updateUI();
         setupListView();
+
+        System.out.println("Inspection activity on create");
     }
 
     //Displays the Date, number of Critical and non-Critical issues and hazard Level
