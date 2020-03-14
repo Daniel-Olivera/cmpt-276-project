@@ -1,4 +1,4 @@
-package ca.cmpt276.restaurantreport.model;
+package ca.cmpt276.restaurantreport.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Locale;
 
 import ca.cmpt276.restaurantreport.R;
+import ca.cmpt276.restaurantreport.applogic.Inspection;
+import ca.cmpt276.restaurantreport.applogic.Restaurant;
 
 /*
 most of the code was learned/taken from:

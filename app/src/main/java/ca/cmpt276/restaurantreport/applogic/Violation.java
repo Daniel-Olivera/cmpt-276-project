@@ -1,4 +1,4 @@
-package ca.cmpt276.restaurantreport.model;
+package ca.cmpt276.restaurantreport.applogic;
 
 /*
 This class is use to store data of each Violation

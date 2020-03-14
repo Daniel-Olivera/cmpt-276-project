@@ -1,4 +1,4 @@
-package ca.cmpt276.restaurantreport.model;
+package ca.cmpt276.restaurantreport.applogic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +67,7 @@ public class Restaurant {
         return Inspections;
     }
 
-    String getLatestInspectionHazard() {
+    public String getLatestInspectionHazard() {
 
         int mostRecentInspectionDate = 0;
         String result = "N/A";
@@ -82,7 +82,7 @@ public class Restaurant {
         return result;
     }
 
-    int getLatestInspectionDate(){
+    public int getLatestInspectionDate(){
 
         int mostRecentInspectionDate = 0;
         int result = 0;

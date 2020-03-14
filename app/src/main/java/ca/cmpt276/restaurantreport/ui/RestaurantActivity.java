@@ -1,10 +1,8 @@
-package ca.cmpt276.restaurantreport.view;
+package ca.cmpt276.restaurantreport.ui;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -18,10 +16,10 @@ import java.util.Locale;
 import java.util.Objects;
 
 import ca.cmpt276.restaurantreport.R;
-import ca.cmpt276.restaurantreport.model.Inspection;
-import ca.cmpt276.restaurantreport.model.InspectionListAdapter;
-import ca.cmpt276.restaurantreport.model.Restaurant;
-import ca.cmpt276.restaurantreport.model.RestaurantManager;
+import ca.cmpt276.restaurantreport.adapter.InspectionListAdapter;
+import ca.cmpt276.restaurantreport.applogic.Inspection;
+import ca.cmpt276.restaurantreport.applogic.Restaurant;
+import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 /*
 cutlery_attr_freepik by Freepik from: https://www.flaticon.com/free-icon/cutlery_263125
 */
@@ -100,13 +98,10 @@ public class RestaurantActivity extends AppCompatActivity {
 
         InspectionListAdapter adapter = new InspectionListAdapter(this,critIssue,nonCritIssue,lastInspec,hazardLevel);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String trackingNumber = restaurant.getTrackingNum();
-                Intent intent = InspectionActivity.makeIntent(RestaurantActivity.this,trackingNumber,position);
-                startActivity(intent);
-            }
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            String trackingNumber = restaurant.getTrackingNum();
+            Intent intent1 = InspectionActivity.makeIntent(RestaurantActivity.this,trackingNumber,position);
+            startActivity(intent1);
         });
 
     }

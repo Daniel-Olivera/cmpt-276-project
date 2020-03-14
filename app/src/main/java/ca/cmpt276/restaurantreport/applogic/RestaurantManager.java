@@ -1,4 +1,4 @@
-package ca.cmpt276.restaurantreport.model;
+package ca.cmpt276.restaurantreport.applogic;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

@@ -1,18 +1,15 @@
-package ca.cmpt276.restaurantreport.model;
+package ca.cmpt276.restaurantreport.applogic;
 
 import android.util.Log;
-import android.widget.ImageView;
-import androidx.annotation.NonNull;
+
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
-import ca.cmpt276.restaurantreport.R;
 
 /*
 This class store all data about each Inspection of the restaurants in the
@@ -29,7 +26,7 @@ public class Inspection implements Comparable<Inspection> {
     private int numNonCritIssues;
     private String hazardRating;
 
-    private List<Violation> ViolationList = new ArrayList<>();;
+    private List<Violation> ViolationList = new ArrayList<>();
 
     Inspection(String trackingNum,int date, String inspectionType,int numCritIssues, int numNonCritIssues, String hazardRating){
         this.trackingNum = trackingNum;
@@ -69,7 +66,7 @@ public class Inspection implements Comparable<Inspection> {
         return hazardRating;
     }
 
-    public void addNewViolation(Violation violation) { ViolationList.add(violation);}
+    void addNewViolation(Violation violation) { ViolationList.add(violation);}
 
     public List getViolations() {return this.ViolationList;}
 

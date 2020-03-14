@@ -1,4 +1,4 @@
-package ca.cmpt276.restaurantreport.model;
+package ca.cmpt276.restaurantreport.ui;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -17,7 +17,7 @@ detail about a violation that the user want to see
  */
 public class PopUpDialog extends DialogFragment {
     private String message;
-    public PopUpDialog(String message)
+    PopUpDialog(String message)
     {
         this.message = message;
     }
@@ -38,5 +38,4 @@ public class PopUpDialog extends DialogFragment {
                 });
         return builder.create();
     }
-
 }

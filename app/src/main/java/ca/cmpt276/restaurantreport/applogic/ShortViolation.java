@@ -1,4 +1,4 @@
-package ca.cmpt276.restaurantreport.model;
+package ca.cmpt276.restaurantreport.applogic;
 /*
 * Serves as the backend for violation code lookup
 * Used for displaying abridged versions of each relevant violation
