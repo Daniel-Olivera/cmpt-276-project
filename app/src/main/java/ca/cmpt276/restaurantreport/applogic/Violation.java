@@ -8,6 +8,13 @@ public class Violation {
     private String violationCriticality;
     private String violationDescriptor;
 
+    public Violation(String violationCode, String violationCriticality, String violationDescriptor) {
+        this.violationCode = "";
+        this.violationCriticality = "";
+        this.violationDescriptor = "";
+    }
+    public Violation(){}
+
     public String getViolationCode() {
         return violationCode;
     }
