@@ -8,7 +8,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.ContentHandler;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,19 +18,17 @@ import ca.cmpt276.restaurantreport.R;
 //Singleton Class to read the CSV files and populate the manager class with the restaurants and it's inspections
  */
 public class ReadCSV {
-    RestaurantManager manager;
-    Context context;
+    private RestaurantManager manager;
+    private Context context;
 
     @SuppressLint("StaticFieldLeak")
     private static ReadCSV instance;
 
-
-    public ReadCSV(Context context) {
+    private ReadCSV(Context context) {
         this.context = context;
 
         readRestaurantData();
         readInspectionData();
-
     }
 
     private void readRestaurantData() {

@@ -5,17 +5,10 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.Log;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-
-import ca.cmpt276.restaurantreport.R;
 
 /*
 This class is a singleton that store all the Restaurant as
@@ -38,11 +31,11 @@ public class RestaurantManager implements Iterable<Restaurant> {
     }
 
     //adds a Restaurant object to the list of restaurants
-    public void add(Restaurant restaurant) {
+    void add(Restaurant restaurant) {
         restaurantList.add(restaurant);
     }
     //overwrites the restaurant at index mentioned
-    public void set(int index, Restaurant restaurant) {
+    void set(int index, Restaurant restaurant) {
         restaurantList.set(index, restaurant);
     }
     //returns the restaurant in the list at index
@@ -89,6 +82,5 @@ public class RestaurantManager implements Iterable<Restaurant> {
             shortViolationList.add(shortViolation);
             Log.d("shortViolationList",shortViolation.toString());
         }
-
     }
 }
