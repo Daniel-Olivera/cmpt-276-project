@@ -28,8 +28,10 @@ public class ReadCSV {
 
     public ReadCSV(Context context) {
         this.context = context;
+
         readRestaurantData();
         readInspectionData();
+
     }
 
     private void readRestaurantData() {
@@ -65,7 +67,6 @@ public class ReadCSV {
     }
 
     private void readInspectionData() {
-
         List<Inspection> inspectionList = new ArrayList<>(); //temporary inspectionList
 
         InputStream isInspection = context.getResources().openRawResource(R.raw.inspectionreports_itr1);
@@ -74,9 +75,21 @@ public class ReadCSV {
         );
         String line = "";
         try {
-            inspectionReader.readLine();
+            inspectionReader.readLine();// skip the first line of the titles
+
+            int inspectionIndex = 0; // index to obtain individual inspections from the temporary inspectionList above
             while ((line = inspectionReader.readLine()) != null) {
-                String[] tokens = line.split(",");
+                /*
+                splitting using "" and ,   e.g string = "Name","Address","HazardLevel","violation1, violation2, violation3"
+                  we will end up getting
+                  Name
+                  Address
+                  HazardLevel
+                  violation1, violation2, violation3
+
+                  then further splitting violations using comma to get separate violations
+                 */
+                String[] tokens = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 
                 inspectionList.add(new Inspection(
                         tokens[0],
@@ -86,64 +99,58 @@ public class ReadCSV {
                         Integer.parseInt(tokens[4]),
                         tokens[5]
                 ));
+
+                //if the inspection contains any violations move on and split the entire violation string
+                //          into individual violations using the "|" delimiter
+                //
+                // further for the individual string of violation we use the "," delimiter to get the violation code, criticality and description
+
+                if(tokens.length > 6) {
+                    String[] violationTokens = tokens[6].split("\\|");
+                    Inspection sampleInspection = inspectionList.get(inspectionIndex);
+
+                    for (String violation : violationTokens) {
+
+                        String[] tokens2 = violation.split(",");
+
+                        Violation newViolation = new Violation();
+                        int i = 0;
+                        for (String violationString : tokens2) {
+                            switch (i) {
+                                case 0:
+                                    newViolation.setViolationCode(violationString);
+                                    i++;
+                                    break;
+                                case 1:
+                                    newViolation.setViolationCriticality(violationString);
+                                    i++;
+                                    break;
+                                case 2:
+                                    newViolation.setViolationDescriptor(violationString);
+                                    i++;
+                                    break;
+                                default:
+                                    i = 0;
+                                    break;
+                            }
+                        }
+                        sampleInspection.addNewViolation(newViolation);
+                    }
+                    inspectionList.set(inspectionIndex, sampleInspection);
+                    inspectionIndex++;
+
+                } else {
+                    Inspection sampleInspection = inspectionList.get(inspectionIndex);
+                    Violation newViolation = new Violation("","","");
+                    sampleInspection.addNewViolation(newViolation);
+                    inspectionList.set(inspectionIndex, sampleInspection);
+                    inspectionIndex++;
+                }
             }
         } catch (IOException e) {
             Log.e("Inspection Data", "Error Reading Data File on Line" + line, e);
             e.printStackTrace();
         }
-
-        //reading violations from the separated_values_2 file and adding the violations to the inspections in the above inspectionList
-        InputStream isViolation = context.getResources().openRawResource(R.raw.separated_values_2);
-        BufferedReader violationReader = new BufferedReader(
-                new InputStreamReader(isViolation, StandardCharsets.UTF_8)
-        );
-        line = "";
-        try {
-            violationReader.readLine();
-            int index = 0;
-
-            while ((line = violationReader.readLine()) != null) {
-                String[] tokens = line.split("\\|");
-
-                Inspection sampleInspection = inspectionList.get(index);
-                for (String violation : tokens) {
-
-                    String[] tokens2 = violation.split(",");
-
-                    Violation newViolation = new Violation();
-                    int i = 0;
-                    for (String violationString : tokens2) {
-                        switch (i) {
-                            case 0:
-                                newViolation.setViolationCode(violationString);
-                                i++;
-                                break;
-                            case 1:
-                                newViolation.setViolationCriticality(violationString);
-                                i++;
-                                break;
-                            case 2:
-                                newViolation.setViolationDescriptor(violationString);
-                                i++;
-                                break;
-                            default:
-                                i = 0;
-                                break;
-                        }
-                    }
-                    sampleInspection.addNewViolation(newViolation);
-//
-                }
-                inspectionList.set(index, sampleInspection);
-                index++;
-            }
-        } catch (IOException e) {
-            Log.e("Violation Data", "Error Reading Data File on Line" + line, e);
-            e.printStackTrace();
-        }
-
-        //for each inspection in the temporary inspectionList match the tracking number to the restaurant in the
-        //restaurantList and add the inspection to the restaurant
 
         List<Restaurant> restaurantList = manager.getRestaurants();
         int restaurantListIndex = 0;
@@ -158,7 +165,6 @@ public class ReadCSV {
             restaurantListIndex++;
         }
     }
-
     public static ReadCSV getInstance(Context context) {
         if(instance == null) {
             instance = new ReadCSV(context);
