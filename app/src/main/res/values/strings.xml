@@ -39,6 +39,9 @@
 
     <string name="back">Back</string>
     <string name="pop_up_title">Detail</string>
+    <string name="title_activity_maps">Map</string>
+
+    <string name="mapApiKey">AIzaSyBzgnaqru9EU5xK8wLIWqK1f7rQ9AzG0qE</string>
 
 
 </resources>

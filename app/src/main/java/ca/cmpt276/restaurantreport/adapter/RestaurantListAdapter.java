@@ -48,9 +48,12 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
         //Sets up which layout is being modified
-        LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = (LayoutInflater) getContext()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         assert layoutInflater != null;
-        @SuppressLint("ViewHolder") View row = layoutInflater.inflate(R.layout.restaurant_row, parent, false);
+
+        @SuppressLint("ViewHolder") View row = layoutInflater.inflate(R.layout.restaurant_row,
+                parent, false);
 
         TextView txtRestaurantName = row.findViewById(R.id.txtRestaurantName);
         TextView txtNumOfIssues = row.findViewById(R.id.txtNumOfIssues);
