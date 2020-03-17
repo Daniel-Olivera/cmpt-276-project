@@ -46,7 +46,7 @@ public class RestaurantActivity extends AppCompatActivity {
         int index = 0;
         for (int i = 0 ; i < listRes.size();i++)
         {
-            if (listRes.get(i).getName().replace("\"", "").equals(resName))
+            if (listRes.get(i).getName().equals(resName))
             {
                 int issueCount = 0;
                 List<Inspection> insp = listRes.get(i).getInspections();
@@ -63,7 +63,7 @@ public class RestaurantActivity extends AppCompatActivity {
         DecimalFormat decimalFormat = new DecimalFormat("0",DecimalFormatSymbols.getInstance(Locale.ENGLISH));
         decimalFormat.setMaximumFractionDigits(340);
         // parse out the double quote
-        String addr = manager.get(index).getPhysicalAddr().replace("\"", "");
+        String addr = manager.get(index).getPhysicalAddr();
         TextView toolbar_title = findViewById(R.id.toolbarTitle);
         toolbar_title.setText(resName);
         TextView txtAddress = findViewById(R.id.txtAddress);

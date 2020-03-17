@@ -96,18 +96,4 @@ public class Restaurant {
 
         return result;
     }
-
-    @Override
-    public String toString() {
-        return "Restaurant{" +
-                "trackingNum='" + trackingNum + '\'' +
-                ", Name='" + Name + '\'' +
-                ", physicalAddr='" + physicalAddr + '\'' +
-                ", physicalCity='" + physicalCity + '\'' +
-                ", facType='" + facType + '\'' +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
-                ", Inspections=" + Inspections +
-                '}';
-    }
 }

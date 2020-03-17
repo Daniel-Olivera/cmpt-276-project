@@ -26,17 +26,6 @@ public class Inspection implements Comparable<Inspection> {
     private int numNonCritIssues;
     private String hazardRating;
 
-    public void setTrackingNum(String trackingNum) {
-        this.trackingNum = trackingNum;
-    }
-
-    public void setInspectionType(String inspectionType) {
-        this.inspectionType = inspectionType;
-    }
-
-    public void setHazardRating(String hazardRating) {
-        this.hazardRating = hazardRating;
-    }
 
     private List<Violation> ViolationList = new ArrayList<>();
 
@@ -81,19 +70,6 @@ public class Inspection implements Comparable<Inspection> {
     void addNewViolation(Violation violation) { ViolationList.add(violation);}
 
     public List getViolations() {return this.ViolationList;}
-
-
-    @Override
-    public String toString() {
-        return "Inspection{" +
-                "trackingNum='" + trackingNum + '\'' +
-                ", date=" + date +
-                ", inspectionType='" + inspectionType + '\'' +
-                ", numCritIssues=" + numCritIssues +
-                ", numNonCritIssues=" + numNonCritIssues +
-                ", hazardRating='" + hazardRating + '\'' +
-                '}';
-    }
 
     public String dayFromLastInspection()
     {
