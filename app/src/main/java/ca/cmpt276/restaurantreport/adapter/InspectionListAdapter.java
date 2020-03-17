@@ -62,7 +62,7 @@ public class InspectionListAdapter extends ArrayAdapter<String> {
                 setText(txtInspNCrtiNums,R.string.non_crit_postfix_s,nonCritNum[position]);
             }
 
-        txtInspHazLvl.setText(hazardLevels[position].replace("\"", ""));
+        txtInspHazLvl.setText(hazardLevels[position]);
 
         getHazardIcon(hazardLevels[position],imgInspHazIcon);
 
@@ -79,16 +79,16 @@ public class InspectionListAdapter extends ArrayAdapter<String> {
 
     private void getHazardIcon(String hazardLevel, ImageView icon) {
         switch (hazardLevel) {
-            case ("\"Low\""):
+            case ("Low"):
             default: {
                 icon.setImageResource(R.drawable.low);
                 break;
             }
-            case ("\"Moderate\""): {
+            case ("Moderate"): {
                 icon.setImageResource(R.drawable.medium);
                 break;
             }
-            case ("\"High\""): {
+            case ("High"): {
                 icon.setImageResource(R.drawable.high);
                 break;
             }

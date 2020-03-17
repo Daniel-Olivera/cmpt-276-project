@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,12 +48,13 @@ public class ReadCSV {
 
                 // makes a new restaurant from the tokens array we read from the file
                 //and adds it to the restaurantList
+
                 manager.add(new Restaurant(
-                        tokens[0],
-                        tokens[1],
-                        tokens[2],
-                        tokens[3],
-                        tokens[4],
+                        tokens[0].replace("\"",""),
+                        tokens[1].replace("\"",""),
+                        tokens[2].replace("\"",""),
+                        tokens[3].replace("\"",""),
+                        tokens[4].replace("\"",""),
                         Double.parseDouble(tokens[5]),
                         Double.parseDouble(tokens[6])
                 ));
@@ -89,12 +91,12 @@ public class ReadCSV {
                 String[] tokens = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 
                 inspectionList.add(new Inspection(
-                        tokens[0],
+                        tokens[0].replace("\"",""),
                         Integer.parseInt(tokens[1]),
-                        tokens[2],
+                        tokens[2].replace("\"",""),
                         Integer.parseInt(tokens[3]),
                         Integer.parseInt(tokens[4]),
-                        tokens[5]
+                        tokens[5].replace("\"","")
                 ));
 
                 //if the inspection contains any violations move on and split the entire violation string
@@ -115,15 +117,15 @@ public class ReadCSV {
                         for (String violationString : tokens2) {
                             switch (i) {
                                 case 0:
-                                    newViolation.setViolationCode(violationString);
+                                    newViolation.setViolationCode(violationString.replace("\"",""));
                                     i++;
                                     break;
                                 case 1:
-                                    newViolation.setViolationCriticality(violationString);
+                                    newViolation.setViolationCriticality(violationString.replace("\"",""));
                                     i++;
                                     break;
                                 case 2:
-                                    newViolation.setViolationDescriptor(violationString);
+                                    newViolation.setViolationDescriptor(violationString.replace("\"",""));
                                     i++;
                                     break;
                                 default:

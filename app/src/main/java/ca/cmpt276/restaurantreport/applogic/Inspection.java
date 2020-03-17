@@ -26,6 +26,7 @@ public class Inspection implements Comparable<Inspection> {
     private int numNonCritIssues;
     private String hazardRating;
 
+
     private List<Violation> ViolationList = new ArrayList<>();
 
     Inspection(String trackingNum,int date, String inspectionType,int numCritIssues, int numNonCritIssues, String hazardRating){
@@ -69,7 +70,6 @@ public class Inspection implements Comparable<Inspection> {
     void addNewViolation(Violation violation) { ViolationList.add(violation);}
 
     public List getViolations() {return this.ViolationList;}
-
 
     public String dayFromLastInspection()
     {

@@ -103,7 +103,7 @@ public class InspectionActivity extends AppCompatActivity {
         TextView txtDate = findViewById(R.id.txtDate);
         txtDate.setText(inspectionDateFull);
 
-        String inspectionType = inspectionList.get(inspectionPosition).getInspectionType().replace("\"", "");
+        String inspectionType = inspectionList.get(inspectionPosition).getInspectionType();
         TextView txtInspectionType = findViewById(R.id.txtInspectionType);
         setText(txtInspectionType, inspectionType);
 
@@ -123,7 +123,7 @@ public class InspectionActivity extends AppCompatActivity {
             setText(txtNonCriticalIssues,R.string.non_crit_postfix_s,nonCriticalIssues);
         }
 
-        String hazardLevel = inspectionList.get(inspectionPosition).getHazardRating().replace("\"","");
+        String hazardLevel = inspectionList.get(inspectionPosition).getHazardRating();
         TextView txtHazardLevel = findViewById(R.id.txtHazardLevel);
         txtHazardLevel.setText(hazardLevel);
 
@@ -176,7 +176,7 @@ public class InspectionActivity extends AppCompatActivity {
 
         //For the violationList of the inspection creating a shortViolation List for use in the listView
         for(Violation violation: violationList) {
-            String sampleViolationCode = violation.getViolationCode().replace("\"","");
+            String sampleViolationCode = violation.getViolationCode();
             int violationCode;
             if(sampleViolationCode.equalsIgnoreCase("")){
                 violationCode = 0;

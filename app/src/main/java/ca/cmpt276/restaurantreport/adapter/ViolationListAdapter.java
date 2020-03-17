@@ -46,8 +46,8 @@ public class ViolationListAdapter extends ArrayAdapter<String> {
         ImageView violationNature = row.findViewById(R.id.violationNatureIcon);
         ImageView criticalityIcon = row.findViewById(R.id.imgCriticalityIcon);
 
-        shortDescription.setText(shortDescriptions[position].replace("\"",""));
-        criticalityText.setText(violationCriticalities[position].replace("\"", ""));
+        shortDescription.setText(shortDescriptions[position]);
+        criticalityText.setText(violationCriticalities[position]);
 
         setCriticalityIcon(violationCriticalities[position],criticalityIcon);
 
