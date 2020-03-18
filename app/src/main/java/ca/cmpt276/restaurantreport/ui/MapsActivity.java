@@ -14,7 +14,9 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -25,6 +27,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -54,6 +57,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Location lastKnownLocation;
     private static final String LOCATION_KEY = "location";
     private static final String CAMERA_KEY = "camera_position";
+    View mapView;
 
 
     RestaurantManager manager = RestaurantManager.getInstance(this);
@@ -78,12 +82,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             e.printStackTrace();
         }
 
+        if(mapView == null){
+        mapView = mapFragment.getView();
+        }
+
         setupListButton();
         ReadCSV.getInstance(this);
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         if (mMap != null) {
             outState.putParcelable(CAMERA_KEY, mMap.getCameraPosition());
             outState.putParcelable(LOCATION_KEY, lastKnownLocation);
@@ -124,6 +132,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         getLocationPermission();
+        moveRealignButton();
         populateRestaurants();
         findDeviceLocation();
         updateLocationUI();
@@ -153,18 +162,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         try {
             if (locationPermissionGranted) {
                 Task locationResult = fusedLocationClient.getLastLocation();
-                locationResult.addOnCompleteListener(this, new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        if (task.isSuccessful()) {
-                            // Set the map's camera position to the current location of the device.
-                            lastKnownLocation = (Location) task.getResult();
+                locationResult.addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Set the map's camera position to the current location of the device.
+                        lastKnownLocation = (Location) task.getResult();
+                            assert lastKnownLocation != null;
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                     new LatLng(lastKnownLocation.getLatitude(),
-                                            lastKnownLocation.getLongitude()),DEFAULT_ZOOM));
-                        } else {
-                            mMap.getUiSettings().setMyLocationButtonEnabled(false);
-                        }
+                                            lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                    }
+                    else {
+                        mMap.getUiSettings().setMyLocationButtonEnabled(false);
                     }
                 });
             }
@@ -174,16 +182,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-
     private void populateRestaurants(){
         List<Restaurant> allRestaurants = manager.getRestaurants();
 
         for(int i = 0; i < allRestaurants.size(); i++) {
             Restaurant currentRes = allRestaurants.get(i);
             LatLng restaurantLocation = new LatLng(currentRes.getLatitude(), currentRes.getLongitude());
-            MarkerOptions marker = new MarkerOptions().position(restaurantLocation);
-            setMarkerHazardIcon(marker, currentRes);
-            mMap.addMarker(marker);
+            MarkerOptions markerOptions = new MarkerOptions().position(restaurantLocation);
+            setMarkerHazardIcon(markerOptions, currentRes);
+
+            Marker newMarker = mMap.addMarker(markerOptions);
+            mMap.setOnMarkerClickListener(marker -> {
+
+                if(marker.equals(newMarker)){
+                    //TODO open corresponding pop-up activity
+                }
+                return false;
+            });
+
         }
 
     }
@@ -194,10 +210,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         BitmapDrawable bitmapDrawable;
 
         switch(hazardString){
-            case("Low"):{
-                bitmapDrawable = (BitmapDrawable)getDrawable(R.drawable.map_low);
-                break;
-            }
             case("Mid"):
             case("Moderate"):{
                 bitmapDrawable = (BitmapDrawable)getDrawable(R.drawable.map_med);
@@ -207,6 +219,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 bitmapDrawable = (BitmapDrawable)getDrawable(R.drawable.map_high);
                 break;
             }
+            case("Low"):
             default:{
                 bitmapDrawable = (BitmapDrawable)getDrawable(R.drawable.map_low);
                 break;
@@ -214,6 +227,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         //rescaling the image to better fit the map
+        assert bitmapDrawable != null;
         Bitmap b = bitmapDrawable.getBitmap();
         Bitmap smallMarker = Bitmap.createScaledBitmap(b,75,75,false);
         marker.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
@@ -225,7 +239,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Intent intent = MainActivity.makeIntent(MapsActivity.this);
             startActivity(intent);
         });
+    }
 
+    private void moveRealignButton(){
+        //access compass
+        ViewGroup parent = (ViewGroup) mapView.findViewById(Integer.parseInt("1")).getParent();
+        View realignBtn = parent.getChildAt(4);
+        //position compass
+        RelativeLayout.LayoutParams realignBtnParams = (RelativeLayout.LayoutParams) realignBtn.getLayoutParams();
+        realignBtnParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+        realignBtnParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+        realignBtnParams.setMargins(0, 180, 180, 0);
     }
 
     public static Intent makeIntent(Context context) {
