@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -41,6 +43,16 @@ public class MainActivity extends AppCompatActivity {
         RestaurantManager manager = RestaurantManager.getInstance(this);
         ReadCSV readCSV = ReadCSV.getInstance(this);
         setupListView(manager);
+        setupMapButton();
+    }
+
+    private void setupMapButton() {
+        Button btnMap = findViewById(R.id.btnMap);
+        btnMap.setOnClickListener(v -> {
+            Intent intent = MapsActivity.makeIntent(MainActivity.this);
+            startActivity(intent);
+        });
+
     }
 
     private void setupListView(RestaurantManager manager){

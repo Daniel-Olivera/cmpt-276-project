@@ -5,6 +5,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -194,20 +195,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         switch(hazardString){
             case("Low"):{
-                bitmapDrawable = (BitmapDrawable)getResources().getDrawable(R.drawable.map_low);
+                bitmapDrawable = (BitmapDrawable)getDrawable(R.drawable.map_low);
                 break;
             }
             case("Mid"):
             case("Moderate"):{
-                bitmapDrawable = (BitmapDrawable)getResources().getDrawable(R.drawable.map_med);
+                bitmapDrawable = (BitmapDrawable)getDrawable(R.drawable.map_med);
                 break;
             }
             case("High"):{
-                bitmapDrawable = (BitmapDrawable)getResources().getDrawable(R.drawable.map_high);
+                bitmapDrawable = (BitmapDrawable)getDrawable(R.drawable.map_high);
                 break;
             }
             default:{
-                bitmapDrawable = (BitmapDrawable)getResources().getDrawable(R.drawable.map_low);
+                bitmapDrawable = (BitmapDrawable)getDrawable(R.drawable.map_low);
+                break;
             }
         }
 
@@ -219,13 +221,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void setupListButton() {
         Button listButton = findViewById(R.id.btnList);
-        listButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = MainActivity.makeIntent(MapsActivity.this);
-                startActivity(intent);
-            }
+        listButton.setOnClickListener(v -> {
+            Intent intent = MainActivity.makeIntent(MapsActivity.this);
+            startActivity(intent);
         });
 
+    }
+
+    public static Intent makeIntent(Context context) {
+        return new Intent(context, MapsActivity.class);
     }
 }
