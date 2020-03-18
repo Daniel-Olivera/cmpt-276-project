@@ -1,5 +1,6 @@
 package ca.cmpt276.restaurantreport.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +28,10 @@ This class show the list of all restaurants in the database
  */
 public class MainActivity extends AppCompatActivity {
 
+
+    public static Intent makeIntent(Context context) {
+        return new Intent(context, MainActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

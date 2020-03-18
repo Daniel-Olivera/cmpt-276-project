@@ -5,12 +5,15 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -74,6 +77,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             e.printStackTrace();
         }
 
+        setupListButton();
         ReadCSV.getInstance(this);
     }
 
@@ -211,5 +215,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Bitmap b = bitmapDrawable.getBitmap();
         Bitmap smallMarker = Bitmap.createScaledBitmap(b,75,75,false);
         marker.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+    }
+
+    private void setupListButton() {
+        Button listButton = findViewById(R.id.btnList);
+        listButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = MainActivity.makeIntent(MapsActivity.this);
+                startActivity(intent);
+            }
+        });
+
     }
 }
