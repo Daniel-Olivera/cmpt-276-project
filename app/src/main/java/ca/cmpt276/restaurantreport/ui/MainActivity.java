@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         RestaurantManager manager = RestaurantManager.getInstance(this);
-        ReadCSV.getInstance(this);
+        ReadCSV readCSV = ReadCSV.getInstance(this);
         setupListView(manager);
         setupMapButton();
     }
