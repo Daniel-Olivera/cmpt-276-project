@@ -2,7 +2,6 @@ package ca.cmpt276.restaurantreport.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -36,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
         RestaurantManager manager = RestaurantManager.getInstance(this);
         ReadCSV readCSV = ReadCSV.getInstance(this);
         setupListView(manager);
+
+        // testing
+        //startActivity(new Intent(MainActivity.this, UpdateActivity.class));
     }
 
     private void setupListView(RestaurantManager manager){
