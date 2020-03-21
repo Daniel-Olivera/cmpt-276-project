@@ -26,15 +26,13 @@ public class CustomClusterRenderer extends DefaultClusterRenderer<Restaurant> {
 
     private static final int MARKER_DIMENSION = 50;
     private Context context;
-    private final IconGenerator iconGenerator;
-    private final ImageView markerImageView;
 
     public CustomClusterRenderer(Context context, GoogleMap map, ClusterManager<Restaurant> clusterManager) {
         super(context, map, clusterManager);
         this.context = context;
 
-        iconGenerator = new IconGenerator(context);
-        markerImageView = new ImageView(context);
+        IconGenerator iconGenerator = new IconGenerator(context);
+        ImageView markerImageView = new ImageView(context);
         markerImageView.setLayoutParams(new ViewGroup.LayoutParams(MARKER_DIMENSION, MARKER_DIMENSION));
 
         iconGenerator.setContentView(markerImageView);
@@ -55,32 +53,31 @@ public class CustomClusterRenderer extends DefaultClusterRenderer<Restaurant> {
 
         String hazardString = currentRestaurant.getLatestInspectionHazard();
         BitmapDescriptor markerBitmapDescriptor;
-        Bitmap icon;
 
         //Assign's the appropriate icon and scales it
         switch (hazardString) {
             case ("Mid"):
             case ("Moderate"): {
-                icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.map_med);
-                Bitmap smallMarker = Bitmap.createScaledBitmap(icon,75,75,false);
-                markerBitmapDescriptor = BitmapDescriptorFactory.fromBitmap(smallMarker);
+                markerBitmapDescriptor = scaleIcon(R.drawable.map_med);
                 break;
             }
             case ("High"): {
-                icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.map_high);
-                Bitmap smallMarker = Bitmap.createScaledBitmap(icon,75,75,false);
-                markerBitmapDescriptor = BitmapDescriptorFactory.fromBitmap(smallMarker);
+                markerBitmapDescriptor = scaleIcon(R.drawable.map_high);
                 break;
             }
             case ("Low"):
             default: {
-                icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.map_low);
-                Bitmap smallMarker = Bitmap.createScaledBitmap(icon,75,75,false);
-                markerBitmapDescriptor = BitmapDescriptorFactory.fromBitmap(smallMarker);
+                markerBitmapDescriptor = scaleIcon(R.drawable.map_low);
                 break;
             }
         }
         //sets the icon
         markerOptions.icon(markerBitmapDescriptor);
+    }
+
+    private BitmapDescriptor scaleIcon(int resID){
+        Bitmap icon = BitmapFactory.decodeResource(context.getResources(), resID);
+        Bitmap smallMarker = Bitmap.createScaledBitmap(icon,75,75,false);
+        return BitmapDescriptorFactory.fromBitmap(smallMarker);
     }
 }
