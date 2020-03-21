@@ -1,12 +1,15 @@
 package ca.cmpt276.restaurantreport.applogic;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.clustering.ClusterItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /*
 This class store data of every Restaurant in the database
  */
-public class Restaurant {
+public class Restaurant implements ClusterItem {
 
     private String trackingNum;
 
@@ -15,10 +18,17 @@ public class Restaurant {
     private String physicalCity;
     private String facType;
 
+
+    private String mTitle;
+    private String mSnippet;
+
     private double latitude;
     private double longitude;
 
+    private LatLng mPosition;
+
     private List<Inspection> Inspections = new ArrayList<>();
+
 
     public Restaurant(String trackingNum, String Name, String physicalAddr, String physicalCity,String facType,double latitude, double longitude) {
 
@@ -29,10 +39,14 @@ public class Restaurant {
         this.facType = facType;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.mPosition = new LatLng(latitude,longitude);
+        this.mTitle = Name;
+        this.mSnippet = trackingNum;
+
+
     }
 
     public Restaurant() {
-
     }
 
     public String getName() {
@@ -95,5 +109,20 @@ public class Restaurant {
         }
 
         return result;
+    }
+
+    @Override
+    public LatLng getPosition() {
+        return mPosition;
+    }
+
+    @Override
+    public String getTitle() {
+        return mTitle;
+    }
+
+    @Override
+    public String getSnippet() {
+        return mSnippet;
     }
 }
