@@ -39,6 +39,7 @@ import java.util.Collection;
 import java.util.List;
 
 import ca.cmpt276.restaurantreport.R;
+import ca.cmpt276.restaurantreport.adapter.MapInfoWindowAdapter;
 import ca.cmpt276.restaurantreport.applogic.CustomClusterRenderer;
 import ca.cmpt276.restaurantreport.applogic.ReadCSV;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
@@ -140,8 +141,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         findDeviceLocation();
         updateLocationUI();
         setupClusterItemClickListener();
+        mMap.setInfoWindowAdapter(new MapInfoWindowAdapter(this));
         //for testing
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation,DEFAULT_ZOOM));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation,DEFAULT_ZOOM));
     }
 
     private void updateLocationUI() {
@@ -173,9 +175,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         // Set the map's camera position to the current location of the device.
                         lastKnownLocation = (Location) task.getResult();
                             assert lastKnownLocation != null;
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                     new LatLng(lastKnownLocation.getLatitude(),
-                                            lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+//                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+//                                     new LatLng(lastKnownLocation.getLatitude(),
+//                                            lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
                     }
                     else {
                         mMap.getUiSettings().setMyLocationButtonEnabled(false);
