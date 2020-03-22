@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         RestaurantManager manager = RestaurantManager.getInstance(this);
-        ReadCSV readCSV = ReadCSV.getInstance(this);
+        ReadCSV.getInstance(this);
         setupListView(manager);
         setupMapButton();
     }

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -18,12 +19,16 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.tasks.Task;
+
+import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.List;
@@ -32,6 +37,7 @@ import java.util.Objects;
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.adapter.MapInfoWindowAdapter;
 import ca.cmpt276.restaurantreport.applogic.CustomClusterRenderer;
+import ca.cmpt276.restaurantreport.applogic.Inspection;
 import ca.cmpt276.restaurantreport.applogic.ReadCSV;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
@@ -41,7 +47,8 @@ import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 displays a google maps view showing the user where the restaurants are
 and their current location
  */
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWindowClickListener,
+        OnMapReadyCallback {
 
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationClient;
@@ -52,10 +59,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final String LOCATION_KEY = "location";
     private static final String CAMERA_KEY = "camera_position";
     View mapView;
+    //SFU Surrey Campus
     private final LatLng defaultLocation = new LatLng(49.1864, -122.8483);
+    //change camera animation speed, lower number = higher speed
+    private final int UPDATE_CAM_SPEED = 300;
 
     private ClusterManager clusterManager;
-    private RestaurantManager manager = RestaurantManager.getInstance(this);
+    RestaurantManager manager;
+    List<Restaurant> allRestaurants;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +94,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapView = mapFragment.getView();
         }
 
-        setupListButton();
+        manager = RestaurantManager.getInstance(this);
         ReadCSV.getInstance(this);
+        allRestaurants = manager.getRestaurants();
+        setupListButton();
     }
 
     @Override
@@ -112,10 +126,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         locationPermissionGranted = false;
-        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {// If request is cancelled, the result arrays are empty.
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                locationPermissionGranted = true;
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    locationPermissionGranted = true;
+                }
             }
         }
         updateLocationUI();
@@ -129,8 +146,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         populateRestaurants();
         findDeviceLocation();
         updateLocationUI();
-        setupClusterItemClickListener();
         mMap.setInfoWindowAdapter(new MapInfoWindowAdapter(this));
+        mMap.setOnInfoWindowClickListener(this);
+
+        clusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener() {
+            @Override
+            public boolean onClusterClick(Cluster cluster) {
+                CameraUpdate updateCam = CameraUpdateFactory.newLatLngZoom(cluster.getPosition(),
+                        DEFAULT_ZOOM);
+
+                mMap.animateCamera(updateCam,UPDATE_CAM_SPEED,null);
+
+                return true;
+            }
+        });
+
         //for testing
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation,DEFAULT_ZOOM));
     }
@@ -180,10 +210,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void populateRestaurants(){
-        List<Restaurant> allRestaurants = manager.getRestaurants();
 
         clusterManager = new ClusterManager(this, mMap);
-        clusterManager.setRenderer(new CustomClusterRenderer(this, mMap, clusterManager));
         mMap.setOnCameraIdleListener(clusterManager);
         mMap.setOnMarkerClickListener(clusterManager);
 
@@ -192,15 +220,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             clusterManager.addItem(currentRes);
         }
 
+        clusterManager.setRenderer(new CustomClusterRenderer(this, mMap, clusterManager));
     }
 
-    private void setupClusterItemClickListener(){
+    @Override
+    public void onInfoWindowClick(Marker marker) {
 
-        clusterManager.setOnClusterItemClickListener(clusterItem -> {
-            //use "clusterItem." to get the info
-            //TODO set up pop-ups
-            return false;
-        });
+        String trackingNum = marker.getSnippet();
+        //don't want intent to be null so by default send user back to map
+        Intent intent = MapsActivity.makeIntent(this);
+
+        for(int i = 0; i < allRestaurants.size(); i++){
+            if(trackingNum.equals(allRestaurants.get(i).getTrackingNum())) {
+                Restaurant currentRes = allRestaurants.get(i);
+                String resName = currentRes.getName();
+                int issueCount = currentRes.getTotalIssues();
+                String totalIssues = Integer.toString(issueCount);
+
+                intent = RestaurantActivity.makeIntent(this, resName, totalIssues);
+                break;
+            }
+        }
+
+        startActivity(intent);
     }
 
     private void setupListButton() {

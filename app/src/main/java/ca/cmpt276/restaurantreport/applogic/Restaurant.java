@@ -43,7 +43,6 @@ public class Restaurant implements ClusterItem {
         this.mTitle = Name;
         this.mSnippet = trackingNum;
 
-
     }
 
     public Restaurant() {
@@ -109,6 +108,17 @@ public class Restaurant implements ClusterItem {
         }
 
         return result;
+    }
+
+    public int getTotalIssues(){
+        int issueCount = 0;
+
+        //counts all the issues (critical and non-critical) that a restaurant has
+        for (int i = 0; i < Inspections.size(); i++) {
+            issueCount += Inspections.get(i).getTotalIssues();
+        }
+
+        return issueCount;
     }
 
     @Override

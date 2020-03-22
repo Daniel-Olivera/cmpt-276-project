@@ -33,6 +33,7 @@
         <activity
             android:name=".ui.MapsActivity"
             android:label="@string/title_activity_maps">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -51,6 +52,7 @@
             android:name=".ui.MainActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
+
         </activity>
     </application>
 

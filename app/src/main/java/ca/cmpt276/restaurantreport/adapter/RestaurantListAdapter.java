@@ -66,12 +66,7 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
         Restaurant currentRestaurant = res.get(position);
         List<Inspection> insp = currentRestaurant.getInspections();
 
-        int issueCount = 0;
-
-        //counts all the issues (critical and non-critical) that a restaurant has
-        for (int i = 0; i < insp.size(); i++) {
-            issueCount += insp.get(i).getTotalIssues();
-        }
+        int issueCount = currentRestaurant.getTotalIssues();
 
         String issuesFound = issueCount + " Issues Found";
         String lastInspected = lastInspection(currentRestaurant);
