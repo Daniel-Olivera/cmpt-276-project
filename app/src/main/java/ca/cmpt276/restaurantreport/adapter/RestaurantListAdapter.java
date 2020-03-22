@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -75,13 +76,13 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
         String inspectDate = "Last Inspected: " + lastInspected;
         String hazardText = currentRestaurant.getLatestInspectionHazard();
         if(hazardText.equals("Moderate")){
-            hazardText = "Mid";
+            hazardText = "Med";
         }
         //set the texts with the right parameters
-        txtRestaurantName.setText(currentRestaurant.getName());
+        txtRestaurantName.setText(currentRestaurant.getName().replace("\"", ""));
         txtNumOfIssues.setText(issuesFound);
         txtInspectionDate.setText(inspectDate);
-        txtHazardLevel.setText(hazardText);
+        txtHazardLevel.setText(hazardText.replace("\"",""));
 
         //changes the hazard icon based on the hazard level
         getHazardIcon(hazardText,hazIcon);
@@ -96,7 +97,7 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
                 hazIcon.setImageResource(R.drawable.low);
                 break;
             }
-            case("Mid"):
+            case("Med"):
             case("Moderate"):{
                 hazIcon.setImageResource(R.drawable.medium);
                 break;
@@ -116,6 +117,11 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
 
         //gets the current date on the phone
         LocalDate currentDate = LocalDate.now();
+//        System.out.println("local date " + currentDate);
+//        LocalDateTime currentTime = LocalDateTime.now();
+//        System.out.println("local fdate time = " + currentTime);
+
+
 
         //get the latest inspection of the current restaurant
         int dateLastInspection = restaurant.getLatestInspectionDate();

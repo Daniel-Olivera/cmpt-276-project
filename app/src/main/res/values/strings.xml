@@ -40,5 +40,10 @@
     <string name="back">Back</string>
     <string name="pop_up_title">Detail</string>
 
+    <string name="Update">Update</string>
+    <string name="Later">Later</string>
+
+
+
 
 </resources>
