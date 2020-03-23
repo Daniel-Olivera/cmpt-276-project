@@ -10,6 +10,8 @@
     <string name="critical">critical</string>
     <string name="_07_march_2019">07 March 2019</string>
 
+    <string name="restaurant_toolbar">restaurant toolbar</string>
+    <string name="rest_tool_title">rest toolbar title</string>
     <string name="placehold_toolbar_title_1">restaurant name</string>
     <string name="placehold_textView">TextView</string>
     <string name="placehold_insp_name">Inspection Name</string>
@@ -39,6 +41,12 @@
 
     <string name="back">Back</string>
     <string name="pop_up_title">Detail</string>
+    <string name="title_activity_maps">Map</string>
+
+    <string name="mapApiKey">AIzaSyBzgnaqru9EU5xK8wLIWqK1f7rQ9AzG0qE</string>
+    <string name="list_view">List View</string>
+    <string name="map_view">Map View</string>
+    <string name="btn_coords_text" />
 
 
 </resources>

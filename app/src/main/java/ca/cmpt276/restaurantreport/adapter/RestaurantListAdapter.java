@@ -48,9 +48,12 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
         //Sets up which layout is being modified
-        LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = (LayoutInflater) getContext()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         assert layoutInflater != null;
-        @SuppressLint("ViewHolder") View row = layoutInflater.inflate(R.layout.restaurant_row, parent, false);
+
+        @SuppressLint("ViewHolder") View row = layoutInflater.inflate(R.layout.restaurant_row,
+                parent, false);
 
         TextView txtRestaurantName = row.findViewById(R.id.txtRestaurantName);
         TextView txtNumOfIssues = row.findViewById(R.id.txtNumOfIssues);
@@ -63,12 +66,7 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
         Restaurant currentRestaurant = res.get(position);
         List<Inspection> insp = currentRestaurant.getInspections();
 
-        int issueCount = 0;
-
-        //counts all the issues (critical and non-critical) that a restaurant has
-        for (int i = 0; i < insp.size(); i++) {
-            issueCount += insp.get(i).getTotalIssues();
-        }
+        int issueCount = currentRestaurant.getTotalIssues();
 
         String issuesFound = issueCount + " Issues Found";
         String lastInspected = lastInspection(currentRestaurant);
@@ -112,7 +110,7 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
     @RequiresApi(api = Build.VERSION_CODES.O)
     private String lastInspection(Restaurant restaurant){
 
-        String output;
+        String output = "Never";
 
         //gets the current date on the phone
         LocalDate currentDate = LocalDate.now();
@@ -172,6 +170,12 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
                     output = result + " days ago.";
             }
             else{
+                output = inspectionMonth.getDisplayName(TextStyle.SHORT,Locale.US) + " " + inspectionDay;
+            }
+        }
+        else if(inspectionYear == currentYear - 1){
+            int monthsAgo = (currentMonth.getValue() + 12) - inspectionMonth.getValue();
+            if(monthsAgo <= 12 && monthsAgo >= 0){
                 output = inspectionMonth.getDisplayName(TextStyle.SHORT,Locale.US) + " " + inspectionDay;
             }
         }

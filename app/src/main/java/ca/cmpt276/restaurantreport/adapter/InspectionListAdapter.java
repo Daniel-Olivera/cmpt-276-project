@@ -43,14 +43,14 @@ public class InspectionListAdapter extends ArrayAdapter<String> {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         assert layoutInflater != null;
         @SuppressLint("ViewHolder") View row = layoutInflater.inflate(R.layout.inspection_row,parent,false);
-        TextView txtInspName = row.findViewById(R.id.txtInspName);
+        TextView txtInspDate = row.findViewById(R.id.txtInspDate);
         TextView txtInspCritNums = row.findViewById(R.id.txtInspCritNums);
         TextView txtInspNCrtiNums = row.findViewById(R.id.txtInspNCrtiNums);
         TextView txtInspHazLvl = row.findViewById(R.id.txtInspHazLvl);
 
         ImageView imgInspHazIcon = row.findViewById(R.id.imgInspHazIcon);
 
-            setText(txtInspName, lastInspec[position]);
+            setText(txtInspDate, lastInspec[position]);
             if(critNum[position] == 1){
                 setText(txtInspCritNums, R.string.crit_postfix, critNum[position]);
             } else {

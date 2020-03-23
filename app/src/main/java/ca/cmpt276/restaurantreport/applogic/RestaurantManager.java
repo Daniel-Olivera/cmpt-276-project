@@ -60,9 +60,9 @@ public class RestaurantManager implements Iterable<Restaurant> {
     public List<ShortViolation> getShortViolationList() {return this.shortViolationList; }
 
     public ShortViolation getShortViolation(int violationCode) {
-        for(ShortViolation s :shortViolationList) {
-            if(Objects.equals(s.getViolationCode(), violationCode)) {
-                return s;
+        for(ShortViolation shortViolation :shortViolationList) {
+            if(shortViolation.getViolationCode() == violationCode) {
+                return shortViolation;
             }
         }
         return null;
