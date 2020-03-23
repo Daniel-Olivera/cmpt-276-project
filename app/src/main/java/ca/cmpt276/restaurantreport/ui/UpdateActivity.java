@@ -3,15 +3,19 @@ package ca.cmpt276.restaurantreport.ui;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,11 +44,16 @@ public class UpdateActivity extends AppCompatActivity {
     private TextView textView;
     private RequestQueue mQueue;
     private final int REQUEST_CODE_ASK_PERMISSIONS = 123;
+    private ProgressBar progressBar;
+    private ProcessData processData;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update);
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
@@ -64,6 +73,11 @@ public class UpdateActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+
+
+
+
             }
         });
 
@@ -83,7 +97,7 @@ public class UpdateActivity extends AppCompatActivity {
                             // get date modify
                             dateModify = jsonObject.getString("metadata_modified");
                             //testing
-                            textView.setText(dateModify);
+                            //textView.setText(dateModify);
                             // end
                             // get the url to download csv file
                             JSONArray res = jsonObject.getJSONArray("resources");
@@ -92,8 +106,8 @@ public class UpdateActivity extends AppCompatActivity {
 
 
                             // Copy data from the url to local file
-                            ProcessData read = new ProcessData();
-                            read.readRestaurantData(csvUrl);
+                            processData = processData.getInstance();
+                            processData.readRestaurantData(csvUrl, UpdateActivity.this);
 
                             // testing
                             //startActivity(new Intent(UpdateActivity.this,MainActivity.class));
@@ -124,7 +138,7 @@ public class UpdateActivity extends AppCompatActivity {
                             // get date modify
                             dateModify = jsonObject.getString("metadata_modified");
                             // testing
-                            textView.setText(dateModify);
+                            //textView.setText(dateModify);
                             //end
                             // get the url to download csv file
                             JSONArray res = jsonObject.getJSONArray("resources");
@@ -134,8 +148,28 @@ public class UpdateActivity extends AppCompatActivity {
                             // request permission to use external storage
                             //requestPermission();
                             // Copy data from the url to local file
-                            ProcessData read = new ProcessData();
-                            read.readReportData(reportUrl);
+                            processData = processData.getInstance();
+                            processData.readReportData(reportUrl, UpdateActivity.this);
+
+                            /*UpdateDialog dialog =new UpdateDialog();
+                            dialog.show(getSupportFragmentManager(),"UpdateDialog");*/
+
+                            /*for (int i = 0 ; i < 120;)
+                            {
+                                i = dialog.getProgressStatus();
+                                System.out.println("progress status is " + i);
+                                if( i >= 100) {
+                                    startActivity(new Intent(UpdateActivity.this, MainActivity.class));
+                                    break;
+                                }
+                            }
+*/
+
+
+
+
+
+
 
 
                             startActivity(new Intent(UpdateActivity.this,MainActivity.class));
@@ -153,7 +187,11 @@ public class UpdateActivity extends AppCompatActivity {
             }
         });
         mQueue.add(reportRequest);
-        //startActivity(new Intent(UpdateActivity.this,MainActivity.class));
+
+        UpdateDialog dialog =new UpdateDialog();
+        dialog.show(getSupportFragmentManager(),"UpdateDialog");
+
+
 
 
     }

@@ -9,16 +9,35 @@
 
     >
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="105dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="106dp"
+        android:indeterminate="false"
+        android:max="100"
+        android:minWidth="200dp"
+        android:minHeight="50dp"
+        android:progress="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview" />
+
     <TextView
         android:id="@+id/textview"
-        android:text="Restaurant Report"
-        android:textSize="55dp"
-        android:textAlignment="center"
-        android:layout_width="289dp"
-        android:layout_height="370dp"
+        android:layout_width="284dp"
+        android:layout_height="157dp"
         android:layout_marginStart="79dp"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="80dp"
+        android:text="Restaurant Report"
+        android:textAlignment="center"
+        android:textSize="55dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

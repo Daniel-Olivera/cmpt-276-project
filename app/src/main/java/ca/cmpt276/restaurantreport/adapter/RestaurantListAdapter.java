@@ -79,7 +79,7 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
         txtRestaurantName.setText(currentRestaurant.getName());
         txtNumOfIssues.setText(issuesFound);
         txtInspectionDate.setText(inspectDate);
-        txtHazardLevel.setText(hazardText);
+        txtHazardLevel.setText(hazardText.replace("\"",""));
 
         //changes the hazard icon based on the hazard level
         getHazardIcon(hazardText,hazIcon);
@@ -89,7 +89,7 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
 
     private void getHazardIcon(String hazardText, ImageView hazIcon){
         switch(hazardText){
-            case("Low"):
+            case("\"Low\""):
             default:{
                 hazIcon.setImageResource(R.drawable.low);
                 break;
