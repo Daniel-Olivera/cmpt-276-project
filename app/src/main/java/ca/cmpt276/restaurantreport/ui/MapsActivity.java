@@ -30,6 +30,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -61,6 +62,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
     private final LatLng defaultLocation = new LatLng(49.1864, -122.8483);
     //change camera animation speed, lower number = higher speed
     private final int UPDATE_CAM_SPEED = 300;
+    LatLng markerPos;
 
     private ClusterManager clusterManager;
     RestaurantManager manager;
@@ -92,14 +94,18 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
         mapView = mapFragment.getView();
         }
 
-        if (getIntent().getBooleanExtra("EXIT", false)) {
-            finish();
-        }
-
         manager = RestaurantManager.getInstance(this);
         ReadCSV.getInstance(this);
         allRestaurants = manager.getRestaurants();
         setupListButton();
+
+        double defaultValue = 0;
+        if(getIntent().getDoubleExtra("latitude", defaultValue) != 0){
+
+            markerPos = new LatLng(getIntent().getDoubleExtra("latitude",0),
+                    getIntent().getDoubleExtra("longitude", 0));
+
+        }
     }
 
     @Override

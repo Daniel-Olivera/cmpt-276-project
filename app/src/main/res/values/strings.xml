@@ -46,6 +46,7 @@
     <string name="mapApiKey">AIzaSyBzgnaqru9EU5xK8wLIWqK1f7rQ9AzG0qE</string>
     <string name="list_view">List View</string>
     <string name="map_view">Map View</string>
+    <string name="btn_coords_text" />
 
 
 </resources>

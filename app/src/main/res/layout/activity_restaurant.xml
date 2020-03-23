@@ -115,5 +115,16 @@
         </ListView>
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btnCoords"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/btn_coords_text"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@+id/txtLongtitude"
+        app:layout_constraintEnd_toEndOf="@+id/txtLongtitude"
+        app:layout_constraintStart_toStartOf="@+id/txtLattitude"
+        app:layout_constraintTop_toTopOf="@+id/txtLattitude" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -110,7 +110,7 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
     @RequiresApi(api = Build.VERSION_CODES.O)
     private String lastInspection(Restaurant restaurant){
 
-        String output;
+        String output = "Never";
 
         //gets the current date on the phone
         LocalDate currentDate = LocalDate.now();
@@ -170,6 +170,12 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
                     output = result + " days ago.";
             }
             else{
+                output = inspectionMonth.getDisplayName(TextStyle.SHORT,Locale.US) + " " + inspectionDay;
+            }
+        }
+        else if(inspectionYear == currentYear - 1){
+            int monthsAgo = (currentMonth.getValue() + 12) - inspectionMonth.getValue();
+            if(monthsAgo <= 12 && monthsAgo >= 0){
                 output = inspectionMonth.getDisplayName(TextStyle.SHORT,Locale.US) + " " + inspectionDay;
             }
         }

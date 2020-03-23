@@ -71,9 +71,8 @@ public class Inspection implements Comparable<Inspection> {
 
     public List getViolations() {return this.ViolationList;}
 
-    public String dayFromLastInspection()
-    {
-        String output;
+    public String dayFromLastInspection() {
+        String output = "Never";
 
         //gets the current date on the phone
         LocalDate currentDate = LocalDate.now();
@@ -81,7 +80,7 @@ public class Inspection implements Comparable<Inspection> {
         int dateLastInspection = date;
 
         String lastInspectedDate = Integer.toString(dateLastInspection);
-        if(lastInspectedDate.equals("0")){
+        if (lastInspectedDate.equals("0")) {
             return "Never";
         }
 
@@ -90,7 +89,7 @@ public class Inspection implements Comparable<Inspection> {
         try {
             lastInspection = LocalDate.parse(lastInspectedDate, DateTimeFormatter.BASIC_ISO_DATE);
         } catch (DateTimeParseException e) {
-            Log.d("RestaurantListAdapter","String cannot be parsed into LocalDate");
+            Log.d("RestaurantListAdapter", "String cannot be parsed into LocalDate");
             e.printStackTrace();
         }
 
@@ -110,37 +109,38 @@ public class Inspection implements Comparable<Inspection> {
         int numCurMon = currentMonth.getValue();
 
         //check the recency of the inspection compared to today's date
-        if(inspectionYear == currentYear) {
-            if(numInspMon == numCurMon){
+        if (inspectionYear == currentYear) {
+            if (numInspMon == numCurMon) {
                 int result = currentDay - inspectionDay;
-                if(result > 1){
+                if (result > 1) {
                     output = result + " days ago.";
-                }
-                else if(result < 1){
+                } else if (result < 1) {
                     output = "Inspection scheduled in " + result + " days";
-                }
-                else {
+                } else {
                     output = result + "day ago.";
                 }
             }
             //if within the last month, calculate how many days ago
-            else if(numInspMon == numCurMon - 1){
+            else if (numInspMon == numCurMon - 1) {
                 int inspMonthLen = inspectionMonth.length(lastInspection.isLeapYear());
                 int result = currentDay + inspMonthLen;
                 result -= inspectionDay;
                 output = result + " days ago.";
-            }
-            else{
+            } else {
                 output = inspectionMonth.getDisplayName(TextStyle.SHORT, Locale.US) + " " + inspectionDay;
             }
-        }
-        else{
-            output = inspectionMonth.getDisplayName(TextStyle.SHORT,Locale.US) + " " + inspectionYear;
+        } else if (inspectionYear == currentYear - 1) {
+            int monthsAgo = (currentMonth.getValue() + 12) - inspectionMonth.getValue();
+            if (monthsAgo <= 12 && monthsAgo >= 0) {
+                output = inspectionMonth.getDisplayName(TextStyle.SHORT, Locale.US) + " " + inspectionDay;
+            }
+        } else {
+            output = inspectionMonth.getDisplayName(TextStyle.SHORT, Locale.US) + " " + inspectionYear;
         }
 
         return output;
-
     }
+
 
     @Override
     public int compareTo(Inspection o) {
