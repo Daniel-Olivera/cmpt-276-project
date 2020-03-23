@@ -26,7 +26,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.tasks.Task;
-
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.algo.Algorithm;
 import com.google.maps.android.clustering.algo.NonHierarchicalDistanceBasedAlgorithm;
@@ -66,7 +65,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
     private final int UPDATE_CAM_SPEED = 300;
 
     private ClusterManager clusterManager;
-    private CustomClusterRenderer customClusterRenderer;
     RestaurantManager manager;
     List<Restaurant> allRestaurants;
 
@@ -154,13 +152,10 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         locationPermissionGranted = false;
-        switch (requestCode) {
-            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    locationPermissionGranted = true;
-                }
+        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                locationPermissionGranted = true;
             }
         }
         updateLocationUI();
@@ -256,7 +251,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
             Restaurant currentRes = allRestaurants.get(i);
             clusterManager.addItem(currentRes);
         }
-        customClusterRenderer = new CustomClusterRenderer(this, mMap, clusterManager);
+        CustomClusterRenderer customClusterRenderer = new CustomClusterRenderer(this, mMap, clusterManager);
         clusterManager.setRenderer(customClusterRenderer);
     }
 

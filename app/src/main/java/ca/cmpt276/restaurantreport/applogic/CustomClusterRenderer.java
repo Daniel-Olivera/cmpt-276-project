@@ -12,12 +12,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.Cluster;
-import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.google.maps.android.ui.IconGenerator;
-
-import java.util.List;
 
 import ca.cmpt276.restaurantreport.R;
 
@@ -51,6 +48,12 @@ public class CustomClusterRenderer extends DefaultClusterRenderer<Restaurant> {
     protected boolean shouldRenderAsCluster(Cluster<Restaurant> cluster) {
         //start clustering if at least 3 items overlap
         return cluster.getSize() > 2;
+    }
+
+
+    @Override
+    public Marker getMarker(Restaurant clusterItem) {
+        return super.getMarker(clusterItem);
     }
 
     private void setMarkerHazardIcon(Restaurant currentRestaurant, MarkerOptions markerOptions) {
