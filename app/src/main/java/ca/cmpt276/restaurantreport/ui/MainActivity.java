@@ -1,5 +1,6 @@
 package ca.cmpt276.restaurantreport.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.activity.OnBackPressedDispatcher;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Collections;
@@ -40,6 +43,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (getIntent().getBooleanExtra("EXIT", false)) {
+            finish();
+        }
+
         RestaurantManager manager = RestaurantManager.getInstance(this);
         ReadCSV.getInstance(this);
         setupListView(manager);
@@ -53,6 +60,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+    }
+
+   @Override
+   public void onBackPressed(){
+        finishAffinity();
     }
 
     private void setupListView(RestaurantManager manager){

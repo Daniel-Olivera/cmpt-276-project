@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -37,7 +36,6 @@ import java.util.Objects;
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.adapter.MapInfoWindowAdapter;
 import ca.cmpt276.restaurantreport.applogic.CustomClusterRenderer;
-import ca.cmpt276.restaurantreport.applogic.Inspection;
 import ca.cmpt276.restaurantreport.applogic.ReadCSV;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
@@ -94,10 +92,19 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
         mapView = mapFragment.getView();
         }
 
+        if (getIntent().getBooleanExtra("EXIT", false)) {
+            finish();
+        }
+
         manager = RestaurantManager.getInstance(this);
         ReadCSV.getInstance(this);
         allRestaurants = manager.getRestaurants();
         setupListButton();
+    }
+
+    @Override
+    public void onBackPressed(){
+        finishAffinity();
     }
 
     @Override
