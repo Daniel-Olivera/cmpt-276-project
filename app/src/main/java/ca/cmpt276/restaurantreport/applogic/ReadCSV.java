@@ -90,7 +90,7 @@ public class ReadCSV {
 
         if(update == true) {
             File root = new File(Environment.getExternalStorageDirectory(), "Notes");
-            File gpxfile = new File(root, "TestingFile.txt");
+            File gpxfile = new File(root, "MyTestReport.csv");
 
             InputStream isInspection = null;
             try {
@@ -119,8 +119,8 @@ public class ReadCSV {
 
                   then further splitting violations using comma to get separate violations
                  */
-                    //String[] tokens = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-                    String[] tokens = line.split(",");
+                    String[] tokens = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+                    //String[] tokens = line.split(",");
                     System.out.println("line is " + line);
                     System.out.println("tokenns lengths = " + tokens.length);
 
@@ -138,49 +138,15 @@ public class ReadCSV {
                                 temp.get(2),
                                 Integer.parseInt(temp.get(3)),
                                 Integer.parseInt(temp.get(4)),
-                                temp.get(5)
+                                "Low"
                         ));
-                        if (temp.size() > 6) {
-                            String[] violationTokens = tokens[6].split("\\|");
-                            Inspection sampleInspection = inspectionList.get(inspectionIndex);
 
-                            for (String violation : violationTokens) {
-
-                                String[] tokens2 = violation.split(",");
-
-                                Violation newViolation = new Violation();
-                                int i = 0;
-                                for (String violationString : tokens2) {
-                                    switch (i) {
-                                        case 0:
-                                            newViolation.setViolationCode(violationString);
-                                            i++;
-                                            break;
-                                        case 1:
-                                            newViolation.setViolationCriticality(violationString);
-                                            i++;
-                                            break;
-                                        case 2:
-                                            newViolation.setViolationDescriptor(violationString);
-                                            i++;
-                                            break;
-                                        default:
-                                            i = 0;
-                                            break;
-                                    }
-                                }
-                                sampleInspection.addNewViolation(newViolation);
-                            }
-                            inspectionList.set(inspectionIndex, sampleInspection);
-                            inspectionIndex++;
-
-                        } else {
                             Inspection sampleInspection = inspectionList.get(inspectionIndex);
                             Violation newViolation = new Violation("", "", "");
                             sampleInspection.addNewViolation(newViolation);
                             inspectionList.set(inspectionIndex, sampleInspection);
                             inspectionIndex++;
-                        }
+
 
                     } else if (tokens[5].isEmpty()) {
                         tokens[5] = "0";
@@ -190,7 +156,7 @@ public class ReadCSV {
                                 tokens[2],
                                 Integer.parseInt(tokens[3]),
                                 Integer.parseInt(tokens[4]),
-                                tokens[5]
+                                tokens[6]
                         ));
 
 
@@ -200,7 +166,7 @@ public class ReadCSV {
                         // further for the individual string of violation we use the "," delimiter to get the violation code, criticality and description
 
                         if (tokens.length > 6) {
-                            String[] violationTokens = tokens[6].split("\\|");
+                            String[] violationTokens = tokens[5].split("\\|");
                             Inspection sampleInspection = inspectionList.get(inspectionIndex);
 
                             for (String violation : violationTokens) {
@@ -240,6 +206,64 @@ public class ReadCSV {
                             inspectionList.set(inspectionIndex, sampleInspection);
                             inspectionIndex++;
                         }
+                    }
+                    else {
+                        inspectionList.add(new Inspection(
+                                tokens[0].replace("\"", ""),
+                                Integer.parseInt(tokens[1]),
+                                tokens[2].replace("\"", ""),
+                                Integer.parseInt(tokens[3]),
+                                Integer.parseInt(tokens[4]),
+                                tokens[6].replace("\"", "")
+                        ));
+
+                        //if the inspection contains any violations move on and split the entire violation string
+                        //          into individual violations using the "|" delimiter
+                        //
+                        // further for the individual string of violation we use the "," delimiter to get the violation code, criticality and description
+
+                        if (tokens.length > 6) {
+                            String[] violationTokens = tokens[5].split("\\|");
+                            Inspection sampleInspection = inspectionList.get(inspectionIndex);
+
+                            for (String violation : violationTokens) {
+
+                                String[] tokens2 = violation.split(",");
+
+                                Violation newViolation = new Violation();
+                                int i = 0;
+                                for (String violationString : tokens2) {
+                                    switch (i) {
+                                        case 0:
+                                            newViolation.setViolationCode(violationString.replace("\"", ""));
+                                            i++;
+                                            break;
+                                        case 1:
+                                            newViolation.setViolationCriticality(violationString.replace("\"", ""));
+                                            i++;
+                                            break;
+                                        case 2:
+                                            newViolation.setViolationDescriptor(violationString.replace("\"", ""));
+                                            i++;
+                                            break;
+                                        default:
+                                            i = 0;
+                                            break;
+                                    }
+                                }
+                                sampleInspection.addNewViolation(newViolation);
+                            }
+                            inspectionList.set(inspectionIndex, sampleInspection);
+                            inspectionIndex++;
+
+                        } else {
+                            Inspection sampleInspection = inspectionList.get(inspectionIndex);
+                            Violation newViolation = new Violation("", "", "");
+                            sampleInspection.addNewViolation(newViolation);
+                            inspectionList.set(inspectionIndex, sampleInspection);
+                            inspectionIndex++;
+                        }
+
                     }
                 }
             } catch (IOException e) {

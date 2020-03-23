@@ -2,6 +2,7 @@ package ca.cmpt276.restaurantreport.applogic;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -23,9 +24,29 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProcessData {
+import ca.cmpt276.restaurantreport.ui.MainActivity;
+import ca.cmpt276.restaurantreport.ui.UpdateActivity;
 
-    public void readRestaurantData(String data) {
+public class ProcessData {
+    int currentLine;
+    int totalLine;
+    int percentage;
+    int totalRestaurant;
+    private  static ProcessData instance;
+
+    private ProcessData(){}
+
+    public static ProcessData getInstance()
+    {
+        if (instance == null)
+        {
+            instance = new ProcessData();
+        }
+        return instance;
+    }
+
+
+    public void readRestaurantData(String data, Context context) {
         try {
             System.out.println(data);
             URL url = new URL(data);
@@ -34,11 +55,22 @@ public class ProcessData {
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String current;
             List<String[]> restaurants = new ArrayList<String[]>();
-            //List<String> name = new ArrayList<String>();
-            while ((current = in.readLine()) != null) {// name.add(current);
 
+            while ((current = in.readLine()) != null) {
+                if(!current.equals(",,,,,,"))
+                {
+                    totalLine++;
+                }
+
+            }
+            in.close();
+            totalRestaurant = totalLine;
+            System.out.println("Total Line is 1 " + totalLine);
+
+            // Re-open the file to read
+            in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            while ((current = in.readLine()) != null) {
                 String[] row = current.split(",");
-
                 if(row.length == 8)
                 {
                     row[1] = row[1] + row[2];
@@ -52,7 +84,7 @@ public class ProcessData {
                 restaurants.add(row);
             }
             in.close();
-            saveRestaurantData(restaurants);
+            saveRestaurantData(restaurants, context);
         } catch (Exception e) {
             System.out.println("Big offf");
 
@@ -60,18 +92,17 @@ public class ProcessData {
         }
     }
 
-    private void saveRestaurantData(List<String[]> restaurants) {
+    private void saveRestaurantData(List<String[]> restaurants, Context context) {
         try {
-            File root = new File(Environment.getExternalStorageDirectory(), "Notes");
+            File root = context.getDir("RestaurantReport", Context.MODE_PRIVATE);
             if (!root.exists()) {
                 root.mkdirs();
             }
-            String state = Environment.getExternalStorageState();
-            System.out.println("State = " + state);
 
-            File gpxfile = new File(root, "MyTest.csv");
+            File gpxfile = new File(root, "RestaurantDetails.csv");
             CSVWriter writer = new CSVWriter(new FileWriter(gpxfile));
             writer.writeAll(restaurants);
+            percentage = 10;
             writer.flush();
             writer.close();
         } catch (IOException e) {
@@ -79,7 +110,7 @@ public class ProcessData {
         }
     }
 
-    public void readReportData(String data)
+    public void readReportData(String data, Context context)
     {
         try {
             System.out.println(data);
@@ -90,66 +121,78 @@ public class ProcessData {
             String current;
             List<String[]> reports = new ArrayList<String[]>();
             List<String> name = new ArrayList<String>();
+
+            // count total number of lines
+
+            while ((current = in.readLine()) != null) {
+                if(!current.equals(",,,,,,"))
+                {
+                    totalLine++;
+                }
+
+            }
+            in.close();
+            System.out.println("Total Line is 2 " + totalLine);
+
+
+            // Re-open the file to read it
+            in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             while ((current = in.readLine()) != null) {
                 if(!current.equals(",,,,,,"))
                 {
                     name.add(current);
                 }
 
-
-
-                //String[] row = current.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-
-
-                //reports.add(row);
             }
             in.close();
-            saveReportData(name);
+            saveReportData(name, context);
         } catch (Exception e) {
-            System.out.println("Big offf");
-
             e.printStackTrace();
         }
 
 
     }
 
-    private void saveReportData(List<String> reports) {
+    private void saveReportData(List<String> reports, Context context) {
         try {
-            File root = new File(Environment.getExternalStorageDirectory(), "Notes");
+            File root = context.getDir("RestaurantReport", Context.MODE_PRIVATE);
             if (!root.exists()) {
                 root.mkdirs();
             }
-            String state = Environment.getExternalStorageState();
-            System.out.println("State = " + state);
-
-            File gpxfile = new File(root, "MyTestReport.csv");
-            //testing
-            File file = new File(root, "TestingFile.txt");
-           /* CSVWriter writer = new CSVWriter(new FileWriter(gpxfile));
-            writer.writeAll(reports);
-            writer.flush();
-            writer.close();*/
-           FileWriter writer = new FileWriter(gpxfile);
-           FileWriter writter1 = new FileWriter(file);
-           for(int i = 0 ; i < 30 ; i++)
-           {
-               writter1.write(reports.get(i) + "\n");
-
-           }
+            File gpxfile = new File(root, "RestaurantReports.csv");
+            FileWriter writer = new FileWriter(gpxfile);
            for(int i =0 ;i < reports.size();i++)
            {
+               currentLine++;
                writer.write(reports.get(i) + "\n");
            }
-           writter1.flush();
-           writter1.close();
+
             writer.flush();
             writer.close();
+
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+    }
+
+    public int getCurrentLine() {
+        return currentLine;
+    }
+
+    public int getTotalLine() {
+        return totalLine;
+    }
+
+    public int getPercentage()
+    {
+        if (totalLine <= 10000)
+        {
+            return 0;
+        }
+        percentage = (currentLine+totalRestaurant) / totalLine * 100;
+        return  percentage;
     }
 
 

@@ -79,16 +79,16 @@ public class InspectionListAdapter extends ArrayAdapter<String> {
 
     private void getHazardIcon(String hazardLevel, ImageView icon) {
         switch (hazardLevel) {
-            case ("\"Low\""):
+            case ("Low"):
             default: {
                 icon.setImageResource(R.drawable.low);
                 break;
             }
-            case ("\"Moderate\""): {
+            case ("Moderate"): {
                 icon.setImageResource(R.drawable.medium);
                 break;
             }
-            case ("\"High\""): {
+            case ("High"): {
                 icon.setImageResource(R.drawable.high);
                 break;
             }
