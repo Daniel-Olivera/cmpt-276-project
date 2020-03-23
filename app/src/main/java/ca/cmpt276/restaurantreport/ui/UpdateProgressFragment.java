@@ -6,14 +6,13 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 import ca.cmpt276.restaurantreport.R;
+import ca.cmpt276.restaurantreport.applogic.ReadCSV;
 
 public class UpdateProgressFragment extends AppCompatDialogFragment {
 
@@ -28,15 +27,9 @@ public class UpdateProgressFragment extends AppCompatDialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                switch(which) {
-                   case Dialog.BUTTON_NEUTRAL:
-                       ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-                       TextView textView = (TextView) view.findViewById(R.id.txtUpdateProgress);
-                      while(progressStatus < 100){
-                          progressStatus++;
-                          progressBar.setProgress(progressStatus);
-                          textView.setText(progressStatus+"/"+progressBar.getMax());
-                      }
-                      break;
+                   case Dialog.BUTTON_NEGATIVE:
+                       ReadCSV readCSV = ReadCSV.getInstance(getContext(),false);
+
                 }
             }
         };
@@ -45,7 +38,7 @@ public class UpdateProgressFragment extends AppCompatDialogFragment {
                 .setTitle("update progress")
                 .setView(view)
                 .setNegativeButton(R.string.back,listener)
-                .setNeutralButton("continue",listener)
+                .setNegativeButton("Cancel",listener)
                 .create();
     }
 }

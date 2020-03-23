@@ -29,10 +29,9 @@ import org.json.JSONObject;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.time.Duration;
-import java.time.LocalDateTime;
 
 import ca.cmpt276.restaurantreport.R;
+import ca.cmpt276.restaurantreport.applogic.ReadCSV;
 
 public class UpdateActivity extends AppCompatActivity {
 
@@ -44,6 +43,8 @@ public class UpdateActivity extends AppCompatActivity {
     private RequestQueue mQueue;
     private final int REQUEST_CODE_ASK_PERMISSIONS = 123;
     boolean timeForUpdate;
+    boolean newDataAvailable;
+    int updateFlag = getUpdateFlagValue(UpdateActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,14 +70,29 @@ public class UpdateActivity extends AppCompatActivity {
            @Override
            public void onClick(View v) {
 
-               FragmentManager fragManager = getSupportFragmentManager();
-               UpdateProgressFragment dialog = new UpdateProgressFragment();
-               dialog.show(fragManager,"updateDialog");
+
+               switch(updateFlag) {
+                   case -1:
+                       saveUpdateFlag(updateFlag++);
+                       ReadCSV readCSV = ReadCSV.getInstance(UpdateActivity.this,false);
+                       break;
+                   case 0:
+                       FragmentManager fragManager = getSupportFragmentManager();
+                       UpdateProgressFragment dialog = new UpdateProgressFragment();
+                       dialog.show(fragManager,"updateDialog");
+
+               }
 
            }
        });
     }
 
+    private void saveUpdateFlag(int i) {
+        SharedPreferences sharedPreferencesUpdateFlag = UpdateActivity.this.getSharedPreferences("Update_flag_prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferencesUpdateFlag.edit();
+        editor.putInt("update_flag",i);
+        editor.apply();
+    }
     private void jsonParse() throws IOException {
 
         String restaurantURL = "http://data.surrey.ca/api/3/action/package_show?id=restaurants";
@@ -102,12 +118,13 @@ public class UpdateActivity extends AppCompatActivity {
 
 
                             // Copy data from the url to local file
-
+                            ProcessData read = new ProcessData();
+                            read.readRestaurantData(csvUrl);
 
                             // testing
                             //startActivity(new Intent(UpdateActivity.this,MainActivity.class));
                             timeForUpdate = checkTimeForUpdate();
-                            //newDataAvailable = checkNewDataAvailable();
+                            newDataAvailable = checkNewDataAvailable();
 
 
                         } catch (JSONException e) {
@@ -141,9 +158,9 @@ public class UpdateActivity extends AppCompatActivity {
                             JSONArray res = jsonObject.getJSONArray("resources");
                             JSONObject obj = res.getJSONObject(0);
                             reportUrl = obj.getString("url");
+                            System.out.println("report url is " + reportURL);
                             // request permission to use external storage
                             //requestPermission();
-
                             // Copy data from the url to local file
 
 
@@ -192,12 +209,23 @@ public class UpdateActivity extends AppCompatActivity {
         LocalDateTime lastModifiedInspections = LocalDateTime.parse(dateModifyInspections);
 
         String lastUpdated = getWhenLastUpdated(UpdateActivity.this);
-        return true;
+
+        LocalDateTime timeOfLastUpdate = LocalDateTime.parse(lastUpdated);
+
+        if((lastModifiedInspections.isAfter(timeOfLastUpdate)) || (lastModifiedRestaurants.isAfter(timeOfLastUpdate))){
+            return true;
+        }
+        return false;
     }
 
     static public String getWhenLastUpdated (Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Update_prefs",MODE_PRIVATE);
-        return sharedPreferences.getString("last updated","");
+        SharedPreferences sharedPreferencesLastUpdated = context.getSharedPreferences("Update_prefs",MODE_PRIVATE);
+        return sharedPreferencesLastUpdated.getString("last updated","");
+    }
+
+    static public int getUpdateFlagValue (Context context) {
+        SharedPreferences sharedPreferencesUpdateFlag = context.getSharedPreferences("Update_flag_prefs",MODE_PRIVATE);
+        return sharedPreferencesUpdateFlag.getInt("update_flag",-1);
     }
 
     private void requestPermission() {
