@@ -119,7 +119,6 @@ public class RestaurantActivity extends AppCompatActivity {
             Intent coordinatesIntent = MapsActivity.makeIntent(RestaurantActivity.this);
 
             coordinatesIntent.putExtra("trackingID", restaurant.getTrackingNum());
-
             startActivity(coordinatesIntent);
         });
 

@@ -25,19 +25,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
 
-import com.google.maps.android.MarkerManager;
-import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.algo.Algorithm;
 import com.google.maps.android.clustering.algo.NonHierarchicalDistanceBasedAlgorithm;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -67,12 +61,12 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
     private static final String CAMERA_KEY = "camera_position";
     View mapView;
     //SFU Surrey Campus
-    private final LatLng defaultLocation = new LatLng(49.1864, -122.8483);
+    private final LatLng SFU_SURREY = new LatLng(49.1864, -122.8483);
     //change camera animation speed, lower number = higher speed
     private final int UPDATE_CAM_SPEED = 300;
-    LatLng markerPos;
 
     private ClusterManager clusterManager;
+    private CustomClusterRenderer customClusterRenderer;
     RestaurantManager manager;
     List<Restaurant> allRestaurants;
 
@@ -101,39 +95,31 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
             e.printStackTrace();
         }
 
-        if(mapView == null){
-        mapView = mapFragment.getView();
+        if (mapView == null) {
+            mapView = mapFragment.getView();
         }
 
         manager = RestaurantManager.getInstance(this);
         ReadCSV.getInstance(this);
         allRestaurants = manager.getRestaurants();
         setupListButton();
-
-
-//        String trackingID = getIntent().getStringExtra("trackingID");
-//        if(!trackingID.isEmpty()){
-//            findAndShowMarkerInfo(trackingID);
-//        }
-
     }
 
-    private void findAndShowMarkerInfo(String trackingID) {
-        //MarkerManager.Collection clusterItems = clusterManager.getMarkerCollection();
-        //Collection<Marker> markers = clusterItems.getMarkers();
-//        Collection<Marker> markers = clusterManagerAlgorithm.getItems();
-//
-//        Log.d("test", "size: " + markers.size());
-//
-//        for (Marker marker : markers) {
-//
-//            String markerSnippet = marker.getSnippet();
-//
-//            if (markerSnippet.equals(trackingID)) {
-//                marker.showInfoWindow();
-//                break;
-//            }
-//        }
+    private void findAndShowMarker(String trackingID) {
+        Collection<Restaurant> restaurantMarkers = clusterManagerAlgorithm.getItems();
+
+        for (Restaurant restaurant : restaurantMarkers) {
+            String markerSnippet = restaurant.getTrackingNum();
+            if (markerSnippet.equals(trackingID)) {
+
+                LatLng restaurantPos = new LatLng(restaurant.getLatitude(),
+                        restaurant.getLongitude());
+
+                CameraUpdate updateCam = CameraUpdateFactory.newLatLngZoom(restaurantPos, 20);
+                mMap.moveCamera(updateCam);
+                break;
+            }
+        }
     }
 
 
@@ -186,7 +172,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
         getLocationPermission();
         moveRealignButton();
         populateRestaurants();
-        findDeviceLocation();
+
         updateLocationUI();
         mMap.setInfoWindowAdapter(new MapInfoWindowAdapter(this));
         mMap.setOnInfoWindowClickListener(this);
@@ -194,23 +180,23 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
         Bundle extras = getIntent().getExtras();
         if(extras != null){
             String trackingID = extras.getString("trackingID");
-            findAndShowMarkerInfo(trackingID);
+            findAndShowMarker(trackingID);
+        }
+        else
+        {
+            //for testing
+            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SFU_SURREY,DEFAULT_ZOOM));
+            findDeviceLocation();
         }
 
-        clusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener() {
-            @Override
-            public boolean onClusterClick(Cluster cluster) {
-                CameraUpdate updateCam = CameraUpdateFactory.newLatLngZoom(cluster.getPosition(),
-                        DEFAULT_ZOOM);
+        clusterManager.setOnClusterClickListener(cluster -> {
+            CameraUpdate updateCam = CameraUpdateFactory.newLatLngZoom(cluster.getPosition(),
+                    DEFAULT_ZOOM);
 
-                mMap.animateCamera(updateCam,UPDATE_CAM_SPEED,null);
+            mMap.animateCamera(updateCam,UPDATE_CAM_SPEED,null);
 
-                return true;
-            }
+            return true;
         });
-
-        //for testing
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation,DEFAULT_ZOOM));
     }
 
     private void updateLocationUI() {
@@ -242,9 +228,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
                         // Set the map's camera position to the current location of the device.
                         lastKnownLocation = (Location) task.getResult();
                             assert lastKnownLocation != null;
-//                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-//                                     new LatLng(lastKnownLocation.getLatitude(),
-//                                            lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                     new LatLng(lastKnownLocation.getLatitude(),
+                                            lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
                     }
                     else {
                         mMap.getUiSettings().setMyLocationButtonEnabled(false);
@@ -270,8 +256,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
             Restaurant currentRes = allRestaurants.get(i);
             clusterManager.addItem(currentRes);
         }
-
-        clusterManager.setRenderer(new CustomClusterRenderer(this, mMap, clusterManager));
+        customClusterRenderer = new CustomClusterRenderer(this, mMap, clusterManager);
+        clusterManager.setRenderer(customClusterRenderer);
     }
 
     @Override
