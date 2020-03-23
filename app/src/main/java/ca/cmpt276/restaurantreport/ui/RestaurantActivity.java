@@ -3,9 +3,11 @@ package ca.cmpt276.restaurantreport.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TabWidget;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -106,13 +108,18 @@ public class RestaurantActivity extends AppCompatActivity {
             startActivity(intent1);
         });
 
+        setupCoordinatesButton(restaurant);
+
+
+    }
+
+    private void setupCoordinatesButton(Restaurant restaurant) {
         Button btnCoords = findViewById(R.id.btnCoords);
         btnCoords.setOnClickListener(v -> {
             Intent coordinatesIntent = MapsActivity.makeIntent(RestaurantActivity.this);
-            intent.putExtra("latitude",
-                    Double.parseDouble(txtLatitude.getText().toString()));
-            intent.putExtra("Longitude",
-                    Double.parseDouble(txtLongitude.getText().toString()));
+
+            coordinatesIntent.putExtra("trackingID", restaurant.getTrackingNum());
+
             startActivity(coordinatesIntent);
         });
 
