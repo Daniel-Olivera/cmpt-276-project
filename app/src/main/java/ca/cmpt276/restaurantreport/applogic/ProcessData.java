@@ -2,9 +2,12 @@ package ca.cmpt276.restaurantreport.applogic;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -23,21 +26,29 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProcessData {
+import ca.cmpt276.restaurantreport.ui.MainActivity;
+import ca.cmpt276.restaurantreport.ui.UpdateActivity;
 
-    public void readRestaurantData(String data) {
+public class ProcessData {
+    int currentLine;
+    int totalLine;
+    int percentage;
+    int totalRestaurant;
+
+
+
+    public void readRestaurantData(String data, Context context) {
         try {
+            System.out.println(data);
             URL url = new URL(data);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String current;
             List<String[]> restaurants = new ArrayList<String[]>();
-            //List<String> name = new ArrayList<String>();
-            while ((current = in.readLine()) != null) {// name.add(current);
 
+            while ((current = in.readLine()) != null) {
                 String[] row = current.split(",");
-
                 if(row.length == 8)
                 {
                     row[1] = row[1] + row[2];
@@ -51,7 +62,8 @@ public class ProcessData {
                 restaurants.add(row);
             }
             in.close();
-            saveRestaurantData(restaurants);
+            saveRestaurantData(restaurants, context);
+            System.out.println("hahahahhahaahahha");
         } catch (Exception e) {
             System.out.println("Big offf");
 
@@ -59,17 +71,21 @@ public class ProcessData {
         }
     }
 
-    private void saveRestaurantData(List<String[]> restaurants) {
+    private void saveRestaurantData(List<String[]> restaurants, Context context) {
         try {
-            File root = new File(Environment.getExternalStorageDirectory(), "Notes");
-            if (!root.exists()) {
-                root.mkdirs();
-            }
-            String state = Environment.getExternalStorageState();
+            File root = context.getDir("RestaurantReport", Context.MODE_PRIVATE);
 
-            File gpxfile = new File(root, "MyTest.csv");
+            boolean isDirectoryCreated = root.mkdirs();
+
+            if(isDirectoryCreated)
+                System.out.println("Directory created successfully");
+            else
+                System.out.println("Directory was not created successfully");
+
+            File gpxfile = new File(root, "RestaurantDetails.csv");
             CSVWriter writer = new CSVWriter(new FileWriter(gpxfile));
             writer.writeAll(restaurants);
+            percentage = 10;
             writer.flush();
             writer.close();
         } catch (IOException e) {
@@ -77,9 +93,10 @@ public class ProcessData {
         }
     }
 
-    public void readReportData(String data)
+    public void readReportData(String data, Context context)
     {
         try {
+            System.out.println(data);
             URL url = new URL(data);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -87,64 +104,73 @@ public class ProcessData {
             String current;
             List<String[]> reports = new ArrayList<String[]>();
             List<String> name = new ArrayList<String>();
+
+            // Re-open the file to read it
+
             while ((current = in.readLine()) != null) {
                 if(!current.equals(",,,,,,"))
                 {
                     name.add(current);
                 }
 
-
-
-                //String[] row = current.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-
-
-                //reports.add(row);
             }
             in.close();
-            saveReportData(name);
+            saveReportData(name, context);
         } catch (Exception e) {
-            System.out.println("Big offf");
-
             e.printStackTrace();
         }
 
 
     }
 
-    private void saveReportData(List<String> reports) {
+    private void saveReportData(List<String> reports, Context context) {
         try {
-            File root = new File(Environment.getExternalStorageDirectory(), "Notes");
+            /*File root = context.getDir("RestaurantReport", Context.MODE_PRIVATE);
             if (!root.exists()) {
                 root.mkdirs();
-            }
-            String state = Environment.getExternalStorageState();
-            File gpxfile = new File(root, "MyTestReport.csv");
-            //testing
-            File file = new File(root, "TestingFile.txt");
-           /* CSVWriter writer = new CSVWriter(new FileWriter(gpxfile));
-            writer.writeAll(reports);
-            writer.flush();
-            writer.close();*/
-           FileWriter writer = new FileWriter(gpxfile);
-           FileWriter writter1 = new FileWriter(file);
-           for(int i = 0 ; i < 30 ; i++)
-           {
-               writter1.write(reports.get(i) + "\n");
+            }*/
+            File root = context.getDir("RestaurantReport", Context.MODE_PRIVATE);
 
-           }
+            boolean isDirectoryCreated = root.mkdirs();
+
+            if(isDirectoryCreated)
+                System.out.println("Directory created successfully");
+            else
+                System.out.println("Directory was not created successfully");
+            File gpxfile = new File(root, "RestaurantReports.csv");
+            FileWriter writer = new FileWriter(gpxfile);
            for(int i =0 ;i < reports.size();i++)
            {
+               currentLine++;
                writer.write(reports.get(i) + "\n");
            }
-           writter1.flush();
-           writter1.close();
+
             writer.flush();
             writer.close();
+
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+    }
+
+    public int getCurrentLine() {
+        return currentLine;
+    }
+
+    public int getTotalLine() {
+        return totalLine;
+    }
+
+    public int getPercentage()
+    {
+        if (totalLine <= 10000)
+        {
+            return 0;
+        }
+        percentage = (currentLine+totalRestaurant) / totalLine * 100;
+        return  percentage;
     }
 
 

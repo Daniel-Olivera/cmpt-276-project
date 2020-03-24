@@ -26,14 +26,12 @@ import ca.cmpt276.restaurantreport.R;
 public class ReadCSV {
     private RestaurantManager manager;
     private Context context;
-    private boolean update;
 
     @SuppressLint("StaticFieldLeak")
     private static ReadCSV instance;
 
-    private ReadCSV(Context context, boolean update) {
+    private ReadCSV(Context context) {
         this.context = context;
-        this.update = update;
 
         readRestaurantData();
         readInspectionData();
@@ -42,86 +40,57 @@ public class ReadCSV {
     private void readRestaurantData() {
         manager = RestaurantManager.getInstance(context);
 
-        if(update){
-            //testing
-            File root = new File(Environment.getExternalStorageDirectory(), "Notes");
-            File gpxfile = new File(root, "MyTest.csv");
-            InputStream is = null;
-            try {
-                is = new FileInputStream(gpxfile);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+        //testing
+        File root = context.getDir("RestaurantReport", Context.MODE_PRIVATE);
+        File gpxfile = new File(root, "RestaurantDetails.csv");
+        InputStream is = null;
+        try {
+            is = new FileInputStream(gpxfile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
-            // end testing
+        // end testing
 
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(is, StandardCharsets.UTF_8)
-            );
-            String line = "";
-            try {
-                reader.readLine(); // to skip the first line with the name, addrs,
-                while ((line = reader.readLine()) != null) {
-                    String [] tokens = line.split(",");
-                    for (int i = 0 ; i < 7 ; i++) {
-                        tokens[i]= tokens[i].replace("\"", "");
-                    }
-                    double latitude = Double.parseDouble(tokens[5]);
-                    double longtitude = Double.parseDouble(tokens[6]);
-                    manager.add(new Restaurant(
-                            tokens[0],
-                            tokens[1],
-                            tokens[2],
-                            tokens[3],
-                            tokens[4],
-                            latitude,
-                            longtitude
-                    ));
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(is, StandardCharsets.UTF_8)
+        );
+        String line = "";
+        try {
+            reader.readLine(); // to skip the first line with the name, addrs,
+            while ((line = reader.readLine()) != null) {
+                String [] tokens = line.split(",");
+                for (int i = 0 ; i < 7 ; i++) {
+                    tokens[i]= tokens[i].replace("\"", "");
                 }
-            } catch (IOException e) {
-                Log.e("Main Activity", "Error Reading Data File on Line" + line, e);
-                e.printStackTrace();
+                double latitude = Double.parseDouble(tokens[5]);
+                double longtitude = Double.parseDouble(tokens[6]);
+                manager.add(new Restaurant(
+                        tokens[0].replace("\"",""),
+                        tokens[1].replace("\"",""),
+                        tokens[2].replace("\"",""),
+                        tokens[3].replace("\"",""),
+                        tokens[4].replace("\"",""),
+                        latitude,
+                        longtitude
+                ));
             }
-        }else {
-            InputStream is = context.getResources().openRawResource(R.raw.restaurants_itr1);
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(is, StandardCharsets.UTF_8)
-            );
-            String line = "";
-            try {
-                reader.readLine(); // to skip the first line with the name, addrs,
-                while ((line = reader.readLine()) != null) {
-                    String [] tokens = line.split(",");
-                    for (int i = 0 ; i < 7 ; i++) {
-                        tokens[i]= tokens[i].replace("\"", "");
-                    }
-                    double latitude = Double.parseDouble(tokens[5]);
-                    double longtitude = Double.parseDouble(tokens[6]);
-                    manager.add(new Restaurant(
-                            tokens[0],
-                            tokens[1],
-                            tokens[2],
-                            tokens[3],
-                            tokens[4],
-                            latitude,
-                            longtitude
-                    ));
-                }
-            } catch (IOException e) {
-                Log.e("Main Activity", "Error Reading Data File on Line" + line, e);
-                e.printStackTrace();
-            }
+        } catch (IOException e) {
+            Log.e("Main Activity", "Error Reading Data File on Line" + line, e);
+            e.printStackTrace();
         }
     }
 
     private void readInspectionData() {
         List<Inspection> inspectionList = new ArrayList<>(); //temporary inspectionList
+
+        boolean update = true;
         //InputStream isInspection = context.getResources().openRawResource(R.raw.inspectionreports_itr1);
 
 
-        if(update) {
-            File root = new File(Environment.getExternalStorageDirectory(), "Notes");
-            File gpxfile = new File(root, "MyTestReport.csv");
+        if(update == true) {
+            File root = context.getDir("RestaurantReport", Context.MODE_PRIVATE);
+            File gpxfile = new File(root, "RestaurantReports.csv");
 
             InputStream isInspection = null;
             try {
@@ -131,7 +100,6 @@ public class ReadCSV {
             }
 
 
-            assert isInspection != null;
             BufferedReader inspectionReader = new BufferedReader(
                     new InputStreamReader(isInspection, StandardCharsets.UTF_8)
             );
@@ -153,12 +121,16 @@ public class ReadCSV {
                  */
                     String[] tokens = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
                     //String[] tokens = line.split(",");
+                   /* System.out.println("line is " + line);
+                    System.out.println("tokenns lengths = " + tokens.length);*/
 
                     //System.out.println("Before: token 5 is " + tokens[5]);
                     if (tokens.length == 5) {
                         // tao string[] moi xong copy paste sang
-                        List<String> temp = new ArrayList<String>(Arrays.asList(tokens));
+                        List<String> temp = new ArrayList<String>();
+                        temp.addAll(Arrays.asList(tokens));
                         temp.add("0");
+                        System.out.println("The list is " + temp);
 
                         inspectionList.add(new Inspection(
                                 temp.get(0),
@@ -168,14 +140,16 @@ public class ReadCSV {
                                 Integer.parseInt(temp.get(4)),
                                 "Low"
                         ));
+
                             Inspection sampleInspection = inspectionList.get(inspectionIndex);
                             Violation newViolation = new Violation("", "", "");
                             sampleInspection.addNewViolation(newViolation);
                             inspectionList.set(inspectionIndex, sampleInspection);
                             inspectionIndex++;
 
+
                     } else if (tokens[5].isEmpty()) {
-                        tokens[5] = "";
+                        tokens[5] = "0";
                         inspectionList.add(new Inspection(
                                 tokens[0],
                                 Integer.parseInt(tokens[1]),
@@ -190,29 +164,12 @@ public class ReadCSV {
                         //          into individual violations using the "|" delimiter
                         //
                         // further for the individual string of violation we use the "," delimiter to get the violation code, criticality and description
-                            Inspection sampleInspection = inspectionList.get(inspectionIndex);
-                            Violation newViolation = new Violation("", "", "");
-                            sampleInspection.addNewViolation(newViolation);
-                            inspectionList.set(inspectionIndex, sampleInspection);
-                            inspectionIndex++;
-                    } else{
-                        inspectionList.add(new Inspection(
-                                tokens[0].replace("\"",""),
-                                Integer.parseInt(tokens[1]),
-                                tokens[2].replace("\"",""),
-                                Integer.parseInt(tokens[3]),
-                                Integer.parseInt(tokens[4]),
-                                tokens[6].replace("\"","")
-                        ));
 
-                        //if the inspection contains any violations move on and split the entire violation string
-                        //          into individual violations using the "|" delimiter
-                        //
-                        // further for the individual string of violation we use the "," delimiter to get the violation code, criticality and description
+                        if (tokens.length > 6) {
                             String[] violationTokens = tokens[5].split("\\|");
                             Inspection sampleInspection = inspectionList.get(inspectionIndex);
 
-                        for (String violation : violationTokens) {
+                            for (String violation : violationTokens) {
 
                                 String[] tokens2 = violation.split(",");
 
@@ -221,19 +178,19 @@ public class ReadCSV {
                                 for (String violationString : tokens2) {
                                     switch (i) {
                                         case 0:
-                                            newViolation.setViolationCode(violationString.replace("\"",""));
+                                            newViolation.setViolationCode(violationString);
                                             i++;
                                             break;
                                         case 1:
-                                            newViolation.setViolationCriticality(violationString.replace("\"",""));
+                                            newViolation.setViolationCriticality(violationString);
                                             i++;
                                             break;
                                         case 2:
-                                            newViolation.setViolationDescriptor(violationString.replace("\"",""));
+                                            newViolation.setViolationDescriptor(violationString);
                                             i++;
                                             break;
                                         default:
-                                            i = -1;
+                                            i = 0;
                                             break;
                                     }
                                 }
@@ -242,6 +199,70 @@ public class ReadCSV {
                             inspectionList.set(inspectionIndex, sampleInspection);
                             inspectionIndex++;
 
+                        } else {
+                            Inspection sampleInspection = inspectionList.get(inspectionIndex);
+                            Violation newViolation = new Violation("", "", "");
+                            sampleInspection.addNewViolation(newViolation);
+                            inspectionList.set(inspectionIndex, sampleInspection);
+                            inspectionIndex++;
+                        }
+                    }
+                    else {
+                        inspectionList.add(new Inspection(
+                                tokens[0].replace("\"", ""),
+                                Integer.parseInt(tokens[1]),
+                                tokens[2].replace("\"", ""),
+                                Integer.parseInt(tokens[3]),
+                                Integer.parseInt(tokens[4]),
+                                tokens[6].replace("\"", "")
+                        ));
+
+                        //if the inspection contains any violations move on and split the entire violation string
+                        //          into individual violations using the "|" delimiter
+                        //
+                        // further for the individual string of violation we use the "," delimiter to get the violation code, criticality and description
+
+                        if (tokens.length > 6) {
+                            String[] violationTokens = tokens[5].split("\\|");
+                            Inspection sampleInspection = inspectionList.get(inspectionIndex);
+
+                            for (String violation : violationTokens) {
+
+                                String[] tokens2 = violation.split(",");
+
+                                Violation newViolation = new Violation();
+                                int i = 0;
+                                for (String violationString : tokens2) {
+                                    switch (i) {
+                                        case 0:
+                                            newViolation.setViolationCode(violationString.replace("\"", ""));
+                                            i++;
+                                            break;
+                                        case 1:
+                                            newViolation.setViolationCriticality(violationString.replace("\"", ""));
+                                            i++;
+                                            break;
+                                        case 2:
+                                            newViolation.setViolationDescriptor(violationString.replace("\"", ""));
+                                            i++;
+                                            break;
+                                        default:
+                                            i = 0;
+                                            break;
+                                    }
+                                }
+                                sampleInspection.addNewViolation(newViolation);
+                            }
+                            inspectionList.set(inspectionIndex, sampleInspection);
+                            inspectionIndex++;
+
+                        } else {
+                            Inspection sampleInspection = inspectionList.get(inspectionIndex);
+                            Violation newViolation = new Violation("", "", "");
+                            sampleInspection.addNewViolation(newViolation);
+                            inspectionList.set(inspectionIndex, sampleInspection);
+                            inspectionIndex++;
+                        }
                     }
                 }
             } catch (IOException e) {
@@ -328,7 +349,7 @@ public class ReadCSV {
                                         i++;
                                         break;
                                     default:
-                                        i = -1;
+                                        i = 0;
                                         break;
                                 }
                             }
@@ -364,9 +385,9 @@ public class ReadCSV {
             }
         }
     }
-    public static ReadCSV getInstance(Context context, boolean update) {
+    public static ReadCSV getInstance(Context context) {
         if(instance == null) {
-            instance = new ReadCSV(context, update);
+            instance = new ReadCSV(context);
         }
         return instance;
     }

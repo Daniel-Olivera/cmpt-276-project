@@ -176,7 +176,7 @@ public class InspectionActivity extends AppCompatActivity {
         for(Violation violation: violationList) {
             String sampleViolationCode = violation.getViolationCode();
             int violationCode;
-            if(sampleViolationCode.equalsIgnoreCase("")){
+            if(sampleViolationCode.isEmpty()){
                 violationCode = 0;
             }
             else{
@@ -192,9 +192,9 @@ public class InspectionActivity extends AppCompatActivity {
 
 
         int index = 0;//index for accessing the long violation to get criticality as shortViolation object doesn't have criticality field
-        for(ShortViolation s:shortViolationList) {
-            violationCodes[index] = s.getViolationCode();
-            shortDescription[index] = s.getShortDescriptor();
+        for(ShortViolation shortViolation:shortViolationList) {
+            violationCodes[index] = shortViolation.getViolationCode();
+            shortDescription[index] = shortViolation.getShortDescriptor();
             violationCriticalities[index] = violationList.get(index).getViolationCriticality();
             index++;
         }

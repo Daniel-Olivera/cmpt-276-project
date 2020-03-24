@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layoutInfoWindow"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/txtInfoViewName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/placehold_detail_1"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtInfoViewAddr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/placehold_detail_2"
+        app:layout_constraintStart_toStartOf="@+id/txtInfoViewName"
+        app:layout_constraintTop_toBottomOf="@+id/txtInfoViewName" />
+
+    <TextView
+        android:id="@+id/txtInfoHaz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginEnd="4dp"
+        android:text="@string/placehold_haz_lvl"
+        android:textColor="?android:attr/textColorSecondary"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgInfoHazIcon"
+        app:layout_constraintEnd_toStartOf="@+id/imgInfoHazIcon"
+        app:layout_constraintTop_toTopOf="@+id/imgInfoHazIcon" />
+
+    <ImageView
+        android:id="@+id/imgInfoHazIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="2dp"
+        android:contentDescription="@string/changeable_icon_for_hazard_level"
+        android:src="@drawable/low"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtInfoViewAddr">
+
+    </ImageView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

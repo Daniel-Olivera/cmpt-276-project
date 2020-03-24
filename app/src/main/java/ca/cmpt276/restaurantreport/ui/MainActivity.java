@@ -1,10 +1,17 @@
 package ca.cmpt276.restaurantreport.ui;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.activity.OnBackPressedDispatcher;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Collections;
@@ -27,17 +34,37 @@ This class show the list of all restaurants in the database
 public class MainActivity extends AppCompatActivity {
 
 
+    public static Intent makeIntent(Context context) {
+        return new Intent(context, MainActivity.class);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (getIntent().getBooleanExtra("EXIT", false)) {
+            finish();
+        }
+
         RestaurantManager manager = RestaurantManager.getInstance(this);
 
         setupListView(manager);
+        setupMapButton();
+    }
 
-        // testing
-        //startActivity(new Intent(MainActivity.this, UpdateActivity.class));
+    private void setupMapButton() {
+        Button btnMap = findViewById(R.id.btnMap);
+        btnMap.setOnClickListener(v -> {
+            Intent intent = MapsActivity.makeIntent(MainActivity.this);
+            startActivity(intent);
+        });
+
+    }
+
+   @Override
+   public void onBackPressed(){
+        finishAffinity();
     }
 
     private void setupListView(RestaurantManager manager){

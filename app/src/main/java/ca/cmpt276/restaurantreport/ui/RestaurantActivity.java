@@ -3,7 +3,11 @@ package ca.cmpt276.restaurantreport.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TabWidget;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -68,10 +72,10 @@ public class RestaurantActivity extends AppCompatActivity {
         toolbar_title.setText(resName);
         TextView txtAddress = findViewById(R.id.txtAddress);
         txtAddress.setText(getString(R.string.rest_addr_prefix, addr));
-        TextView txtLattitude = findViewById(R.id.txtLattitude);
-        txtLattitude.setText(getString(R.string.rest_lat_prefix, Double.toString(manager.get(index).getLatitude())));
-        TextView txtLongtitude = findViewById(R.id.txtLongtitude);
-        txtLongtitude.setText(getString(R.string.rest_long_prefix, Double.toString(manager.get(index).getLongitude())));
+        TextView txtLatitude = findViewById(R.id.txtLattitude);
+        txtLatitude.setText(getString(R.string.rest_lat_prefix, Double.toString(manager.get(index).getLatitude())));
+        TextView txtLongitude = findViewById(R.id.txtLongtitude);
+        txtLongitude.setText(getString(R.string.rest_long_prefix, Double.toString(manager.get(index).getLongitude())));
         TextView txtInspHeader = findViewById(R.id.txtInspHeader);
         txtInspHeader.setText(R.string.rest_insp_prefix);
 
@@ -102,6 +106,20 @@ public class RestaurantActivity extends AppCompatActivity {
             String trackingNumber = restaurant.getTrackingNum();
             Intent intent1 = InspectionActivity.makeIntent(RestaurantActivity.this,trackingNumber,position);
             startActivity(intent1);
+        });
+
+        setupCoordinatesButton(restaurant);
+
+
+    }
+
+    private void setupCoordinatesButton(Restaurant restaurant) {
+        Button btnCoords = findViewById(R.id.btnCoords);
+        btnCoords.setOnClickListener(v -> {
+            Intent coordinatesIntent = MapsActivity.makeIntent(RestaurantActivity.this);
+
+            coordinatesIntent.putExtra("trackingID", restaurant.getTrackingNum());
+            startActivity(coordinatesIntent);
         });
 
     }
