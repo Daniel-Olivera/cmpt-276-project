@@ -3,8 +3,10 @@ package ca.cmpt276.restaurantreport.ui;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,13 +32,15 @@ import org.json.JSONObject;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.applogic.ProcessData;
+import ca.cmpt276.restaurantreport.applogic.ReadCSV;
 
 public class UpdateActivity extends AppCompatActivity {
 
-    private String dateModify;
     private String csvUrl;
     private String reportUrl;
     private TextView textView;
@@ -43,6 +48,17 @@ public class UpdateActivity extends AppCompatActivity {
     private final int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private ProgressBar progressBar;
     private ProcessData processData;
+
+    //MANAV
+    private String dateModifyRestaurants;
+    private String dateModifyInspections;
+    boolean timeForUpdate;
+    boolean newDataAvailable;
+    int updateFlag;
+    static public boolean clickedUpdate;
+    static public boolean clickedCancel;
+    //
+
 
 
 
@@ -58,23 +74,64 @@ public class UpdateActivity extends AppCompatActivity {
         textView = findViewById(R.id.textview);
         Button button = findViewById(R.id.praseButton);
         // request permission to use external storage
-        //requestPermission();
+        requestPermission();
 
+        try {
+            jsonParse();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        updateFlag = getUpdateFlagValue(this);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    jsonParse();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                switch(updateFlag) {
+                    case -1:
+                        saveUpdateFlag(0);
+                        ReadCSV readCSV = ReadCSV.getInstance(UpdateActivity.this,false);
+                        startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
+                        break;
+                    case 0:
+                        if((timeForUpdate == true) && (newDataAvailable == true)){
+                            FragmentManager askUpdateFragmentManager = getSupportFragmentManager();
+                            AskForUpdateDialog askForUpdateDialog = new AskForUpdateDialog(csvUrl,reportUrl,UpdateActivity.this);
+                            askForUpdateDialog.show(askUpdateFragmentManager, "ask_for_update_dialog");
+                            //code snippet from https://stackoverflow.com/questions/15874117/how-to-set-delay-in-android
+                            final Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // Do something after 5s = 5000ms
+                                    if(clickedUpdate){
+                                        UpdateDialog dialog =new UpdateDialog();
+                                        dialog.show(getSupportFragmentManager(),"UpdateDialog");
+
+                                    }
+                                    final Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            // Do something after 3s = 3000ms
+                                            if(!clickedCancel){
+                                                LocalDateTime currentTime = LocalDateTime.now();
+                                                String strCurrentTime = currentTime.toString();
+                                                saveWhenLastUpdated(strCurrentTime);
+                                            }
+                                        }
+                                    }, 2000);
+                                }
+                            }, 1000);
+                            //startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
+
+                        }else{
+                            ReadCSV readCSV1 = ReadCSV.getInstance(UpdateActivity.this,false);
+                            startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
+                        }
+
                 }
-
-
-
-
-
             }
         });
+
 
     }
     private void jsonParse() throws IOException {
@@ -90,7 +147,7 @@ public class UpdateActivity extends AppCompatActivity {
                             // get object name result
                             JSONObject jsonObject = response.getJSONObject("result");
                             // get date modify
-                            dateModify = jsonObject.getString("metadata_modified");
+                            dateModifyRestaurants = jsonObject.getString("metadata_modified");
                             //testing
                             //textView.setText(dateModify);
                             // end
@@ -101,12 +158,21 @@ public class UpdateActivity extends AppCompatActivity {
 
 
                             // Copy data from the url to local file
-                            ProcessData processData  = new ProcessData();
-                            processData.readRestaurantData(csvUrl, UpdateActivity.this);
 
                             // testing
-                            startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
+                           // startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
 
+
+
+                            final Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // Do something after 5s = 5000ms
+                                    timeForUpdate = checkTimeForUpdate();
+                                    newDataAvailable = checkNewDataAvailable();
+                                }
+                            }, 2000);
 
 
                         } catch (JSONException e) {
@@ -131,7 +197,7 @@ public class UpdateActivity extends AppCompatActivity {
                             // get object name result
                             JSONObject jsonObject = response.getJSONObject("result");
                             // get date modify
-                            dateModify = jsonObject.getString("metadata_modified");
+                            dateModifyInspections = jsonObject.getString("metadata_modified");
                             // testing
                             //textView.setText(dateModify);
                             //end
@@ -143,8 +209,6 @@ public class UpdateActivity extends AppCompatActivity {
                             // request permission to use external storage
                             //requestPermission();
                             // Copy data from the url to local file
-                            ProcessData processData = new ProcessData();
-                            processData.readReportData(reportUrl, UpdateActivity.this);
 
                             /*UpdateDialog dialog =new UpdateDialog();
                             dialog.show(getSupportFragmentManager(),"UpdateDialog");*/
@@ -160,14 +224,7 @@ public class UpdateActivity extends AppCompatActivity {
                             }
 */
 
-
-
-
-
-
-
-
-                            startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
+                           //startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
 
 
 
@@ -182,13 +239,70 @@ public class UpdateActivity extends AppCompatActivity {
             }
         });
         mQueue.add(reportRequest);
+    }
 
-        UpdateDialog dialog =new UpdateDialog();
-        dialog.show(getSupportFragmentManager(),"UpdateDialog");
+    private boolean checkTimeForUpdate() {
 
+        String lastUpdated = getWhenLastUpdated(UpdateActivity.this);
 
+        if(lastUpdated.equalsIgnoreCase("never")){
+            return true;
+        }else{
+            LocalDateTime timeOfLastUpdate = LocalDateTime.parse(lastUpdated);
+            LocalDateTime currentDateAndTime = LocalDateTime.now();
 
+            Duration diffLastUpdateAndNow = Duration.between(timeOfLastUpdate,currentDateAndTime);
 
+            long daysFromLastUpdate = diffLastUpdateAndNow.toDays();
+            diffLastUpdateAndNow = diffLastUpdateAndNow.minusDays(daysFromLastUpdate);
+            long hoursFromLastUpdate = diffLastUpdateAndNow.toHours();
+            diffLastUpdateAndNow = diffLastUpdateAndNow.minusHours(hoursFromLastUpdate);
+
+            if(daysFromLastUpdate > 0) {
+                if(hoursFromLastUpdate >= 20){
+                    return true;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean checkNewDataAvailable() {
+        LocalDateTime lastModifiedRestaurants = LocalDateTime.parse(dateModifyRestaurants);
+        LocalDateTime lastModifiedInspections = LocalDateTime.parse(dateModifyInspections);
+
+        String lastUpdated = getWhenLastUpdated(UpdateActivity.this);
+
+        System.out.println("last updated = " + lastUpdated);
+        if(lastUpdated.equalsIgnoreCase("never")){
+            return true;
+        }
+        LocalDateTime timeOfLastUpdate = LocalDateTime.parse(lastUpdated);
+
+        return (lastModifiedInspections.isAfter(timeOfLastUpdate)) || (lastModifiedRestaurants.isAfter(timeOfLastUpdate));
+    }
+
+    static public String getWhenLastUpdated (Context context) {
+        SharedPreferences sharedPreferencesLastUpdated = context.getSharedPreferences("Update_prefs",MODE_PRIVATE);
+        return sharedPreferencesLastUpdated.getString("last updated","never");
+    }
+
+    private void saveWhenLastUpdated(String lastUpdated) {
+        SharedPreferences sharedPreferencesLastUpdated = UpdateActivity.this.getSharedPreferences("Update_prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferencesLastUpdated.edit();
+        editor.putString("last_updated",lastUpdated);
+        editor.apply();
+    }
+
+    private void saveUpdateFlag(int i) {
+        SharedPreferences sharedPreferencesUpdateFlag = UpdateActivity.this.getSharedPreferences("Update_flag_prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferencesUpdateFlag.edit();
+        editor.putInt("update_flag_value",i);
+        editor.apply();
+    }
+    static public int getUpdateFlagValue (Context context) {
+        SharedPreferences sharedPreferencesUpdateFlag = context.getSharedPreferences("Update_flag_prefs",MODE_PRIVATE);
+        return sharedPreferencesUpdateFlag.getInt("update_flag_value",-1);
     }
 
     private void requestPermission() {

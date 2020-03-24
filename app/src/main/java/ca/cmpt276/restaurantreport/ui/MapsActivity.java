@@ -1,12 +1,10 @@
 package ca.cmpt276.restaurantreport.ui;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,19 +12,13 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
@@ -41,11 +33,6 @@ import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.algo.Algorithm;
 import com.google.maps.android.clustering.algo.NonHierarchicalDistanceBasedAlgorithm;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -54,7 +41,6 @@ import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.adapter.MapInfoWindowAdapter;
 import ca.cmpt276.restaurantreport.applogic.CustomClusterRenderer;
 import ca.cmpt276.restaurantreport.applogic.ProcessData;
-import ca.cmpt276.restaurantreport.applogic.ReadCSV;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 
@@ -140,7 +126,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
         ///
 
         manager = RestaurantManager.getInstance(this);
-        ReadCSV.getInstance(this);
+        //ReadCSV.getInstance(this,true);
         allRestaurants = manager.getRestaurants();
         setupListButton();
     }

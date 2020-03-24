@@ -1,5 +1,6 @@
 package ca.cmpt276.restaurantreport.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import androidx.fragment.app.DialogFragment;
 
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.applogic.ProcessData;
+import ca.cmpt276.restaurantreport.applogic.ReadCSV;
 
 public class UpdateDialog extends DialogFragment {
 
@@ -41,6 +43,9 @@ public class UpdateDialog extends DialogFragment {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UpdateActivity.clickedCancel = true;
+                ReadCSV readCSV = ReadCSV.getInstance(getContext(),false);
+                startActivity(new Intent(getContext(),MapsActivity.class));
                 getDialog().dismiss();
             }
         });

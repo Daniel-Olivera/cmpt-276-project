@@ -1,23 +1,11 @@
 package ca.cmpt276.restaurantreport.applogic;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.ContextWrapper;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.AsyncTask;
-import android.os.Environment;
-import android.widget.Toast;
-
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.opencsv.CSVWriter;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -25,9 +13,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import ca.cmpt276.restaurantreport.ui.MainActivity;
-import ca.cmpt276.restaurantreport.ui.UpdateActivity;
 
 public class ProcessData {
     int currentLine;
@@ -39,7 +24,7 @@ public class ProcessData {
 
     public void readRestaurantData(String data, Context context) {
         try {
-            System.out.println(data);
+            System.out.println("data " + data);
             URL url = new URL(data);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
