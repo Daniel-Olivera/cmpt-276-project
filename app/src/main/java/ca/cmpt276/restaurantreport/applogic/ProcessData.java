@@ -34,18 +34,7 @@ public class ProcessData {
     int totalLine;
     int percentage;
     int totalRestaurant;
-    private  static ProcessData instance;
 
-    private ProcessData(){}
-
-    public static ProcessData getInstance()
-    {
-        if (instance == null)
-        {
-            instance = new ProcessData();
-        }
-        return instance;
-    }
 
 
     public void readRestaurantData(String data, Context context) {
