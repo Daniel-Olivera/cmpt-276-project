@@ -1,23 +1,20 @@
 package ca.cmpt276.restaurantreport.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentManager;
-
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -104,7 +101,7 @@ public class UpdateActivity extends AppCompatActivity {
 
 
                             // Copy data from the url to local file
-                            processData = processData.getInstance();
+                            ProcessData processData  = new ProcessData();
                             processData.readRestaurantData(csvUrl, UpdateActivity.this);
 
                             // testing
@@ -146,7 +143,7 @@ public class UpdateActivity extends AppCompatActivity {
                             // request permission to use external storage
                             //requestPermission();
                             // Copy data from the url to local file
-                            processData = processData.getInstance();
+                            ProcessData processData = new ProcessData();
                             processData.readReportData(reportUrl, UpdateActivity.this);
 
                             /*UpdateDialog dialog =new UpdateDialog();
@@ -170,7 +167,7 @@ public class UpdateActivity extends AppCompatActivity {
 
 
 
-                            startActivity(new Intent(UpdateActivity.this,MainActivity.class));
+                            startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
 
 
 

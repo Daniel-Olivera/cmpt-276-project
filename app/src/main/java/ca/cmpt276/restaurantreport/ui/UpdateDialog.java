@@ -72,21 +72,6 @@ public class UpdateDialog extends DialogFragment {
 
         return view;
     }
-    private int getPercentage() {
-        processData = processData.getInstance();
-        int fileSize = processData.getCurrentLine() + 1400;
-        System.out.println("file size == " + fileSize);
-        if (fileSize == 2000) {
-            return 20;
-        } else if (fileSize == 3000) {
-            return 30;
-        } else if (fileSize == 4000) {
-            return 40;
-        } else if (fileSize == 5000) {
-            return 50; // you can add more else if
-        }
-        return 100;
-    }
 
 
 }

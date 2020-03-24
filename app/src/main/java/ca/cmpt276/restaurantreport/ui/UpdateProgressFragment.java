@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 import ca.cmpt276.restaurantreport.R;
-import ca.cmpt276.restaurantreport.applogic.ReadCSV;
 
 public class UpdateProgressFragment extends AppCompatDialogFragment {
 
@@ -28,7 +27,7 @@ public class UpdateProgressFragment extends AppCompatDialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                switch(which) {
                    case Dialog.BUTTON_NEGATIVE:
-                       ReadCSV readCSV = ReadCSV.getInstance(getContext(),false);
+                       //ReadCSV readCSV = ReadCSV.getInstance(getContext(),false);
 
                 }
             }
