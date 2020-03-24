@@ -41,8 +41,8 @@ public class ReadCSV {
         manager = RestaurantManager.getInstance(context);
 
         //testing
-        File root = new File(Environment.getExternalStorageDirectory(), "Notes");
-        File gpxfile = new File(root, "MyTest.csv");
+        File root = context.getDir("RestaurantReport", Context.MODE_PRIVATE);
+        File gpxfile = new File(root, "RestaurantDetails.csv");
         InputStream is = null;
         try {
             is = new FileInputStream(gpxfile);
@@ -89,8 +89,8 @@ public class ReadCSV {
 
 
         if(update == true) {
-            File root = new File(Environment.getExternalStorageDirectory(), "Notes");
-            File gpxfile = new File(root, "MyTestReport.csv");
+            File root = context.getDir("RestaurantReport", Context.MODE_PRIVATE);
+            File gpxfile = new File(root, "RestaurantReports.csv");
 
             InputStream isInspection = null;
             try {
@@ -121,8 +121,8 @@ public class ReadCSV {
                  */
                     String[] tokens = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
                     //String[] tokens = line.split(",");
-                    System.out.println("line is " + line);
-                    System.out.println("tokenns lengths = " + tokens.length);
+                   /* System.out.println("line is " + line);
+                    System.out.println("tokenns lengths = " + tokens.length);*/
 
                     //System.out.println("Before: token 5 is " + tokens[5]);
                     if (tokens.length == 5) {

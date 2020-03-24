@@ -1,21 +1,32 @@
 package ca.cmpt276.restaurantreport.ui;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
@@ -30,6 +41,11 @@ import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.algo.Algorithm;
 import com.google.maps.android.clustering.algo.NonHierarchicalDistanceBasedAlgorithm;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -37,6 +53,7 @@ import java.util.Objects;
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.adapter.MapInfoWindowAdapter;
 import ca.cmpt276.restaurantreport.applogic.CustomClusterRenderer;
+import ca.cmpt276.restaurantreport.applogic.ProcessData;
 import ca.cmpt276.restaurantreport.applogic.ReadCSV;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
@@ -63,6 +80,17 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
     private final LatLng SFU_SURREY = new LatLng(49.1864, -122.8483);
     //change camera animation speed, lower number = higher speed
     private final int UPDATE_CAM_SPEED = 300;
+
+    //Mike
+    private String dateModify;
+    private String csvUrl;
+    private String reportUrl;
+    private TextView textView;
+    private RequestQueue mQueue;
+    private final int REQUEST_CODE_ASK_PERMISSIONS = 123;
+    private ProgressBar progressBar;
+    private ProcessData processData;
+    //////
 
     private ClusterManager clusterManager;
     RestaurantManager manager;
@@ -96,6 +124,20 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
         if (mapView == null) {
             mapView = mapFragment.getView();
         }
+        //MIKE
+        // request permission to use external storage
+       /* requestPermission();
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        mQueue = Volley.newRequestQueue(this);
+
+        try {
+            jsonParse();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+
+        ///
 
         manager = RestaurantManager.getInstance(this);
         ReadCSV.getInstance(this);
@@ -159,7 +201,25 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
             }
         }
         updateLocationUI();
+        /*switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
+                    Toast.makeText(MapsActivity.this, "Permission Granted", Toast.LENGTH_SHORT)
+                            .show();
+
+                }
+                else {
+                    // Permission Denied
+                    Toast.makeText(MapsActivity.this, "Permission Denied", Toast.LENGTH_SHORT)
+                            .show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }*/
     }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -299,4 +359,118 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
     public static Intent makeIntent(Context context) {
         return new Intent(context, MapsActivity.class);
     }
+
+    //MIKE
+   /* private void jsonParse() throws IOException {
+
+        String restaurantURL = "http://data.surrey.ca/api/3/action/package_show?id=restaurants";
+        String reportURL = "http://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports";
+        // Process restaurant data for restaurantURL
+        JsonObjectRequest restaurantRequest = new JsonObjectRequest(Request.Method.GET, restaurantURL, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            // get object name result
+                            JSONObject jsonObject = response.getJSONObject("result");
+                            // get date modify
+                            dateModify = jsonObject.getString("metadata_modified");
+
+                            // get the url to download csv file
+                            JSONArray res = jsonObject.getJSONArray("resources");
+                            JSONObject obj = res.getJSONObject(0);
+                            csvUrl = obj.getString("url");
+
+
+                            // Copy data from the url to local file
+                            processData = processData.getInstance();
+                            processData.readRestaurantData(csvUrl, MapsActivity.this);
+
+                            // testing
+                            //startActivity(new Intent(UpdateActivity.this,MainActivity.class));
+
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        // Get request
+        mQueue.add(restaurantRequest);
+
+        // Process report data from reportURL
+        JsonObjectRequest reportRequest = new JsonObjectRequest(Request.Method.GET, reportURL, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            // get object name result
+                            JSONObject jsonObject = response.getJSONObject("result");
+
+                            // get date modify
+                            dateModify = jsonObject.getString("metadata_modified");
+
+                            // get the url to download csv file
+                            JSONArray res = jsonObject.getJSONArray("resources");
+                            JSONObject obj = res.getJSONObject(0);
+                            reportUrl = obj.getString("url");
+                            System.out.println("report url is " + reportURL);
+
+                            // Copy data from the url to local file
+                            processData = processData.getInstance();
+                            processData.readReportData(reportUrl, MapsActivity.this);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        mQueue.add(reportRequest);
+
+       *//* UpdateDialog dialog =new UpdateDialog();
+        dialog.show(getSupportFragmentManager(),"UpdateDialog");*//*
+
+
+
+
+    }
+    //MIKEE
+    private void requestPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat
+                    .requestPermissions(MapsActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_ASK_PERMISSIONS);
+        }
+    }
+   *//* @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
+                    Toast.makeText(MapsActivity.this, "Permission Granted", Toast.LENGTH_SHORT)
+                            .show();
+
+                }
+                else {
+                    // Permission Denied
+                    Toast.makeText(MapsActivity.this, "Permission Denied", Toast.LENGTH_SHORT)
+                            .show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }*/
 }

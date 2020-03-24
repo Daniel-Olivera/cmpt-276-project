@@ -2,10 +2,12 @@ package ca.cmpt276.restaurantreport.applogic;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -57,19 +59,6 @@ public class ProcessData {
             List<String[]> restaurants = new ArrayList<String[]>();
 
             while ((current = in.readLine()) != null) {
-                if(!current.equals(",,,,,,"))
-                {
-                    totalLine++;
-                }
-
-            }
-            in.close();
-            totalRestaurant = totalLine;
-            System.out.println("Total Line is 1 " + totalLine);
-
-            // Re-open the file to read
-            in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            while ((current = in.readLine()) != null) {
                 String[] row = current.split(",");
                 if(row.length == 8)
                 {
@@ -85,6 +74,7 @@ public class ProcessData {
             }
             in.close();
             saveRestaurantData(restaurants, context);
+            System.out.println("hahahahhahaahahha");
         } catch (Exception e) {
             System.out.println("Big offf");
 
@@ -95,9 +85,13 @@ public class ProcessData {
     private void saveRestaurantData(List<String[]> restaurants, Context context) {
         try {
             File root = context.getDir("RestaurantReport", Context.MODE_PRIVATE);
-            if (!root.exists()) {
-                root.mkdirs();
-            }
+
+            boolean isDirectoryCreated = root.mkdirs();
+
+            if(isDirectoryCreated)
+                System.out.println("Directory created successfully");
+            else
+                System.out.println("Directory was not created successfully");
 
             File gpxfile = new File(root, "RestaurantDetails.csv");
             CSVWriter writer = new CSVWriter(new FileWriter(gpxfile));
@@ -122,21 +116,8 @@ public class ProcessData {
             List<String[]> reports = new ArrayList<String[]>();
             List<String> name = new ArrayList<String>();
 
-            // count total number of lines
-
-            while ((current = in.readLine()) != null) {
-                if(!current.equals(",,,,,,"))
-                {
-                    totalLine++;
-                }
-
-            }
-            in.close();
-            System.out.println("Total Line is 2 " + totalLine);
-
-
             // Re-open the file to read it
-            in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
             while ((current = in.readLine()) != null) {
                 if(!current.equals(",,,,,,"))
                 {
@@ -155,10 +136,18 @@ public class ProcessData {
 
     private void saveReportData(List<String> reports, Context context) {
         try {
-            File root = context.getDir("RestaurantReport", Context.MODE_PRIVATE);
+            /*File root = context.getDir("RestaurantReport", Context.MODE_PRIVATE);
             if (!root.exists()) {
                 root.mkdirs();
-            }
+            }*/
+            File root = context.getDir("RestaurantReport", Context.MODE_PRIVATE);
+
+            boolean isDirectoryCreated = root.mkdirs();
+
+            if(isDirectoryCreated)
+                System.out.println("Directory created successfully");
+            else
+                System.out.println("Directory was not created successfully");
             File gpxfile = new File(root, "RestaurantReports.csv");
             FileWriter writer = new FileWriter(gpxfile);
            for(int i =0 ;i < reports.size();i++)

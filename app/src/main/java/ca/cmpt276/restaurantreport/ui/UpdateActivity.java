@@ -55,15 +55,13 @@ public class UpdateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_update);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-
         StrictMode.setThreadPolicy(policy);
+        mQueue = Volley.newRequestQueue(this);
 
         textView = findViewById(R.id.textview);
         Button button = findViewById(R.id.praseButton);
-
-        mQueue = Volley.newRequestQueue(this);
         // request permission to use external storage
-        requestPermission();
+        //requestPermission();
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +108,7 @@ public class UpdateActivity extends AppCompatActivity {
                             processData.readRestaurantData(csvUrl, UpdateActivity.this);
 
                             // testing
-                            //startActivity(new Intent(UpdateActivity.this,MainActivity.class));
+                            startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
 
 
 
