@@ -74,61 +74,96 @@ public class UpdateActivity extends AppCompatActivity {
         textView = findViewById(R.id.textview);
         Button button = findViewById(R.id.praseButton);
         // request permission to use external storage
-        requestPermission();
+        //requestPermission();
 
+        updateFlag = getUpdateFlagValue(this);
+        System.out.println("updateflag value = " + updateFlag);
         try {
             jsonParse();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        updateFlag = getUpdateFlagValue(this);
-        button.setOnClickListener(new View.OnClickListener() {
+
+        //updateFlag = 0;
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
             @Override
-            public void onClick(View v) {
+            public void run() {
+                // Do something after 5s = 5000ms
+
                 switch(updateFlag) {
                     case -1:
+                        System.out.println("inside case -1 " );
                         saveUpdateFlag(0);
-                        ReadCSV readCSV = ReadCSV.getInstance(UpdateActivity.this,false);
+                       // ReadCSV readCSV = ReadCSV.getInstance(UpdateActivity.this,false);
+                        ReadCSV readCSV = new ReadCSV(UpdateActivity.this,false);
                         startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
                         break;
                     case 0:
+                        System.out.println("inside case 0");
                         if((timeForUpdate == true) && (newDataAvailable == true)){
+                            System.out.println("time for update and new data available true");
                             FragmentManager askUpdateFragmentManager = getSupportFragmentManager();
                             AskForUpdateDialog askForUpdateDialog = new AskForUpdateDialog(csvUrl,reportUrl,UpdateActivity.this);
                             askForUpdateDialog.show(askUpdateFragmentManager, "ask_for_update_dialog");
                             //code snippet from https://stackoverflow.com/questions/15874117/how-to-set-delay-in-android
+                            System.out.println("before the update clicked delay ");
                             final Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     // Do something after 5s = 5000ms
                                     if(clickedUpdate){
-                                        UpdateDialog dialog =new UpdateDialog();
+                                        System.out.println("update clicked");
+                                        UpdateDialog dialog =new UpdateDialog(UpdateActivity.this);
                                         dialog.show(getSupportFragmentManager(),"UpdateDialog");
-
                                     }
                                     final Handler handler = new Handler();
                                     handler.postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
                                             // Do something after 3s = 3000ms
+                                            System.out.println("checking clicked cancel");
                                             if(!clickedCancel){
+                                                System.out.println("ask update clicked update and beofre readcsv");
+                                                ReadCSV readCSV = new ReadCSV(UpdateActivity.this,true);
                                                 LocalDateTime currentTime = LocalDateTime.now();
                                                 String strCurrentTime = currentTime.toString();
+                                                System.out.println("current time if not clicked cancel " + strCurrentTime );
                                                 saveWhenLastUpdated(strCurrentTime);
                                             }
                                         }
-                                    }, 2000);
+                                    }, 6000);
                                 }
-                            }, 1000);
-                            //startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
+                            }, 3000);
+
+                            System.out.println("after the delays");
+                            final Handler handler2 = new Handler();
+                            handler2.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // Do something after 5s = 5000ms
+                                    System.out.println("starting map activity");
+                                    startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
+                                }
+                            }, 10000);
 
                         }else{
-                            ReadCSV readCSV1 = ReadCSV.getInstance(UpdateActivity.this,false);
+                            //ReadCSV readCSV1 = ReadCSV.getInstance(UpdateActivity.this,false);
+                            ReadCSV readCSV1 = new ReadCSV(UpdateActivity.this,false);
                             startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
                         }
 
                 }
+
+            }
+        }, 3000);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
@@ -163,17 +198,17 @@ public class UpdateActivity extends AppCompatActivity {
                            // startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
 
 
-
                             final Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     // Do something after 5s = 5000ms
-                                    timeForUpdate = checkTimeForUpdate();
-                                    newDataAvailable = checkNewDataAvailable();
+                                System.out.println("checking for new data and time");
+                                timeForUpdate = checkTimeForUpdate();
+                                newDataAvailable = checkNewDataAvailable();
+
                                 }
                             }, 2000);
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -279,12 +314,13 @@ public class UpdateActivity extends AppCompatActivity {
         }
         LocalDateTime timeOfLastUpdate = LocalDateTime.parse(lastUpdated);
 
-        return (lastModifiedInspections.isAfter(timeOfLastUpdate)) || (lastModifiedRestaurants.isAfter(timeOfLastUpdate));
+        //return (lastModifiedInspections.isAfter(timeOfLastUpdate)) || (lastModifiedRestaurants.isAfter(timeOfLastUpdate));
+        return true;
     }
 
     static public String getWhenLastUpdated (Context context) {
         SharedPreferences sharedPreferencesLastUpdated = context.getSharedPreferences("Update_prefs",MODE_PRIVATE);
-        return sharedPreferencesLastUpdated.getString("last updated","never");
+        return sharedPreferencesLastUpdated.getString("last_updated","never");
     }
 
     private void saveWhenLastUpdated(String lastUpdated) {
@@ -297,12 +333,12 @@ public class UpdateActivity extends AppCompatActivity {
     private void saveUpdateFlag(int i) {
         SharedPreferences sharedPreferencesUpdateFlag = UpdateActivity.this.getSharedPreferences("Update_flag_prefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferencesUpdateFlag.edit();
-        editor.putInt("update_flag_value",i);
+        editor.putInt("update_flag_value1",i);
         editor.apply();
     }
     static public int getUpdateFlagValue (Context context) {
         SharedPreferences sharedPreferencesUpdateFlag = context.getSharedPreferences("Update_flag_prefs",MODE_PRIVATE);
-        return sharedPreferencesUpdateFlag.getInt("update_flag_value",-1);
+        return sharedPreferencesUpdateFlag.getInt("update_flag_value1",-1);
     }
 
     private void requestPermission() {

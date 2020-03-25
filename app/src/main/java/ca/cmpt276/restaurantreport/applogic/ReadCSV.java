@@ -1,6 +1,5 @@
 package ca.cmpt276.restaurantreport.applogic;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
@@ -25,13 +24,15 @@ public class ReadCSV {
     private RestaurantManager manager;
     private Context context;
     private boolean updateAvailable;
+    //private int flag;
 
-    @SuppressLint("StaticFieldLeak")
-    private static ReadCSV instance;
+//    @SuppressLint("StaticFieldLeak")
+//    private static ReadCSV instance;
 
-    private ReadCSV(Context context,boolean updateAvailable) {
+    public ReadCSV(Context context,boolean updateAvailable) {
         this.context = context;
         this.updateAvailable = updateAvailable;
+       // this.flag = flag;
 
         readRestaurantData();
         readInspectionData();
@@ -45,9 +46,6 @@ public class ReadCSV {
         manager = RestaurantManager.getInstance(context);
 
         if(updateAvailable){
-                    // Do something after 5s = 5000ms
-//                    File root = new File(Environment.getExternalStorageDirectory(), "Notes");
-//                    File gpxfile = new File(root, "MyTest.csv");
 
                     File root = context.getDir("RestaurantReport",Context.MODE_PRIVATE);
                     File gpxfile = new File(root,"RestaurantDetails.csv");
@@ -87,6 +85,7 @@ public class ReadCSV {
                         Log.e("Main Activity", "Error Reading Data File on Line" + line, e);
                         e.printStackTrace();
                     }
+            System.out.println("finished reading restaurants data");
 
         }else{
             InputStream isInspection = context.getResources().openRawResource(R.raw.restaurants_itr1);
@@ -268,6 +267,7 @@ public class ReadCSV {
                         manager.set(restaurantListIndex, tempRestaurant);
                         restaurantListIndex++;
                     }
+            System.out.println("finished reading inspections data");
 
         } else {
             InputStream isInspection = context.getResources().openRawResource(R.raw.inspectionreports_itr1);
@@ -367,10 +367,10 @@ public class ReadCSV {
             }
         }
     }
-    public static ReadCSV getInstance(Context context, boolean updateAvailable) {
-        if(instance == null) {
-            instance = new ReadCSV(context, updateAvailable);
-        }
-        return instance;
-    }
+//    public static ReadCSV getInstance(Context context, boolean updateAvailable) {
+//        if(instance == null) {
+//            instance = new ReadCSV(context, updateAvailable);
+//        }
+//        return instance;
+//    }
 }

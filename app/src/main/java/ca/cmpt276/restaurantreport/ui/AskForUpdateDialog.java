@@ -41,7 +41,8 @@ public class AskForUpdateDialog extends DialogFragment {
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
-                        ReadCSV readCSV = ReadCSV.getInstance(context,false);
+                       // ReadCSV readCSV = ReadCSV.getInstance(context,false);
+                        ReadCSV readCSV = new ReadCSV(context,false);
                         startActivity(new Intent(context,MapsActivity.class));
                     }
                 })
@@ -52,7 +53,8 @@ public class AskForUpdateDialog extends DialogFragment {
                         ProcessData processData = new ProcessData();
                         processData.readRestaurantData(restaurantDataURL, context);
                         processData.readReportData(inspectionsDataURL,context);
-                        ReadCSV readCSV = ReadCSV.getInstance(context,true);
+                       // ReadCSV readCSV = ReadCSV.getInstance(context,true);
+
                     }
                 });
         return builder.create();

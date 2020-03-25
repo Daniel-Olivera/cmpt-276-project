@@ -1,6 +1,6 @@
 package ca.cmpt276.restaurantreport.ui;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -26,9 +26,14 @@ public class UpdateDialog extends DialogFragment {
     private int progressStatus = 0;
     private Handler handler = new Handler();
     private ProcessData processData;
+    private Context context;
 
     public int getProgressStatus() {
         return progressStatus;
+    }
+
+    UpdateDialog(Context context){
+        this.context = context;
     }
 
     @Nullable
@@ -44,8 +49,10 @@ public class UpdateDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 UpdateActivity.clickedCancel = true;
-                ReadCSV readCSV = ReadCSV.getInstance(getContext(),false);
-                startActivity(new Intent(getContext(),MapsActivity.class));
+                System.out.println("clicked cancel on progress");
+               // ReadCSV readCSV = ReadCSV.getInstance(context,false);
+                ReadCSV readCSV = new ReadCSV(context,false);
+
                 getDialog().dismiss();
             }
         });
@@ -54,7 +61,7 @@ public class UpdateDialog extends DialogFragment {
         new Thread(new Runnable() {
             public void run() {
                 while (progressStatus < 100) {
-                    progressStatus ++;
+                    progressStatus += 3;
                     // Update the progress bar and display the
                     //current value in the text view
                     handler.post(new Runnable() {

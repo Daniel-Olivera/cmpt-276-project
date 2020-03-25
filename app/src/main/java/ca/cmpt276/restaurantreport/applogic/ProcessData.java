@@ -6,18 +6,20 @@ import com.opencsv.CSVWriter;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProcessData {
     int currentLine;
     int totalLine;
-    int percentage;
     int totalRestaurant;
 
 
@@ -47,6 +49,7 @@ public class ProcessData {
                 restaurants.add(row);
             }
             in.close();
+            connection.disconnect();
             saveRestaurantData(restaurants, context);
             System.out.println("hahahahhahaahahha");
         } catch (Exception e) {
@@ -70,7 +73,6 @@ public class ProcessData {
             File gpxfile = new File(root, "RestaurantDetails.csv");
             CSVWriter writer = new CSVWriter(new FileWriter(gpxfile));
             writer.writeAll(restaurants);
-            percentage = 10;
             writer.flush();
             writer.close();
         } catch (IOException e) {
@@ -100,6 +102,7 @@ public class ProcessData {
 
             }
             in.close();
+            connection.disconnect();
             saveReportData(name, context);
         } catch (Exception e) {
             e.printStackTrace();
@@ -110,10 +113,7 @@ public class ProcessData {
 
     private void saveReportData(List<String> reports, Context context) {
         try {
-            /*File root = context.getDir("RestaurantReport", Context.MODE_PRIVATE);
-            if (!root.exists()) {
-                root.mkdirs();
-            }*/
+
             File root = context.getDir("RestaurantReport", Context.MODE_PRIVATE);
 
             boolean isDirectoryCreated = root.mkdirs();
@@ -124,11 +124,11 @@ public class ProcessData {
                 System.out.println("Directory was not created successfully");
             File gpxfile = new File(root, "RestaurantReports.csv");
             FileWriter writer = new FileWriter(gpxfile);
-           for(int i =0 ;i < reports.size();i++)
-           {
-               currentLine++;
-               writer.write(reports.get(i) + "\n");
-           }
+            for(int i =0 ;i < reports.size();i++)
+            {
+                currentLine++;
+                writer.write(reports.get(i) + "\n");
+            }
 
             writer.flush();
             writer.close();
@@ -140,22 +140,36 @@ public class ProcessData {
 
     }
 
-    public int getCurrentLine() {
-        return currentLine;
-    }
-
-    public int getTotalLine() {
-        return totalLine;
-    }
-
-    public int getPercentage()
+    public void saveFinalCopy(Context context)
     {
-        if (totalLine <= 10000)
-        {
-            return 0;
+        File root = context.getDir("RestaurantReport", Context.MODE_PRIVATE);
+
+        File source1 = new File(root, "RestaurantDetails.csv");
+        File dest1 = new File(root, "FinalRestaurantDetails.csv");
+        File source2 = new File(root, "RestaurantReports.csv");
+        File dest2 = new File(root, "FinalRestaurantReports.csv");
+
+        FileChannel sourceChannel1 = null;
+        FileChannel destChannel1 = null;
+        FileChannel sourceChannel2 = null;
+        FileChannel destChannel2 = null;
+        try {
+            sourceChannel1 = new FileInputStream(source1).getChannel();
+            destChannel1 = new FileOutputStream(dest1).getChannel();
+            destChannel1.transferFrom(sourceChannel1, 0, sourceChannel1.size());
+
+            sourceChannel2 = new FileInputStream(source2).getChannel();
+            destChannel2 = new FileOutputStream(dest2).getChannel();
+            destChannel2.transferFrom(sourceChannel2, 0, sourceChannel2.size());
+
+            sourceChannel1.close();
+            destChannel1.close();
+            sourceChannel2.close();
+            destChannel2.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        percentage = (currentLine+totalRestaurant) / totalLine * 100;
-        return  percentage;
+
     }
 
 
