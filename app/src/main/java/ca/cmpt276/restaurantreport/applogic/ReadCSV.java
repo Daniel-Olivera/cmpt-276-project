@@ -24,15 +24,15 @@ public class ReadCSV {
     private RestaurantManager manager;
     private Context context;
     private boolean updateAvailable;
-    //private int flag;
+    private int flag;
 
 //    @SuppressLint("StaticFieldLeak")
 //    private static ReadCSV instance;
 
-    public ReadCSV(Context context,boolean updateAvailable) {
+    public ReadCSV(Context context,boolean updateAvailable, int flag) {
         this.context = context;
         this.updateAvailable = updateAvailable;
-       // this.flag = flag;
+        this.flag = flag;
 
         readRestaurantData();
         readInspectionData();
@@ -88,34 +88,83 @@ public class ReadCSV {
             System.out.println("finished reading restaurants data");
 
         }else{
-            InputStream isInspection = context.getResources().openRawResource(R.raw.restaurants_itr1);
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(isInspection, StandardCharsets.UTF_8)
-            );
-            String line = "";
-            try {
-                reader.readLine(); // to skip the first line with the name, addrs,
-                while ((line = reader.readLine()) != null) {
-                    String [] tokens = line.split(",");
-                    for (int i = 0 ; i < 7 ; i++) {
-                        tokens[i]= tokens[i].replace("\"", "");
+            switch(flag){
+                case -1:
+                    InputStream isInspection = context.getResources().openRawResource(R.raw.restaurants_itr1);
+                    BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(isInspection, StandardCharsets.UTF_8)
+                    );
+                    String line = "";
+                    try {
+                        reader.readLine(); // to skip the first line with the name, addrs,
+                        while ((line = reader.readLine()) != null) {
+                            String [] tokens = line.split(",");
+                            for (int i = 0 ; i < 7 ; i++) {
+                                tokens[i]= tokens[i].replace("\"", "");
+                            }
+                            double latitude = Double.parseDouble(tokens[5]);
+                            double longtitude = Double.parseDouble(tokens[6]);
+                            manager.add(new Restaurant(
+                                    tokens[0],
+                                    tokens[1],
+                                    tokens[2],
+                                    tokens[3],
+                                    tokens[4],
+                                    latitude,
+                                    longtitude
+                            ));
+                        }
+                    } catch (IOException e) {
+                        Log.e("Main Activity", "Error Reading Data File on Line" + line, e);
+                        e.printStackTrace();
                     }
-                    double latitude = Double.parseDouble(tokens[5]);
-                    double longtitude = Double.parseDouble(tokens[6]);
-                    manager.add(new Restaurant(
-                            tokens[0],
-                            tokens[1],
-                            tokens[2],
-                            tokens[3],
-                            tokens[4],
-                            latitude,
-                            longtitude
-                    ));
-                }
-            } catch (IOException e) {
-                Log.e("Main Activity", "Error Reading Data File on Line" + line, e);
-                e.printStackTrace();
+                    break;
+                case 0:
+                    File root = context.getDir("RestaurantReport",Context.MODE_PRIVATE);
+                    File gpxfile = new File(root,"FinalRestaurantDetails.csv");
+                    InputStream is = null;
+                    try {
+                        is = new FileInputStream(gpxfile);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    // end testing
+
+                    BufferedReader reader2 = new BufferedReader(
+                            new InputStreamReader(is, StandardCharsets.UTF_8)
+                    );
+                    String line2 = "";
+                    try {
+                        reader2.readLine(); // to skip the first line with the name, addrs,
+                        while ((line2 = reader2.readLine()) != null) {
+                            String [] tokens = line2.split(",");
+                            for (int i = 0 ; i < 7 ; i++) {
+                                tokens[i]= tokens[i].replace("\"", "");
+                            }
+                            double latitude = Double.parseDouble(tokens[5]);
+                            double longtitude = Double.parseDouble(tokens[6]);
+                            manager.add(new Restaurant(
+                                    tokens[0],
+                                    tokens[1],
+                                    tokens[2],
+                                    tokens[3],
+                                    tokens[4],
+                                    latitude,
+                                    longtitude
+                            ));
+                        }
+                    } catch (IOException e) {
+                        Log.e("Main Activity", "Error Reading Data File on Line" + line2, e);
+                        e.printStackTrace();
+                    }
+                    System.out.println("finished reading restaurants data");
+                    break;
+                default:
+                    System.out.println("restaurant data not read due to flag being wrong");
+                    break;
             }
+
         }
     }
 
@@ -270,16 +319,18 @@ public class ReadCSV {
             System.out.println("finished reading inspections data");
 
         } else {
-            InputStream isInspection = context.getResources().openRawResource(R.raw.inspectionreports_itr1);
-            BufferedReader inspectionReader = new BufferedReader(
-                    new InputStreamReader(isInspection, StandardCharsets.UTF_8)
-            );
-            String line = "";
-            try {
-                inspectionReader.readLine();// skip the first line of the titles
+            switch(flag){
+                case -1:
+                    InputStream isInspection = context.getResources().openRawResource(R.raw.inspectionreports_itr1);
+                    BufferedReader inspectionReader = new BufferedReader(
+                            new InputStreamReader(isInspection, StandardCharsets.UTF_8)
+                    );
+                    String line = "";
+                    try {
+                        inspectionReader.readLine();// skip the first line of the titles
 
-                int inspectionIndex = 0; // index to obtain individual inspections from the temporary inspectionList above
-                while ((line = inspectionReader.readLine()) != null) {
+                        int inspectionIndex = 0; // index to obtain individual inspections from the temporary inspectionList above
+                        while ((line = inspectionReader.readLine()) != null) {
                 /*
                 splitting using "" and ,   e.g string = "Name","Address","HazardLevel","violation1, violation2, violation3"
                   we will end up getting
@@ -290,80 +341,226 @@ public class ReadCSV {
 
                   then further splitting violations using comma to get separate violations
                  */
-                    String[] tokens = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+                            String[] tokens = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 
-                    inspectionList.add(new Inspection(
-                            tokens[0].replace("\"",""),
-                            Integer.parseInt(tokens[1]),
-                            tokens[2].replace("\"",""),
-                            Integer.parseInt(tokens[3]),
-                            Integer.parseInt(tokens[4]),
-                            tokens[5].replace("\"","")
-                    ));
+                            inspectionList.add(new Inspection(
+                                    tokens[0].replace("\"",""),
+                                    Integer.parseInt(tokens[1]),
+                                    tokens[2].replace("\"",""),
+                                    Integer.parseInt(tokens[3]),
+                                    Integer.parseInt(tokens[4]),
+                                    tokens[5].replace("\"","")
+                            ));
 
-                    //if the inspection contains any violations move on and split the entire violation string
-                    //          into individual violations using the "|" delimiter
-                    //
-                    // further for the individual string of violation we use the "," delimiter to get the violation code, criticality and description
+                            //if the inspection contains any violations move on and split the entire violation string
+                            //          into individual violations using the "|" delimiter
+                            //
+                            // further for the individual string of violation we use the "," delimiter to get the violation code, criticality and description
 
-                    if(tokens.length > 6) {
-                        String[] violationTokens = tokens[6].split("\\|");
-                        Inspection sampleInspection = inspectionList.get(inspectionIndex);
+                            if(tokens.length > 6) {
+                                String[] violationTokens = tokens[6].split("\\|");
+                                Inspection sampleInspection = inspectionList.get(inspectionIndex);
 
-                        for (String violation : violationTokens) {
+                                for (String violation : violationTokens) {
 
-                            String[] tokens2 = violation.split(",");
+                                    String[] tokens2 = violation.split(",");
 
-                            Violation newViolation = new Violation();
-                            int i = 0;
-                            for (String violationString : tokens2) {
-                                switch (i) {
-                                    case 0:
-                                        newViolation.setViolationCode(violationString.replace("\"",""));
-                                        i++;
-                                        break;
-                                    case 1:
-                                        newViolation.setViolationCriticality(violationString.replace("\"",""));
-                                        i++;
-                                        break;
-                                    case 2:
-                                        newViolation.setViolationDescriptor(violationString.replace("\"",""));
-                                        i++;
-                                        break;
-                                    default:
-                                        i = -1;
-                                        break;
+                                    Violation newViolation = new Violation();
+                                    int i = 0;
+                                    for (String violationString : tokens2) {
+                                        switch (i) {
+                                            case 0:
+                                                newViolation.setViolationCode(violationString.replace("\"",""));
+                                                i++;
+                                                break;
+                                            case 1:
+                                                newViolation.setViolationCriticality(violationString.replace("\"",""));
+                                                i++;
+                                                break;
+                                            case 2:
+                                                newViolation.setViolationDescriptor(violationString.replace("\"",""));
+                                                i++;
+                                                break;
+                                            default:
+                                                i = -1;
+                                                break;
+                                        }
+                                    }
+                                    sampleInspection.addNewViolation(newViolation);
                                 }
+                                inspectionList.set(inspectionIndex, sampleInspection);
+                                inspectionIndex++;
+
+                            } else {
+                                Inspection sampleInspection = inspectionList.get(inspectionIndex);
+                                Violation newViolation = new Violation("","","");
+                                sampleInspection.addNewViolation(newViolation);
+                                inspectionList.set(inspectionIndex, sampleInspection);
+                                inspectionIndex++;
                             }
-                            sampleInspection.addNewViolation(newViolation);
                         }
-                        inspectionList.set(inspectionIndex, sampleInspection);
-                        inspectionIndex++;
-
-                    } else {
-                        Inspection sampleInspection = inspectionList.get(inspectionIndex);
-                        Violation newViolation = new Violation("","","");
-                        sampleInspection.addNewViolation(newViolation);
-                        inspectionList.set(inspectionIndex, sampleInspection);
-                        inspectionIndex++;
+                    } catch (IOException e) {
+                        Log.e("Inspection Data", "Error Reading Data File on Line" + line, e);
+                        e.printStackTrace();
                     }
-                }
-            } catch (IOException e) {
-                Log.e("Inspection Data", "Error Reading Data File on Line" + line, e);
-                e.printStackTrace();
-            }
 
-            List<Restaurant> restaurantList = manager.getRestaurants();
-            int restaurantListIndex = 0;
-            for (Restaurant tempRestaurant : restaurantList) {
-                for (Inspection inspection : inspectionList) {
-                    if (tempRestaurant.getTrackingNum().equals(inspection.getTrackingNum())) {
-                        tempRestaurant.addInspection(inspection);
+                    List<Restaurant> restaurantList = manager.getRestaurants();
+                    int restaurantListIndex = 0;
+                    for (Restaurant tempRestaurant : restaurantList) {
+                        for (Inspection inspection : inspectionList) {
+                            if (tempRestaurant.getTrackingNum().equals(inspection.getTrackingNum())) {
+                                tempRestaurant.addInspection(inspection);
+                            }
+                        }
+
+                        manager.set(restaurantListIndex, tempRestaurant);
+                        restaurantListIndex++;
                     }
-                }
+                    break;
+                case 0:
+                    File root = context.getDir("RestaurantReport",Context.MODE_PRIVATE);
+                    File gpxfile = new File(root,"FinalRestaurantReports.csv");
 
-                manager.set(restaurantListIndex, tempRestaurant);
-                restaurantListIndex++;
+                    InputStream is = null;
+                    try {
+                        is = new FileInputStream(gpxfile);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    BufferedReader inspectionReader2;
+                    inspectionReader2 = new BufferedReader(
+                            new InputStreamReader(is, StandardCharsets.UTF_8)
+                    );
+                    String line2 = "";
+                    try {
+                        inspectionReader2.readLine();// skip the first line of the titles
+
+                        int inspectionIndex = 0; // index to obtain individual inspections from the temporary inspectionList above
+                        while ((line2 = inspectionReader2.readLine()) != null) {
+                /*
+                splitting using "" and ,   e.g string = "Name","Address","HazardLevel","violation1, violation2, violation3"
+                  we will end up getting
+                  Name
+                  Address
+                  HazardLevel
+                  violation1, violation2, violation3
+
+                  then further splitting violations using comma to get separate violations
+                 */
+                            String[] tokens = line2.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+
+                            if (tokens.length == 5) {
+                                // tao string[] moi xong copy paste sang
+                                List<String> temp = new ArrayList<String>();
+                                temp.addAll(Arrays.asList(tokens));
+                                temp.add("0");
+                                System.out.println("The list is " + temp);
+
+                                inspectionList.add(new Inspection(
+                                        temp.get(0),
+                                        Integer.parseInt(temp.get(1)),
+                                        temp.get(2),
+                                        Integer.parseInt(temp.get(3)),
+                                        Integer.parseInt(temp.get(4)),
+                                        "Low"
+                                ));
+
+                                Inspection sampleInspection = inspectionList.get(inspectionIndex);
+                                Violation newViolation = new Violation("", "", "");
+                                sampleInspection.addNewViolation(newViolation);
+                                inspectionList.set(inspectionIndex, sampleInspection);
+                                inspectionIndex++;
+
+
+                            } else if (tokens[5].isEmpty()) {
+                                tokens[5] = "0";
+                                inspectionList.add(new Inspection(
+                                        tokens[0],
+                                        Integer.parseInt(tokens[1]),
+                                        tokens[2],
+                                        Integer.parseInt(tokens[3]),
+                                        Integer.parseInt(tokens[4]),
+                                        tokens[6]
+                                ));
+
+                                Inspection sampleInspection = inspectionList.get(inspectionIndex);
+                                Violation newViolation = new Violation("", "", "");
+                                sampleInspection.addNewViolation(newViolation);
+                                inspectionList.set(inspectionIndex, sampleInspection);
+                                inspectionIndex++;
+
+                            }
+                            else {
+                                inspectionList.add(new Inspection(
+                                        tokens[0].replace("\"", ""),
+                                        Integer.parseInt(tokens[1]),
+                                        tokens[2].replace("\"", ""),
+                                        Integer.parseInt(tokens[3]),
+                                        Integer.parseInt(tokens[4]),
+                                        tokens[6].replace("\"", "")
+                                ));
+
+                                //if the inspection contains any violations move on and split the entire violation string
+                                //          into individual violations using the "|" delimiter
+                                //
+                                // further for the individual string of violation we use the "," delimiter to get the violation code, criticality and description
+
+                                String[] violationTokens = tokens[5].split("\\|");
+                                Inspection sampleInspection = inspectionList.get(inspectionIndex);
+
+                                for (String violation : violationTokens) {
+
+                                    String[] tokens2 = violation.split(",");
+
+                                    Violation newViolation = new Violation();
+                                    int i = 0;
+                                    for (String violationString : tokens2) {
+                                        switch (i) {
+                                            case 0:
+                                                newViolation.setViolationCode(violationString.replace("\"", ""));
+                                                i++;
+                                                break;
+                                            case 1:
+                                                newViolation.setViolationCriticality(violationString.replace("\"", ""));
+                                                i++;
+                                                break;
+                                            case 2:
+                                                newViolation.setViolationDescriptor(violationString.replace("\"", ""));
+                                                i++;
+                                                break;
+                                            default:
+                                                i = -1;
+                                                break;
+                                        }
+                                    }
+                                    sampleInspection.addNewViolation(newViolation);
+                                }
+                                inspectionList.set(inspectionIndex, sampleInspection);
+                                inspectionIndex++;
+
+                            }
+                        }
+                    } catch (IOException e) {
+                        Log.e("Inspection Data", "Error Reading Data File on Line" + line2, e);
+                        e.printStackTrace();
+                    }
+
+
+                    // cai nao  cung vao day
+                    List<Restaurant> restaurantList2 = manager.getRestaurants();
+                    int restaurantListIndex2 = 0;
+                    for (Restaurant tempRestaurant : restaurantList2) {
+                        for (Inspection inspection : inspectionList) {
+                            if (tempRestaurant.getTrackingNum().equals(inspection.getTrackingNum())) {
+                                tempRestaurant.addInspection(inspection);
+                            }
+                        }
+
+                        manager.set(restaurantListIndex2, tempRestaurant);
+                        restaurantListIndex2++;
+                    }
+                    System.out.println("finished reading inspections data");
             }
         }
     }

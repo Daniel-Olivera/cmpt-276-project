@@ -3,7 +3,6 @@ package ca.cmpt276.restaurantreport.ui;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -13,6 +12,8 @@ import java.util.Objects;
 
 import ca.cmpt276.restaurantreport.applogic.ProcessData;
 import ca.cmpt276.restaurantreport.applogic.ReadCSV;
+
+import static ca.cmpt276.restaurantreport.ui.UpdateActivity.getWhenLastUpdated;
 
 /*
 This class is use for creating a Dialog Fragment that show additional
@@ -42,8 +43,13 @@ public class AskForUpdateDialog extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
 
                        // ReadCSV readCSV = ReadCSV.getInstance(context,false);
-                        ReadCSV readCSV = new ReadCSV(context,false);
-                        startActivity(new Intent(context,MapsActivity.class));
+
+                        if(getWhenLastUpdated(context).equalsIgnoreCase("never")){
+                            System.out.println("clicked cancel when asked to update");
+                            ReadCSV readCSV1 = new ReadCSV(context,false,-1);
+                        }else{
+                            ReadCSV readCSV1 = new ReadCSV(context,false,0);
+                        }
                     }
                 })
                 .setPositiveButton("Update", new DialogInterface.OnClickListener() {

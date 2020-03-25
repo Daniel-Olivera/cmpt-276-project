@@ -18,6 +18,8 @@ import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.applogic.ProcessData;
 import ca.cmpt276.restaurantreport.applogic.ReadCSV;
 
+import static ca.cmpt276.restaurantreport.ui.UpdateActivity.getWhenLastUpdated;
+
 public class UpdateDialog extends DialogFragment {
 
     private ProgressBar progressBar;
@@ -51,7 +53,11 @@ public class UpdateDialog extends DialogFragment {
                 UpdateActivity.clickedCancel = true;
                 System.out.println("clicked cancel on progress");
                // ReadCSV readCSV = ReadCSV.getInstance(context,false);
-                ReadCSV readCSV = new ReadCSV(context,false);
+                if(getWhenLastUpdated(context).equalsIgnoreCase("never")){
+                    ReadCSV readCSV1 = new ReadCSV(context,false,-1);
+                }else{
+                    ReadCSV readCSV1 = new ReadCSV(context,false,0);
+                }
 
                 getDialog().dismiss();
             }
@@ -61,7 +67,7 @@ public class UpdateDialog extends DialogFragment {
         new Thread(new Runnable() {
             public void run() {
                 while (progressStatus < 100) {
-                    progressStatus += 3;
+                    progressStatus += 2;
                     // Update the progress bar and display the
                     //current value in the text view
                     handler.post(new Runnable() {

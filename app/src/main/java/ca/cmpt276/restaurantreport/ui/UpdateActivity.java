@@ -75,8 +75,8 @@ public class UpdateActivity extends AppCompatActivity {
         Button button = findViewById(R.id.praseButton);
         // request permission to use external storage
         //requestPermission();
-
         updateFlag = getUpdateFlagValue(this);
+
         System.out.println("updateflag value = " + updateFlag);
         try {
             jsonParse();
@@ -97,11 +97,12 @@ public class UpdateActivity extends AppCompatActivity {
                         System.out.println("inside case -1 " );
                         saveUpdateFlag(0);
                        // ReadCSV readCSV = ReadCSV.getInstance(UpdateActivity.this,false);
-                        ReadCSV readCSV = new ReadCSV(UpdateActivity.this,false);
+                        ReadCSV readCSV = new ReadCSV(UpdateActivity.this,false,-1);
                         startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
                         break;
                     case 0:
                         System.out.println("inside case 0");
+                        System.out.println("time for update " + timeForUpdate + " new data avail " + newDataAvailable);
                         if((timeForUpdate == true) && (newDataAvailable == true)){
                             System.out.println("time for update and new data available true");
                             FragmentManager askUpdateFragmentManager = getSupportFragmentManager();
@@ -114,44 +115,70 @@ public class UpdateActivity extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     // Do something after 5s = 5000ms
-                                    if(clickedUpdate){
+                                    if(clickedUpdate) {
                                         System.out.println("update clicked");
-                                        UpdateDialog dialog =new UpdateDialog(UpdateActivity.this);
-                                        dialog.show(getSupportFragmentManager(),"UpdateDialog");
-                                    }
-                                    final Handler handler = new Handler();
-                                    handler.postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            // Do something after 3s = 3000ms
-                                            System.out.println("checking clicked cancel");
-                                            if(!clickedCancel){
-                                                System.out.println("ask update clicked update and beofre readcsv");
-                                                ReadCSV readCSV = new ReadCSV(UpdateActivity.this,true);
-                                                LocalDateTime currentTime = LocalDateTime.now();
-                                                String strCurrentTime = currentTime.toString();
-                                                System.out.println("current time if not clicked cancel " + strCurrentTime );
-                                                saveWhenLastUpdated(strCurrentTime);
+                                        UpdateDialog dialog = new UpdateDialog(UpdateActivity.this);
+                                        dialog.show(getSupportFragmentManager(), "UpdateDialog");
+
+                                        final Handler handler = new Handler();
+                                        handler.postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                // Do something after 3s = 3000ms
+                                                System.out.println("checking clicked cancel");
+                                                System.out.println("clicked canceled " + clickedCancel);
+                                                if(!clickedCancel){
+                                                    System.out.println("ask update clicked update and beofre readcsv");
+                                                    ReadCSV readCSV = new ReadCSV(UpdateActivity.this,true,1);
+                                                    LocalDateTime currentTime = LocalDateTime.now();
+                                                    String strCurrentTime = currentTime.toString();
+                                                    System.out.println("current time if not clicked cancel " + strCurrentTime );
+                                                    saveWhenLastUpdated(strCurrentTime);
+                                                    String dateLastSaved = getWhenLastUpdated(UpdateActivity.this);
+                                                    System.out.println("after calling save when last updated, last updated = " + dateLastSaved);
+                                                    ProcessData processData = new ProcessData();
+                                                    processData.saveFinalCopy(UpdateActivity.this);
+
+                                                    final Handler handler2 = new Handler();
+                                                    handler2.postDelayed(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            // Do something after 5s = 5000ms
+                                                            System.out.println("starting map activity after not clicking cancel");
+                                                            startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
+                                                        }
+                                                    }, 4000);
+                                                }
+                                                else{
+                                                    startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
+                                                }
                                             }
-                                        }
-                                    }, 6000);
+                                        }, 4000);
+                                    }
                                 }
                             }, 3000);
-
-                            System.out.println("after the delays");
                             final Handler handler2 = new Handler();
                             handler2.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     // Do something after 5s = 5000ms
-                                    System.out.println("starting map activity");
-                                    startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
+                                    if(!clickedUpdate){
+                                        System.out.println("starting map activity");
+                                        startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
+                                    }
                                 }
-                            }, 10000);
+                                }, 6000);
+                            System.out.println("after the delays");
+
 
                         }else{
                             //ReadCSV readCSV1 = ReadCSV.getInstance(UpdateActivity.this,false);
-                            ReadCSV readCSV1 = new ReadCSV(UpdateActivity.this,false);
+                            if(getWhenLastUpdated(UpdateActivity.this).equalsIgnoreCase("never")){
+                                ReadCSV readCSV1 = new ReadCSV(UpdateActivity.this,false,-1);
+                            }else{
+                                ReadCSV readCSV1 = new ReadCSV(UpdateActivity.this,false,0);
+                            }
+
                             startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
                         }
 
@@ -240,7 +267,7 @@ public class UpdateActivity extends AppCompatActivity {
                             JSONArray res = jsonObject.getJSONArray("resources");
                             JSONObject obj = res.getJSONObject(0);
                             reportUrl = obj.getString("url");
-                            System.out.println("report url is " + reportURL);
+                            //System.out.println("report url is " + reportURL);
                             // request permission to use external storage
                             //requestPermission();
                             // Copy data from the url to local file
@@ -286,6 +313,8 @@ public class UpdateActivity extends AppCompatActivity {
             LocalDateTime timeOfLastUpdate = LocalDateTime.parse(lastUpdated);
             LocalDateTime currentDateAndTime = LocalDateTime.now();
 
+            System.out.println("inside checkTimeForUpdate, timeOFLAstUpdate = " + timeOfLastUpdate.toString() + " current time = " + currentDateAndTime.toString());
+
             Duration diffLastUpdateAndNow = Duration.between(timeOfLastUpdate,currentDateAndTime);
 
             long daysFromLastUpdate = diffLastUpdateAndNow.toDays();
@@ -294,12 +323,13 @@ public class UpdateActivity extends AppCompatActivity {
             diffLastUpdateAndNow = diffLastUpdateAndNow.minusHours(hoursFromLastUpdate);
 
             if(daysFromLastUpdate > 0) {
-                if(hoursFromLastUpdate >= 20){
-                    return true;
-                }
+                return true;
+            }
+            if(hoursFromLastUpdate >= 20){
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     private boolean checkNewDataAvailable() {
@@ -314,8 +344,7 @@ public class UpdateActivity extends AppCompatActivity {
         }
         LocalDateTime timeOfLastUpdate = LocalDateTime.parse(lastUpdated);
 
-        //return (lastModifiedInspections.isAfter(timeOfLastUpdate)) || (lastModifiedRestaurants.isAfter(timeOfLastUpdate));
-        return true;
+        return (lastModifiedInspections.isAfter(timeOfLastUpdate)) || (lastModifiedRestaurants.isAfter(timeOfLastUpdate));
     }
 
     static public String getWhenLastUpdated (Context context) {
