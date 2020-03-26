@@ -50,8 +50,7 @@
 
     <string name="Update">Update</string>
     <string name="Later">Later</string>
-
-
+    <string name="checking_for_updates">Checking for Updates</string>
 
 
 </resources>

@@ -3,6 +3,7 @@ package ca.cmpt276.restaurantreport.ui;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -29,6 +30,7 @@ public class AskForUpdateDialog extends DialogFragment {
         this.inspectionsDataURL = inspectionsDataURL;
         this.context = context;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +52,8 @@ public class AskForUpdateDialog extends DialogFragment {
                         }else{
                             ReadCSV readCSV1 = new ReadCSV(context,false,0);
                         }
+                        Intent intent = MapsActivity.makeIntent(context);
+                        startActivity(intent);
                     }
                 })
                 .setPositiveButton("Update", new DialogInterface.OnClickListener() {
@@ -63,6 +67,9 @@ public class AskForUpdateDialog extends DialogFragment {
 
                     }
                 });
+
         return builder.create();
     }
+
+
 }

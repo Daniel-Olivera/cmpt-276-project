@@ -4,33 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?android:attr/windowBackground"
     tools:context=".ui.UpdateActivity"
-    android:background="#5227d8"
 
     >
 
     <TextView
         android:id="@+id/textview"
-        android:text="Restaurant Report"
-        android:textSize="55dp"
-        android:textAlignment="center"
-        android:layout_width="289dp"
-        android:layout_height="370dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="79dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="208dp"
         android:layout_marginEnd="80dp"
+        android:text="@string/checking_for_updates"
+        android:textAlignment="center"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/praseButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="540dp"
-        android:text="Parse"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="71dp"
+        android:layout_height="93dp"
+        app:layout_constraintEnd_toEndOf="@+id/textview"
+        app:layout_constraintStart_toStartOf="@+id/textview"
+        app:layout_constraintTop_toBottomOf="@+id/textview" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
