@@ -81,15 +81,15 @@ public class InspectionListAdapter extends ArrayAdapter<String> {
         switch (hazardLevel) {
             case ("Low"):
             default: {
-                icon.setImageResource(R.drawable.low);
+                icon.setImageResource(R.drawable.haz_low);
                 break;
             }
             case ("Moderate"): {
-                icon.setImageResource(R.drawable.medium);
+                icon.setImageResource(R.drawable.haz_medium);
                 break;
             }
             case ("High"): {
-                icon.setImageResource(R.drawable.high);
+                icon.setImageResource(R.drawable.haz_high);
                 break;
             }
         }

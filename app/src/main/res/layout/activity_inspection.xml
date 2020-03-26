@@ -101,7 +101,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/txtNonCriticalIssues"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/txtCriticalIssues"
-        app:srcCompat="@drawable/low" />
+        app:srcCompat="@drawable/haz_low" />
 
     <View
         android:id="@+id/divInspectView"

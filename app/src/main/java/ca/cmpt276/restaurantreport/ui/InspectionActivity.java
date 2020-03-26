@@ -129,15 +129,15 @@ public class InspectionActivity extends AppCompatActivity {
         switch(hazardLevel){
             case("Low"):
             default:{
-                imgHazardIcon.setImageResource(R.drawable.low);
+                imgHazardIcon.setImageResource(R.drawable.haz_low);
                 break;
             }
             case("Moderate"):{
-                imgHazardIcon.setImageResource(R.drawable.medium);
+                imgHazardIcon.setImageResource(R.drawable.haz_medium);
                 break;
             }
             case("High"):{
-                imgHazardIcon.setImageResource(R.drawable.high);
+                imgHazardIcon.setImageResource(R.drawable.haz_high);
                 break;
             }
         }
