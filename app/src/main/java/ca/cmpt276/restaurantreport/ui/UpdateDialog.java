@@ -90,16 +90,16 @@ public class UpdateDialog extends DialogFragment {
 
                 if(!updateCancelled) {
 
-                    ReadCSV readCSV = new ReadCSV(context,true,0);
-                    LocalDateTime currentTime = LocalDateTime.now();
-                    String strCurrentTime = currentTime.toString();
-                    saveWhenLastUpdated(strCurrentTime);
-                    String dateLastSaved = getWhenLastUpdated(context);
-                    ProcessData processData = new ProcessData();
-                    processData.saveFinalCopy(context);
+                        ReadCSV readCSV = new ReadCSV(context,true,0);
+                        LocalDateTime currentTime = LocalDateTime.now();
+                        String strCurrentTime = currentTime.toString();
+                        saveWhenLastUpdated(strCurrentTime);
+                        String dateLastSaved = getWhenLastUpdated(context);
+                        ProcessData processData = new ProcessData();
+                        processData.saveFinalCopy(context);
 
-                    Intent intent = MapsActivity.makeIntent(context);
-                    startActivity(intent);
+                        Intent intent = MapsActivity.makeIntent(context);
+                        startActivity(intent);
                 }
             }
         }).start();

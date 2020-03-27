@@ -1,6 +1,7 @@
 package ca.cmpt276.restaurantreport.applogic;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.opencsv.CSVWriter;
 
@@ -26,7 +27,6 @@ public class ProcessData {
 
     public void readRestaurantData(String data, Context context) {
         try {
-            System.out.println("data " + data);
             URL url = new URL(data);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -51,9 +51,8 @@ public class ProcessData {
             in.close();
             connection.disconnect();
             saveRestaurantData(restaurants, context);
-            System.out.println("hahahahhahaahahha");
         } catch (Exception e) {
-            System.out.println("Big offf");
+            Log.e("ProcessData","Failed to read restaurant data");
 
             e.printStackTrace();
         }
@@ -66,9 +65,9 @@ public class ProcessData {
             boolean isDirectoryCreated = root.mkdirs();
 
             if(isDirectoryCreated)
-                System.out.println("Directory created successfully");
+                Log.d("saveRestaurantData","Directory created successfully");
             else
-                System.out.println("Directory was not created successfully");
+                Log.d("saveRestaurantData","Directory was not created successfully");
 
             File gpxfile = new File(root, "RestaurantDetails.csv");
             CSVWriter writer = new CSVWriter(new FileWriter(gpxfile));
@@ -83,7 +82,6 @@ public class ProcessData {
     public void readReportData(String data, Context context)
     {
         try {
-            System.out.println(data);
             URL url = new URL(data);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -105,6 +103,7 @@ public class ProcessData {
             connection.disconnect();
             saveReportData(name, context);
         } catch (Exception e) {
+            Log.e("readReportData","Failed to read report data");
             e.printStackTrace();
         }
 
@@ -119,9 +118,9 @@ public class ProcessData {
             boolean isDirectoryCreated = root.mkdirs();
 
             if(isDirectoryCreated)
-                System.out.println("Directory created successfully");
+                Log.d("saveReportData","Directory created successfully");
             else
-                System.out.println("Directory was not created successfully");
+                Log.d("saveReportData","Directory was not created successfully");
             File gpxfile = new File(root, "RestaurantReports.csv");
             FileWriter writer = new FileWriter(gpxfile);
             for(int i =0 ;i < reports.size();i++)
