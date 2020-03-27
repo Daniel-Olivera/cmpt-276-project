@@ -45,7 +45,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="2dp"
         android:contentDescription="@string/changeable_icon_for_hazard_level"
-        android:src="@drawable/low"
+        android:src="@drawable/haz_low"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtInfoViewAddr">
 

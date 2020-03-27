@@ -71,7 +71,7 @@
             android:layout_gravity="end"
             android:layout_marginTop="-50dp"
             android:contentDescription="@string/changeable_icon_for_hazard_level"
-            android:src="@drawable/low" />
+            android:src="@drawable/haz_low" />
     </LinearLayout>
 
 </LinearLayout>

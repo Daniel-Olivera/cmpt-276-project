@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ca.cmpt276.restaurantreport">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
@@ -33,11 +36,11 @@
         <activity
             android:name=".ui.MapsActivity"
             android:label="@string/title_activity_maps">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity
             android:name=".ui.InspectionActivity"
@@ -49,8 +52,16 @@
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.MainActivity"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.UpdateActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

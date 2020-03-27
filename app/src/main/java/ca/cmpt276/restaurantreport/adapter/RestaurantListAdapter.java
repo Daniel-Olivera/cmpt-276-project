@@ -60,7 +60,7 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
         TextView txtInspectionDate = row.findViewById(R.id.txtInspectionDate);
         TextView txtHazardLevel = row.findViewById(R.id.txtHazardLevel);
 
-        ImageView hazIcon = row.findViewById(R.id.imgHazardIcon);
+
 
         //Get the current restaurant information for the appropriate row and its inspections
         Restaurant currentRestaurant = res.get(position);
@@ -79,28 +79,66 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
         txtRestaurantName.setText(currentRestaurant.getName());
         txtNumOfIssues.setText(issuesFound);
         txtInspectionDate.setText(inspectDate);
-        txtHazardLevel.setText(hazardText);
+        txtHazardLevel.setText(hazardText.replace("\"",""));
 
         //changes the hazard icon based on the hazard level
+        ImageView hazIcon = row.findViewById(R.id.imgHazardIcon);
         getHazardIcon(hazardText,hazIcon);
+        ImageView restaurantIcon = row.findViewById(R.id.imgRestaurantIcon);
+        getRestaurantIcon(currentRestaurant.getName(), restaurantIcon);
 
         return row;
     }
 
+    private void getRestaurantIcon(String name, ImageView restaurantIcon) {
+
+        if(name.contains("Subway ")){
+            restaurantIcon.setImageResource(R.drawable.subway_logo);
+        }
+        else if(name.contains("Tim Horton")){
+            restaurantIcon.setImageResource(R.drawable.tim_hortons_logo);
+        }
+        else if(name.contains("Starbucks Coffee")) {
+            restaurantIcon.setImageResource(R.drawable.starbucks_logo);
+        }
+        else if(name.contains("7-Eleven")){
+            restaurantIcon.setImageResource(R.drawable.seven_eleven_logo);
+        }
+        else if(name.contains("McDonald's")){
+            restaurantIcon.setImageResource(R.drawable.mcdonald_logo);
+        }
+        else if(name.contains("A&W")){
+            restaurantIcon.setImageResource(R.drawable.aw_logo);
+        }
+        else if(name.contains("Save On Foods")){
+            restaurantIcon.setImageResource(R.drawable.save_on_foods_logo);
+        }
+        else if(name.contains("Blenz")){
+            restaurantIcon.setImageResource(R.drawable.blenz_logo);
+        }
+        else if(name.contains("Dairy Queen")){
+            restaurantIcon.setImageResource(R.drawable.dairy_queen_logo);
+        }
+        else if(name.contains("Panago")){
+            restaurantIcon.setImageResource(R.drawable.panago_logo);
+        }
+
+    }
+
     private void getHazardIcon(String hazardText, ImageView hazIcon){
         switch(hazardText){
-            case("Low"):
+            case("\"Low\""):
             default:{
-                hazIcon.setImageResource(R.drawable.low);
+                hazIcon.setImageResource(R.drawable.haz_low);
                 break;
             }
             case("Mid"):
             case("Moderate"):{
-                hazIcon.setImageResource(R.drawable.medium);
+                hazIcon.setImageResource(R.drawable.haz_medium);
                 break;
             }
             case("High"):{
-                hazIcon.setImageResource(R.drawable.high);
+                hazIcon.setImageResource(R.drawable.haz_high);
                 break;
             }
         }

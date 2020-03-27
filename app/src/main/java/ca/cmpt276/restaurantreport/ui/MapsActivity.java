@@ -9,13 +9,16 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.android.volley.RequestQueue;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
@@ -37,7 +40,7 @@ import java.util.Objects;
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.adapter.MapInfoWindowAdapter;
 import ca.cmpt276.restaurantreport.applogic.CustomClusterRenderer;
-import ca.cmpt276.restaurantreport.applogic.ReadCSV;
+import ca.cmpt276.restaurantreport.applogic.ProcessData;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 
@@ -98,7 +101,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
         }
 
         manager = RestaurantManager.getInstance(this);
-        ReadCSV.getInstance(this);
+        //ReadCSV.getInstance(this,true);
         allRestaurants = manager.getRestaurants();
         setupListButton();
     }
@@ -119,7 +122,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
             }
         }
     }
-
 
     @Override
     public void onBackPressed(){
@@ -152,21 +154,26 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         locationPermissionGranted = false;
-        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {// If request is cancelled, the result arrays are empty.
+        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
+            // If request is cancelled, the result arrays are empty.
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 locationPermissionGranted = true;
+                findDeviceLocation();
             }
         }
         updateLocationUI();
     }
 
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        getLocationPermission();
+
         moveRealignButton();
         populateRestaurants();
+        getLocationPermission();
+
 
         updateLocationUI();
         mMap.setInfoWindowAdapter(new MapInfoWindowAdapter(this));
@@ -179,8 +186,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
         }
         else
         {
-            //for testing
-            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SFU_SURREY,DEFAULT_ZOOM));
             findDeviceLocation();
         }
 
@@ -206,7 +211,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
                 mMap.setMyLocationEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
                 lastKnownLocation = null;
-                getLocationPermission();
             }
         } catch (SecurityException e)  {
             Log.e("Exception: %s", Objects.requireNonNull(e.getMessage()));

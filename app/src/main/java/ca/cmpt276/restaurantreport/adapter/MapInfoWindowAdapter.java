@@ -69,16 +69,16 @@ public class MapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         switch(hazardText){
             case("Low"):
             default:{
-                hazIcon.setImageResource(R.drawable.low);
+                hazIcon.setImageResource(R.drawable.haz_low);
                 break;
             }
             case("Mid"):
             case("Moderate"):{
-                hazIcon.setImageResource(R.drawable.medium);
+                hazIcon.setImageResource(R.drawable.haz_medium);
                 break;
             }
             case("High"):{
-                hazIcon.setImageResource(R.drawable.high);
+                hazIcon.setImageResource(R.drawable.haz_high);
                 break;
             }
         }

@@ -80,7 +80,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
         for (TypedArray item: ResourceHelper.getMultiTypedArray(context)) {
             @SuppressLint("ResourceType") ShortViolation shortViolation = new ShortViolation(item.getInt(0,0),item.getString(1));
             shortViolationList.add(shortViolation);
-            Log.d("shortViolationList",shortViolation.toString());
         }
     }
 }
