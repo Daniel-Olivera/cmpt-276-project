@@ -85,8 +85,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        getLocationPermission();
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -156,10 +154,12 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         locationPermissionGranted = false;
-        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {// If request is cancelled, the result arrays are empty.
+        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
+            // If request is cancelled, the result arrays are empty.
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 locationPermissionGranted = true;
+                findDeviceLocation();
             }
         }
         updateLocationUI();
@@ -172,6 +172,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
 
         moveRealignButton();
         populateRestaurants();
+        getLocationPermission();
+
 
         updateLocationUI();
         mMap.setInfoWindowAdapter(new MapInfoWindowAdapter(this));
@@ -184,8 +186,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
         }
         else
         {
-            //for testing
-            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SFU_SURREY,DEFAULT_ZOOM));
             findDeviceLocation();
         }
 
@@ -211,7 +211,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
                 mMap.setMyLocationEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
                 lastKnownLocation = null;
-               // getLocationPermission();
             }
         } catch (SecurityException e)  {
             Log.e("Exception: %s", Objects.requireNonNull(e.getMessage()));

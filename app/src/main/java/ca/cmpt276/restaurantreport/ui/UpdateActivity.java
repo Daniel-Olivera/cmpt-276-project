@@ -1,23 +1,14 @@
 package ca.cmpt276.restaurantreport.ui;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 
 import com.android.volley.Request;
@@ -31,7 +22,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -76,90 +66,6 @@ public class UpdateActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                switch(updateFlag) {
-                    case -1:
-                        saveUpdateFlag(0);
-                        ReadCSV readCSV = new ReadCSV(UpdateActivity.this,false,-1);
-                        startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
-                        break;
-                    case 0:
-                        if((timeForUpdate) && (newDataAvailable)){
-                            FragmentManager askUpdateFragmentManager = getSupportFragmentManager();
-                            AskForUpdateDialog askForUpdateDialog = new AskForUpdateDialog(csvUrl,reportUrl,UpdateActivity.this);
-                            askForUpdateDialog.show(askUpdateFragmentManager, "ask_for_update_dialog");
-                            //code snippet from https://stackoverflow.com/questions/15874117/how-to-set-delay-in-android
-                            final Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if(clickedUpdate) {
-                                        UpdateDialog dialog = new UpdateDialog(UpdateActivity.this);
-                                        dialog.show(getSupportFragmentManager(), "UpdateDialog");
-
-                                        final Handler handler = new Handler();
-                                        handler.postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                // Do something after 3s = 3000ms
-                                                if(!clickedCancel){
-                                                    ReadCSV readCSV = new ReadCSV(UpdateActivity.this,true,1);
-                                                    LocalDateTime currentTime = LocalDateTime.now();
-                                                    String strCurrentTime = currentTime.toString();
-                                                    saveWhenLastUpdated(strCurrentTime);
-                                                    String dateLastSaved = getWhenLastUpdated(UpdateActivity.this);
-                                                    ProcessData processData = new ProcessData();
-                                                    processData.saveFinalCopy(UpdateActivity.this);
-
-                                                    final Handler handler2 = new Handler();
-                                                    handler2.postDelayed(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            // Do something after 5s = 5000ms
-                                                            startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
-                                                        }
-                                                    }, 4000);
-                                                }
-                                                else{
-                                                    startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
-                                                }
-                                            }
-                                        }, 4000);
-                                    }
-                                }
-                            }, 3000);
-                            final Handler handler2 = new Handler();
-                            handler2.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if(!clickedUpdate){
-                                        if(getWhenLastUpdated(UpdateActivity.this).equalsIgnoreCase("never")){
-                                            ReadCSV readCSV1 = new ReadCSV(UpdateActivity.this,false,-1);
-                                        }else{
-                                            ReadCSV readCSV1 = new ReadCSV(UpdateActivity.this,false,0);
-                                        }
-                                        startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
-                                    }
-                                }
-                                }, 6000);
-
-
-                        }else{
-                            if(getWhenLastUpdated(UpdateActivity.this).equalsIgnoreCase("never")){
-                                ReadCSV readCSV1 = new ReadCSV(UpdateActivity.this,false,-1);
-                            }else{
-                                ReadCSV readCSV1 = new ReadCSV(UpdateActivity.this,false,0);
-                            }
-
-                            startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
-                        }
-                }
-
-            }
-        }, 3000);
     }
 
     private void jsonParse() throws IOException {
@@ -189,9 +95,11 @@ public class UpdateActivity extends AppCompatActivity {
                                     // Do something after 5s = 5000ms
                                 timeForUpdate = checkTimeForUpdate();
                                 newDataAvailable = checkNewDataAvailable();
+                                askUserForUpdate();
 
                                 }
                             }, 2000);
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -280,14 +188,18 @@ public class UpdateActivity extends AppCompatActivity {
     }
 
     private void saveWhenLastUpdated(String lastUpdated) {
-        SharedPreferences sharedPreferencesLastUpdated = UpdateActivity.this.getSharedPreferences("Update_prefs", MODE_PRIVATE);
+        SharedPreferences sharedPreferencesLastUpdated = UpdateActivity.this.
+                getSharedPreferences("Update_prefs", MODE_PRIVATE);
+
         SharedPreferences.Editor editor = sharedPreferencesLastUpdated.edit();
         editor.putString("last_updated",lastUpdated);
         editor.apply();
     }
 
     private void saveUpdateFlag(int i) {
-        SharedPreferences sharedPreferencesUpdateFlag = UpdateActivity.this.getSharedPreferences("Update_flag_prefs", MODE_PRIVATE);
+        SharedPreferences sharedPreferencesUpdateFlag = UpdateActivity.this
+                .getSharedPreferences("Update_flag_prefs", MODE_PRIVATE);
+
         SharedPreferences.Editor editor = sharedPreferencesUpdateFlag.edit();
         editor.putInt("update_flag_value1",i);
         editor.apply();
@@ -297,4 +209,118 @@ public class UpdateActivity extends AppCompatActivity {
         return sharedPreferencesUpdateFlag.getInt("update_flag_value1",-1);
     }
 
+//    private void askUserForUpdate(){
+//        final Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                switch(updateFlag) {
+//                    case -1:
+//                        saveUpdateFlag(0);
+//                        ReadCSV readCSV = new ReadCSV(UpdateActivity.this,false,-1);
+//                        startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
+//                        break;
+//                    case 0:
+//                        if((timeForUpdate) && (newDataAvailable)){
+//                            FragmentManager askUpdateFragmentManager = getSupportFragmentManager();
+//                            AskForUpdateDialog askForUpdateDialog = new AskForUpdateDialog(csvUrl,reportUrl,UpdateActivity.this);
+//                            askForUpdateDialog.show(askUpdateFragmentManager, "ask_for_update_dialog");
+//                            //code snippet from https://stackoverflow.com/questions/15874117/how-to-set-delay-in-android
+//                            final Handler handler = new Handler();
+//                            handler.postDelayed(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    if(clickedUpdate) {
+//                                        UpdateDialog dialog = new UpdateDialog(UpdateActivity.this);
+//                                        dialog.show(getSupportFragmentManager(), "UpdateDialog");
+//
+//                                        final Handler handler = new Handler();
+//                                        handler.postDelayed(new Runnable() {
+//                                            @Override
+//                                            public void run() {
+//                                                // Do something after 3s = 3000ms
+//                                                if(!clickedCancel){
+//                                                    ReadCSV readCSV = new ReadCSV(UpdateActivity.this,true,1);
+//                                                    LocalDateTime currentTime = LocalDateTime.now();
+//                                                    String strCurrentTime = currentTime.toString();
+//                                                    saveWhenLastUpdated(strCurrentTime);
+//                                                    String dateLastSaved = getWhenLastUpdated(UpdateActivity.this);
+//                                                    ProcessData processData = new ProcessData();
+//                                                    processData.saveFinalCopy(UpdateActivity.this);
+//
+//                                                    final Handler handler2 = new Handler();
+//                                                    handler2.postDelayed(new Runnable() {
+//                                                        @Override
+//                                                        public void run() {
+//                                                            // Do something after 5s = 5000ms
+//                                                            startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
+//                                                        }
+//                                                    }, 4000);
+//                                                }
+//                                                else{
+//                                                    startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
+//                                                }
+//                                            }
+//                                        }, 4000);
+//                                    }
+//                                }
+//                            }, 3000);
+//                            final Handler handler2 = new Handler();
+//                            handler2.postDelayed(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    if(!clickedUpdate){
+//                                        if(getWhenLastUpdated(UpdateActivity.this).equalsIgnoreCase("never")){
+//                                            ReadCSV readCSV1 = new ReadCSV(UpdateActivity.this,false,-1);
+//                                        }else{
+//                                            ReadCSV readCSV1 = new ReadCSV(UpdateActivity.this,false,0);
+//                                        }
+//                                        startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
+//                                    }
+//                                }
+//                            }, 6000);
+//
+//
+//                        }else{
+//                            if(getWhenLastUpdated(UpdateActivity.this).equalsIgnoreCase("never")){
+//                                ReadCSV readCSV1 = new ReadCSV(UpdateActivity.this,false,-1);
+//                            }else{
+//                                ReadCSV readCSV1 = new ReadCSV(UpdateActivity.this,false,0);
+//                            }
+//
+//                            startActivity(new Intent(UpdateActivity.this,MapsActivity.class));
+//                        }
+//                }
+//
+//            }
+//        }, 3000);
+//    }
+
+    private void askUserForUpdate() {
+
+        ReadCSV readCSV;
+        FragmentManager askUpdateFragmentManager = getSupportFragmentManager();
+        AskForUpdateDialog askForUpdateDialog = new AskForUpdateDialog(csvUrl, reportUrl,
+                UpdateActivity.this);
+
+        switch (updateFlag) {
+            case -1: {
+                saveUpdateFlag(0);
+                readCSV = new ReadCSV(UpdateActivity.this, false, -1);
+                startActivity(new Intent(UpdateActivity.this, MapsActivity.class));
+                break;
+            }
+            case 0: {
+                if (timeForUpdate && newDataAvailable) {
+                    askForUpdateDialog.show(askUpdateFragmentManager, "ask_for_update_dialog");
+                }
+                else {
+                    readCSV = new ReadCSV(UpdateActivity.this, false, 0);
+                    startActivity(new Intent(UpdateActivity.this, MapsActivity.class));
+                }
+                break;
+            }
+        }
+    }
 }
+

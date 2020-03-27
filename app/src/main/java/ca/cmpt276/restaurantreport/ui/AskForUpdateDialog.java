@@ -8,13 +8,11 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 
 import java.util.Objects;
 
 import ca.cmpt276.restaurantreport.applogic.ProcessData;
-import ca.cmpt276.restaurantreport.applogic.ReadCSV;
-
-import static ca.cmpt276.restaurantreport.ui.UpdateActivity.getWhenLastUpdated;
 
 /*
 This class is use for creating a Dialog Fragment that show additional
@@ -24,6 +22,7 @@ public class AskForUpdateDialog extends DialogFragment {
     private String restaurantDataURL;
     private String inspectionsDataURL;
     private Context context;
+    private boolean clickedUpdate = false;
     AskForUpdateDialog(String restaurantDataURL, String inspectionsDataURL, Context context)
     {
         this.restaurantDataURL = restaurantDataURL;
@@ -44,32 +43,35 @@ public class AskForUpdateDialog extends DialogFragment {
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
-                       // ReadCSV readCSV = ReadCSV.getInstance(context,false);
-
-                        if(getWhenLastUpdated(context).equalsIgnoreCase("never")){
-                            System.out.println("clicked cancel when asked to update");
-                            ReadCSV readCSV1 = new ReadCSV(context,false,-1);
-                        }else{
-                            ReadCSV readCSV1 = new ReadCSV(context,false,0);
-                        }
-                        Intent intent = MapsActivity.makeIntent(context);
-                        startActivity(intent);
                     }
                 })
                 .setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         UpdateActivity.clickedUpdate = true;
+                        clickedUpdate = true;
+                        UpdateDialog updateDialog = new UpdateDialog(context);
+                        FragmentManager fragmentManager = getFragmentManager();
+                        updateDialog.show(fragmentManager, "UpdateDialog");
+
+
                         ProcessData processData = new ProcessData();
                         processData.readRestaurantData(restaurantDataURL, context);
                         processData.readReportData(inspectionsDataURL,context);
-                       // ReadCSV readCSV = ReadCSV.getInstance(context,true);
-
                     }
                 });
 
         return builder.create();
     }
 
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+
+        if(!clickedUpdate) {
+            Intent intent = MapsActivity.makeIntent(context);
+            startActivity(intent);
+        }
+    }
 
 }

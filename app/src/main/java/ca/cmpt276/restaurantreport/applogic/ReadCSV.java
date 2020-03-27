@@ -26,9 +26,6 @@ public class ReadCSV {
     private boolean updateAvailable;
     private int flag;
 
-//    @SuppressLint("StaticFieldLeak")
-//    private static ReadCSV instance;
-
     public ReadCSV(Context context,boolean updateAvailable, int flag) {
         this.context = context;
         this.updateAvailable = updateAvailable;
@@ -38,9 +35,6 @@ public class ReadCSV {
         readInspectionData();
 
     }
-
-
-
 
     private void readRestaurantData() {
         manager = RestaurantManager.getInstance(context);
@@ -564,10 +558,5 @@ public class ReadCSV {
             }
         }
     }
-//    public static ReadCSV getInstance(Context context, boolean updateAvailable) {
-//        if(instance == null) {
-//            instance = new ReadCSV(context, updateAvailable);
-//        }
-//        return instance;
-//    }
+
 }

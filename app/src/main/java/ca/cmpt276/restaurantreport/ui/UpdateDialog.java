@@ -1,6 +1,8 @@
 package ca.cmpt276.restaurantreport.ui;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -13,6 +15,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import java.time.LocalDateTime;
 
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.applogic.ProcessData;
@@ -29,6 +33,8 @@ public class UpdateDialog extends DialogFragment {
     private Handler handler = new Handler();
     private ProcessData processData;
     private Context context;
+
+    private boolean updateCancelled = false;
 
     public int getProgressStatus() {
         return progressStatus;
@@ -51,15 +57,12 @@ public class UpdateDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 UpdateActivity.clickedCancel = true;
-                System.out.println("clicked cancel on progress");
-               // ReadCSV readCSV = ReadCSV.getInstance(context,false);
-                if(getWhenLastUpdated(context).equalsIgnoreCase("never")){
-                    ReadCSV readCSV1 = new ReadCSV(context,false,-1);
-                }else{
-                    ReadCSV readCSV1 = new ReadCSV(context,false,0);
-                }
+
+                updateCancelled = true;
 
                 getDialog().dismiss();
+                Intent intent = MapsActivity.makeIntent(context);
+                startActivity(intent);
             }
         });
         //textView = (TextView) findViewById(R.id.textView);
@@ -67,15 +70,16 @@ public class UpdateDialog extends DialogFragment {
         new Thread(new Runnable() {
             public void run() {
                 while (progressStatus < 100) {
+
                     progressStatus += 2;
                     // Update the progress bar and display the
                     //current value in the text view
                     handler.post(new Runnable() {
                         public void run() {
                             progressBar.setProgress(progressStatus);
-                            //textView.setText(progressStatus+"/"+progressBar.getMax());
                         }
                     });
+
                     try {
                         // Sleep for 200 milliseconds.
                         Thread.sleep(200);
@@ -83,12 +87,31 @@ public class UpdateDialog extends DialogFragment {
                         e.printStackTrace();
                     }
                 }
+
+                if(!updateCancelled) {
+
+                    ReadCSV readCSV = new ReadCSV(context,true,0);
+                    LocalDateTime currentTime = LocalDateTime.now();
+                    String strCurrentTime = currentTime.toString();
+                    saveWhenLastUpdated(strCurrentTime);
+                    String dateLastSaved = getWhenLastUpdated(context);
+                    ProcessData processData = new ProcessData();
+                    processData.saveFinalCopy(context);
+
+                    Intent intent = MapsActivity.makeIntent(context);
+                    startActivity(intent);
+                }
             }
         }).start();
 
-
-
         return view;
+    }
+
+    private void saveWhenLastUpdated(String lastUpdated) {
+        SharedPreferences sharedPreferencesLastUpdated = context.getSharedPreferences("Update_prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferencesLastUpdated.edit();
+        editor.putString("last_updated",lastUpdated);
+        editor.apply();
     }
 
 
