@@ -23,11 +23,7 @@ import ca.cmpt276.restaurantreport.applogic.ReadCSV;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 
-/*
-dinner_attr_freepik by Freepik from: https://www.flaticon.com/free-icon/dinner_272186
-Green diamond hazard Icon from http://clipart-library.com/clipart/2019534.htm
-Red and Yellow diamonds are edited by dolivera from the green one
- */
+
 /*
 This class show the list of all restaurants in the database
  */

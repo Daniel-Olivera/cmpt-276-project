@@ -3,6 +3,7 @@ package ca.cmpt276.restaurantreport.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
@@ -38,6 +39,7 @@ public class UpdateActivity extends AppCompatActivity {
     private final int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private ProgressBar progressBar;
     private ProcessData processData;
+    private ReadCSV readCSV;
 
     //MANAV
     private String dateModifyRestaurants;
@@ -60,12 +62,27 @@ public class UpdateActivity extends AppCompatActivity {
 
         updateFlag = getUpdateFlagValue(this);
 
-        try {
-            jsonParse();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(!isOnline()){
+            Intent intent = MapsActivity.makeIntent(this);
+            startActivity(intent);
+        }
+        else{
+            try {
+                jsonParse();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
+    }
+
+    private boolean isOnline() {
+        boolean connected = false;
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if ( cm.getActiveNetworkInfo() != null ) {
+            connected = true;
+        }
+        return connected;
     }
 
     private void jsonParse() throws IOException {
@@ -211,7 +228,6 @@ public class UpdateActivity extends AppCompatActivity {
 
     private void askUserForUpdate() {
 
-        ReadCSV readCSV;
         FragmentManager askUpdateFragmentManager = getSupportFragmentManager();
         AskForUpdateDialog askForUpdateDialog = new AskForUpdateDialog(csvUrl, reportUrl,
                 UpdateActivity.this);
@@ -219,8 +235,8 @@ public class UpdateActivity extends AppCompatActivity {
         switch (updateFlag) {
             case -1: {
                 saveUpdateFlag(0);
-                readCSV = new ReadCSV(UpdateActivity.this, false, -1);
-                startActivity(new Intent(UpdateActivity.this, MapsActivity.class));
+                    readCSV = new ReadCSV(this, false, -1);
+                    startActivity(new Intent(this, MapsActivity.class));
                 break;
             }
             case 0: {
@@ -228,8 +244,8 @@ public class UpdateActivity extends AppCompatActivity {
                     askForUpdateDialog.show(askUpdateFragmentManager, "ask_for_update_dialog");
             }
                 else {
-                    readCSV = new ReadCSV(UpdateActivity.this, false, 0);
-                    startActivity(new Intent(UpdateActivity.this, MapsActivity.class));
+                    readCSV = new ReadCSV(this, false, 0);
+                    startActivity(new Intent(this, MapsActivity.class));
                 }
                 break;
             }

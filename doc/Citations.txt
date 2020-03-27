@@ -12,6 +12,7 @@ https://basememara.com/storing-multidimensional-resource-arrays-in-android/
 Custom Icons:
 Green diamond hazard Icon from http://clipart-library.com/clipart/2019534.htm
 Red and Yellow diamonds are modified by dolivera from the green one
+Markers on map modified from above
 All other icons are from: https://www.flaticon.com/ by Author(s) Freepik
 
 Sorting:
@@ -20,3 +21,29 @@ https://www.geeksforgeeks.org/collections-sort-java-examples/
 
 Java Date:
 https://www.baeldung.com/java-string-to-date
+
+Check if phone is connected to internet:
+https://stackoverflow.com/questions/1560788/how-to-check-internet-access-on-android-inetaddress-never-times-out?page=2&tab=votes#tab-top
+
+Restaurant Logos:
+https://rogersarena.com/hospitality/panago-logo/
+https://commons.wikimedia.org/wiki/File:Dairy_Queen_logo.svg
+https://www.facebook.com/seafairblenzcoffee/
+https://www.glassdoor.ca/Benefits/Save-On-Foods-Canada-Benefits-EI_IE316196.0,13_IL.14,20_IN3.htm
+https://en.wikipedia.org/wiki/File:A%26W_Canada_Logo.svg
+https://www.clipart.email/clipart/circle-mcdonalds-logo-png-484856.html
+https://logos.fandom.com/wiki/7-Eleven
+https://www.stickpng.com/img/icons-logos-emojis/iconic-brands/starbucks-logo
+https://firstpay.ca/home-one-page/tim-hortons/
+https://www.freepnglogos.com/pics/subway-photo-logo
+
+Google maps:
+https://developers.google.com/maps/documentation/android-sdk/current-place-tutorial#get-the-code
+
+Marker clustering:
+https://codinginfinite.com/android-google-map-custom-marker-clustering/
+https://medium.com/@imstudio/android-google-maps-clustering-41f220f8f4d0
+https://stackoverflow.com/questions/34489162/cluster-marker-click-event-android
+https://stackoverflow.com/questions/27470137/android-google-map-utils-clustering-distance
+https://stackoverflow.com/questions/23658561/how-to-set-my-own-icon-for-markers-in-clusterer-in-google-maps
+https://stackoverflow.com/questions/27745299/how-to-add-title-snippet-and-icon-to-clusteritem/27745681#27745681

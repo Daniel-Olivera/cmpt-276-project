@@ -24,14 +24,11 @@ import ca.cmpt276.restaurantreport.adapter.InspectionListAdapter;
 import ca.cmpt276.restaurantreport.applogic.Inspection;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
-/*
-cutlery_attr_freepik by Freepik from: https://www.flaticon.com/free-icon/cutlery_263125
-*/
+
 /*
 This class show the details about the Restaurant
 and list of inspection related to it
  */
-
 public class RestaurantActivity extends AppCompatActivity {
     RestaurantManager manager;
     String resName;

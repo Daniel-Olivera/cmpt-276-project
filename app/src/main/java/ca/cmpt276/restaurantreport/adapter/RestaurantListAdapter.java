@@ -26,10 +26,7 @@ import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.applogic.Inspection;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 
-/*
-most of the code was learned/taken from:
-https://www.youtube.com/watch?v=5Tm--PHhbJo
-*/
+
 /*
 This class is used for putting data about each Restaurant
 to a Linear Layout that show all the Restaurant in a database

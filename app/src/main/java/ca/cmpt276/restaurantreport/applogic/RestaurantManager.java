@@ -72,10 +72,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
         return restaurantList.iterator();
     }
 
-    /*
-    * Code snippet modified from:
-    * https://basememara.com/storing-multidimensional-resource-arrays-in-android/
-    * */
     private void fillViolationList(){
         for (TypedArray item: ResourceHelper.getMultiTypedArray(context)) {
             @SuppressLint("ResourceType") ShortViolation shortViolation = new ShortViolation(item.getInt(0,0),item.getString(1));

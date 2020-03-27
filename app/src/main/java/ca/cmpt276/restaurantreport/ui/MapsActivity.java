@@ -44,7 +44,6 @@ import ca.cmpt276.restaurantreport.applogic.ProcessData;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 
-//https://developers.google.com/maps/documentation/android-sdk/current-place-tutorial#get-the-code
 /*
 displays a google maps view showing the user where the restaurants are
 and their current location
@@ -173,7 +172,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
         moveRealignButton();
         populateRestaurants();
         getLocationPermission();
-
 
         updateLocationUI();
         mMap.setInfoWindowAdapter(new MapInfoWindowAdapter(this));
