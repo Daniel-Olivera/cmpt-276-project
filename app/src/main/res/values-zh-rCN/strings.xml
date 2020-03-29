@@ -1,66 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Restaurant Report</string>
-
-    <string name="restaurant_name">Restaurant Name</string>
-    <string name="issues_found"># Issues Found</string>
-    <string name="last_inspected">Last Inspected: </string>
-    <string name="low">low</string>
-    <string name="restaurant_icon">Restaurant Icon</string>
-    <string name="short_description_of_violaition">Short description of violaition</string>
-    <string name="critical">critical</string>
-    <string name="_07_march_2019">07 March 2019</string>
-
-    <string name="restaurant_toolbar" translatable="false">restaurant toolbar</string>
-    <string name="rest_tool_title" translatable="false">rest toolbar title</string>
-    <string name="placehold_toolbar_title_1" translatable="false">restaurant name</string>
-    <string name="placehold_textView" translatable="false">TextView</string>
-    <string name="placehold_insp_name" translatable="false">Inspection Name</string>
-    <string name="placehold_detail_1" translatable="false">Detail 1</string>
-    <string name="placehold_detail_2" translatable="false">Detail 2</string>
-    <string name="placehold_haz_lvl">level</string>
-    <string name="restaurant_logo_desc" translatable="false">Restaurant Logo</string>
-    <string name="changeable_icon_for_hazard_level">Changeable icon for hazard level</string>
-    <string name="rest_addr_prefix">Address: %1$s</string>
-    <string name="rest_lat_prefix">Latitude: %1$s</string>
-    <string name="rest_long_prefix">Longitude: %1$s</string>
-    <string name="rest_insp_prefix">Past Inspections: </string>
-
-    <string name="insp_date_prefix" translatable="false">%1$s</string>
-    <string name="crit_postfix">%1$s Critical Issue</string>
-    <string name="crit_postfix_s">%1$s Critical Issues</string>
-    <string name="non_crit_postfix">%1$s Non - Critical Issue</string>
-    <string name="non_crit_postfix_s">%1$s Non - Critical Issues</string>
-
-    <string name="inspection_report">Inspection Report</string>
-    <string name="inspection_type_routine">Inspection Type : Routine</string>
-    <string name="critical_issues" translatable="false"># Critical Issues</string>
-    <string name="non_critical_issues" translatable="false"># Non - Critical Issues</string>
-    <string name="hazard_icon">hazard icon</string>
-
-    <string name="inpect_type_prefix">%1$s Inspection</string>
-
-    <string name="back">Back</string>
-    <string name="pop_up_title">Detail</string>
-    <string name="title_activity_maps">Map</string>
-
-    <string name="mapApiKey" translatable="false">AIzaSyBzgnaqru9EU5xK8wLIWqK1f7rQ9AzG0qE</string>
-    <string name="list_view" translatable="false">List View</string>
-    <string name="map_view" translatable="false">Map View</string>
-    <string name="btn_coords_text" translatable="false" />
-
-    <string name="Update">Update</string>
-    <string name="Later">Later</string>
-    <string name="checking_for_updates">Checking for Updates</string>
-
-    <!--RestaurantListAdapter-->
-    <string name="lastInspect_never">Never</string>
-    <string name="lastInspect_found_issue_s">%1$s Issues Found</string>
-    <string name="lastInspect_found_issue">%1$s Issue Found</string>
-    <string name="lastInspect_date">Last Inspected: %1$s</string>
-
-    <!--Restaurant class-->
-    <string name="restaurant_n_a">N/A</string>
-    <!--Short Violation data arrays-->
+    <string name="app_name">餐厅安全报告</string>
+    <string name="restaurant_name">餐厅名称</string>
+    <string name="issues_found">个卫生安全问题</string>
+    <string name="last_inspected">最近检查日期：</string>
+    <string name="low">低危</string>
+    <string name="restaurant_icon">餐厅图标</string>
+    <string name="short_description_of_violaition">违规简介</string>
+    <string name="critical">严重</string>
+    <string name="_07_march_2019">2019年3月7号</string>
+    <string name="placehold_haz_lvl">级别</string>
+    <string name="changeable_icon_for_hazard_level">危险级别可变图标</string>
+    <string name="rest_addr_prefix">地址：%1$s</string>
+    <string name="rest_lat_prefix">纬度：%1$s</string>
+    <string name="rest_long_prefix">经度：%1$s</string>
+    <string name="rest_insp_prefix">历史检查记录：</string>
+    <string name="crit_postfix">%1$s 个严重问题</string>
+    <string name="crit_postfix_s">%1$s 个严重问题</string>
+    <string name="non_crit_postfix">%1$s 个非严重问题</string>
+    <string name="non_crit_postfix_s">%1$s 个非严重问题</string>
+    <string name="inspection_report">检查报告</string>
+    <string name="inspection_type_routine">类别：例行检查</string>
+    <string name="back">返回</string>
+    <string name="pop_up_title">细节</string>
+    <string name="title_activity_maps">地图</string>
+    <string name="inpect_type_prefix">%1$s 检查</string>
+    <string name="hazard_icon">危险级别图标</string>
+    <string name="Update">更新</string>
+    <string name="Later">稍后</string>
+    <string name="checking_for_updates">正在检查更新中。。。</string>
+    <string name="lastInspect_never">无</string>
+    <string name="lastInspect_found_issue_s">%1$s 个问题</string>
+    <string name="lastInspect_found_issue">%1$s 个问题</string>
+    <string name="lastInspect_date">最近检查日期：%1$s</string>
+    <string name="restaurant_n_a">查无此项</string>
 
     <array name="violation_1">
         <item>101</item>
