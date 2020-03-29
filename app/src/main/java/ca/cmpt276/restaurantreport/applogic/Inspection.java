@@ -134,6 +134,9 @@ public class Inspection implements Comparable<Inspection> {
             if (monthsAgo <= 12 && monthsAgo >= 0) {
                 output = inspectionMonth.getDisplayName(TextStyle.SHORT, Locale.US) + " " + inspectionDay;
             }
+            else{
+                output = inspectionMonth.getDisplayName(TextStyle.SHORT, Locale.US) + " " + inspectionYear;
+            }
         } else {
             output = inspectionMonth.getDisplayName(TextStyle.SHORT, Locale.US) + " " + inspectionYear;
         }
