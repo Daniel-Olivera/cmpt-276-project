@@ -56,7 +56,7 @@ public class MapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
                 txtName.setText(restaurantName);
                 txtAddress.setText(address);
                 txtHaz.setText(hazardLvl);
-                getHazardIcon(hazardLvl, imgHaz);
+                manager.getHazardIcon(hazardLvl, imgHaz);
                 break;
             }
         }
@@ -65,22 +65,4 @@ public class MapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         return view;
     }
 
-    private void getHazardIcon(String hazardText, ImageView hazIcon){
-        switch(hazardText){
-            case("Low"):
-            default:{
-                hazIcon.setImageResource(R.drawable.haz_low);
-                break;
-            }
-            case("Mid"):
-            case("Moderate"):{
-                hazIcon.setImageResource(R.drawable.haz_medium);
-                break;
-            }
-            case("High"):{
-                hazIcon.setImageResource(R.drawable.haz_high);
-                break;
-            }
-        }
-    }
 }
