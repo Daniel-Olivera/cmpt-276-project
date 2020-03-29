@@ -135,13 +135,13 @@ public class RestaurantManager implements Iterable<Restaurant> {
             if(numInspMon == numCurMon){
                 int result = currentDay - inspectionDay;
                 if(result > 1){
-                    output = result + " days ago.";
+                    output = result + " days ago";
                 }
                 else if(result < 1){
                     output = "Inspection scheduled in " + result + " days";
                 }
                 else {
-                    output = result + "day ago.";
+                    output = result + "day ago";
                 }
             }
             //if within the last month, calculate how many days ago
@@ -149,7 +149,10 @@ public class RestaurantManager implements Iterable<Restaurant> {
                 int inspMonthLen = inspectionMonth.length(lastInspection.isLeapYear());
                 int result = currentDay + inspMonthLen;
                 result -= inspectionDay;
-                output = result + " days ago.";
+
+                if(result <= 30){
+                    output = result + " days ago";
+                }
             }
             else{
                 output = inspectionMonth.getDisplayName(TextStyle.SHORT, Locale.US) + " " + inspectionDay;
