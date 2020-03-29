@@ -58,7 +58,7 @@ public class CustomClusterRenderer extends DefaultClusterRenderer<Restaurant> {
 
     private void setMarkerHazardIcon(Restaurant currentRestaurant, MarkerOptions markerOptions) {
 
-        String hazardString = currentRestaurant.getLatestInspectionHazard();
+        String hazardString = currentRestaurant.getLatestInspectionHazard(context);
         BitmapDescriptor markerBitmapDescriptor;
 
         //Assign's the appropriate icon and scales it

@@ -52,6 +52,18 @@
     <string name="Later">Later</string>
     <string name="checking_for_updates">Checking for Updates</string>
 
+    <!--RestaurantListAdapter-->
+    <string name="lastInspect_never">Never</string>
+    <string name="lastInspect_found_issue_s">%1$s Issues Found</string>
+    <string name="lastInspect_found_issue">%1$s Issue Found</string>
+    <string name="lastInspect_date">Last Inspected: %1$s</string>
+    <!--<string name="last_inspection_misc_1"></string>
+    <string name="last_inspection_misc_1"></string>
+    <string name="last_inspection_misc_1"></string>
+    <string name="last_inspection_misc_1"></string>-->
+
+    <!--Restaurant class-->
+    <string name="restaurant_n_a">N/A</string>
     <!--Short Violation data arrays-->
 
     <array name="violation_1">

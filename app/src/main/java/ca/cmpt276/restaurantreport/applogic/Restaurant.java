@@ -1,10 +1,14 @@
 package ca.cmpt276.restaurantreport.applogic;
 
+import android.content.Context;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import ca.cmpt276.restaurantreport.R;
 
 /*
 This class store data of every Restaurant in the database
@@ -80,19 +84,19 @@ public class Restaurant implements ClusterItem {
         return Inspections;
     }
 
-    public String getLatestInspectionHazard() {
+    public String getLatestInspectionHazard(Context context) {
 
         int mostRecentInspectionDate = 0;
-        String result = "N/A";
+        String inspectionDateString = context.getString(R.string.restaurant_n_a);
 
         for (int i = 0; i < Inspections.size(); i++) {
             if (Inspections.get(i).getDate() > mostRecentInspectionDate) {
                 mostRecentInspectionDate = Inspections.get(i).getDate();
 
-                result = Inspections.get(i).getHazardRating();
+                inspectionDateString = Inspections.get(i).getHazardRating();
             }
         }
-        return result;
+        return inspectionDateString;
     }
 
     public int getLatestInspectionDate(){

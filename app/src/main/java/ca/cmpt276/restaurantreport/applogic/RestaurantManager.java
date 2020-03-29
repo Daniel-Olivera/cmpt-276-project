@@ -3,12 +3,10 @@ package ca.cmpt276.restaurantreport.applogic;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 /*
 This class is a singleton that store all the Restaurant as
@@ -67,6 +65,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
         }
         return null;
     }
+
     @Override
     public Iterator<Restaurant> iterator() {
         return restaurantList.iterator();

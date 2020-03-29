@@ -13,6 +13,7 @@ public class Violation {
         this.violationCriticality = "";
         this.violationDescriptor = "";
     }
+
     public Violation(){}
 
     public String getViolationCode() {
@@ -43,6 +44,7 @@ public class Violation {
     {
         return  violationDescriptor + "\n";
     }
+
     @Override
     public String toString() {
         return "Violation{" +

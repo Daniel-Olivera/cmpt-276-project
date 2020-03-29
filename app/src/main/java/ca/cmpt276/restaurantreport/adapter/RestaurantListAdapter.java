@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Locale;
 
 import ca.cmpt276.restaurantreport.R;
-import ca.cmpt276.restaurantreport.applogic.Inspection;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 
 
@@ -61,22 +60,25 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
 
         //Get the current restaurant information for the appropriate row and its inspections
         Restaurant currentRestaurant = res.get(position);
-        List<Inspection> insp = currentRestaurant.getInspections();
 
         int issueCount = currentRestaurant.getTotalIssues();
-
-        String issuesFound = issueCount + " Issues Found";
         String lastInspected = lastInspection(currentRestaurant);
-        String inspectDate = "Last Inspected: " + lastInspected;
-        String hazardText = currentRestaurant.getLatestInspectionHazard();
+
+        String hazardText = currentRestaurant.getLatestInspectionHazard(getContext());
         if(hazardText.equals("Moderate")){
             hazardText = "Mid";
         }
         //set the texts with the right parameters
         txtRestaurantName.setText(currentRestaurant.getName());
-        txtNumOfIssues.setText(issuesFound);
-        txtInspectionDate.setText(inspectDate);
-        txtHazardLevel.setText(hazardText.replace("\"",""));
+        //txtNumOfIssues.setText(issuesFound);
+        if(issueCount == 1){
+            setText(txtNumOfIssues,R.string.lastInspect_found_issue,issueCount);
+        }else{
+            setText(txtNumOfIssues,R.string.lastInspect_found_issue_s,issueCount);
+        }
+
+        setText(txtInspectionDate,R.string.lastInspect_date,lastInspected);
+        //txtHazardLevel.setText(hazardText.replace("\"",""));
 
         //changes the hazard icon based on the hazard level
         ImageView hazIcon = row.findViewById(R.id.imgHazardIcon);
@@ -145,7 +147,7 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
     @RequiresApi(api = Build.VERSION_CODES.O)
     private String lastInspection(Restaurant restaurant){
 
-        String output = "Never";
+        String output = getContext().getString(R.string.lastInspect_never);
 
         //gets the current date on the phone
         LocalDate currentDate = LocalDate.now();
@@ -156,7 +158,7 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
         //convert the inspection date to string
         String lastInspectedDate = Integer.toString(dateLastInspection);
         if(lastInspectedDate.equals("0")){
-            return "Never";
+            return output;
         }
 
         //format the inspection date
@@ -221,5 +223,12 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
         return output;
     }
 
+    private void setText(TextView textBox, int stringResID, String arrayItem){
+        textBox.setText(getContext().getString(stringResID, arrayItem));
+    }
+
+    private void setText(TextView textBox, int stringResID, int arrayItem ){
+        textBox.setText(getContext().getString(stringResID, Integer.toString(arrayItem)));
+    }
 
 }

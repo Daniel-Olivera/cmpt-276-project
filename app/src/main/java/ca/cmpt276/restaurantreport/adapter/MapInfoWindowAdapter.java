@@ -51,7 +51,7 @@ public class MapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
             if(trackingNum.equals(restaurants.get(i).getTrackingNum())){
                 String restaurantName = restaurants.get(i).getName();
                 String address = restaurants.get(i).getPhysicalAddr();
-                String hazardLvl = restaurants.get(i).getLatestInspectionHazard();
+                String hazardLvl = restaurants.get(i).getLatestInspectionHazard(context);
 
                 txtName.setText(restaurantName);
                 txtAddress.setText(address);
