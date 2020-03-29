@@ -9,16 +9,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import com.android.volley.RequestQueue;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
@@ -40,7 +37,6 @@ import java.util.Objects;
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.adapter.MapInfoWindowAdapter;
 import ca.cmpt276.restaurantreport.applogic.CustomClusterRenderer;
-import ca.cmpt276.restaurantreport.applogic.ProcessData;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 
@@ -268,7 +264,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
             if(trackingNum.equals(allRestaurants.get(i).getTrackingNum())) {
                 Restaurant currentRes = allRestaurants.get(i);
                 String resName = currentRes.getName();
-                int issueCount = currentRes.getTotalIssues();
+                int issueCount = currentRes.getMostRecentIssues();
                 String totalIssues = Integer.toString(issueCount);
 
                 intent = RestaurantActivity.makeIntent(this, resName, totalIssues);

@@ -63,7 +63,7 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
         Restaurant currentRestaurant = res.get(position);
         List<Inspection> insp = currentRestaurant.getInspections();
 
-        int issueCount = currentRestaurant.getTotalIssues();
+        int issueCount = currentRestaurant.getMostRecentIssues();
 
         String issuesFound = issueCount + " Issues Found";
         String lastInspected = lastInspection(currentRestaurant);
