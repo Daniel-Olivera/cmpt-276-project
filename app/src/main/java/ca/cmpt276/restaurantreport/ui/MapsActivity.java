@@ -263,11 +263,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
         for(int i = 0; i < allRestaurants.size(); i++){
             if(trackingNum.equals(allRestaurants.get(i).getTrackingNum())) {
                 Restaurant currentRes = allRestaurants.get(i);
-                String resName = currentRes.getName();
-                int issueCount = currentRes.getMostRecentIssues();
-                String totalIssues = Integer.toString(issueCount);
 
-                intent = RestaurantActivity.makeIntent(this, resName, totalIssues);
+                intent = RestaurantActivity.makeIntent(this, trackingNum);
                 break;
             }
         }

@@ -1,5 +1,6 @@
 package ca.cmpt276.restaurantreport.applogic;
 
+import android.content.Context;
 import android.util.Log;
 
 import java.time.LocalDate;
@@ -71,76 +72,10 @@ public class Inspection implements Comparable<Inspection> {
 
     public List getViolations() {return this.ViolationList;}
 
-    public String dayFromLastInspection() {
-        String output = "Never";
-
-        //gets the current date on the phone
-        LocalDate currentDate = LocalDate.now();
-
-        int dateLastInspection = date;
-
-        String lastInspectedDate = Integer.toString(dateLastInspection);
-        if (lastInspectedDate.equals("0")) {
-            return "Never";
-        }
-
-        //format the inspection date
-        LocalDate lastInspection = null;
-        try {
-            lastInspection = LocalDate.parse(lastInspectedDate, DateTimeFormatter.BASIC_ISO_DATE);
-        } catch (DateTimeParseException e) {
-            Log.d("RestaurantListAdapter", "String cannot be parsed into LocalDate");
-            e.printStackTrace();
-        }
-
-        //get values of month, day and year of the inspection
-        assert lastInspection != null;
-        int inspectionDay = lastInspection.getDayOfMonth();
-        int inspectionYear = lastInspection.getYear();
-        Month inspectionMonth = lastInspection.getMonth();
-
-        //get values of the current date
-        int currentDay = currentDate.getDayOfMonth();
-        int currentYear = currentDate.getYear();
-        Month currentMonth = currentDate.getMonth();
-
-        //get month number for calculations
-        int numInspMon = inspectionMonth.getValue();
-        int numCurMon = currentMonth.getValue();
-
-        //check the recency of the inspection compared to today's date
-        if (inspectionYear == currentYear) {
-            if (numInspMon == numCurMon) {
-                int result = currentDay - inspectionDay;
-                if (result > 1) {
-                    output = result + " days ago.";
-                } else if (result < 1) {
-                    output = "Inspection scheduled in " + result + " days";
-                } else {
-                    output = result + "day ago.";
-                }
-            }
-            //if within the last month, calculate how many days ago
-            else if (numInspMon == numCurMon - 1) {
-                int inspMonthLen = inspectionMonth.length(lastInspection.isLeapYear());
-                int result = currentDay + inspMonthLen;
-                result -= inspectionDay;
-                output = result + " days ago.";
-            } else {
-                output = inspectionMonth.getDisplayName(TextStyle.SHORT, Locale.US) + " " + inspectionDay;
-            }
-        } else if (inspectionYear == currentYear - 1) {
-            int monthsAgo = (currentMonth.getValue() + 12) - inspectionMonth.getValue();
-            if (monthsAgo <= 12 && monthsAgo >= 0) {
-                output = inspectionMonth.getDisplayName(TextStyle.SHORT, Locale.US) + " " + inspectionDay;
-            }
-        } else {
-            output = inspectionMonth.getDisplayName(TextStyle.SHORT, Locale.US) + " " + inspectionYear;
-        }
-
-        return output;
+    public String getInspectionDateDisplay(Context context) {
+        RestaurantManager manager = RestaurantManager.getInstance(context);
+        return manager.getDisplayDate(date);
     }
-
 
     @Override
     public int compareTo(Inspection o) {

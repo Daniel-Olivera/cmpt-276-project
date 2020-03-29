@@ -3,11 +3,8 @@ package ca.cmpt276.restaurantreport.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TabWidget;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,8 +28,7 @@ and list of inspection related to it
  */
 public class RestaurantActivity extends AppCompatActivity {
     RestaurantManager manager;
-    String resName;
-    int totalIssues;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,33 +36,25 @@ public class RestaurantActivity extends AppCompatActivity {
         manager = RestaurantManager.getInstance(this);
 
         Intent intent = getIntent();
-        resName = intent.getStringExtra("resName");
-        totalIssues = Integer.parseInt(Objects.requireNonNull(intent.getStringExtra("totalIssues")));
+        String trackingNum = intent.getStringExtra("trackingNumber");
 
         List<Restaurant> listRes = manager.getRestaurants();
         int index = 0;
-        for (int i = 0 ; i < listRes.size();i++)
-        {
-            if (listRes.get(i).getName().equals(resName))
-            {
-                int issueCount = 0;
-                List<Inspection> insp = listRes.get(i).getInspections();
-                for (int y = 0; y < insp.size(); y++) {
-                    issueCount += insp.get(y).getTotalIssues();
-                }
-                if (issueCount == totalIssues) {
-                    index = i;
-                    break;
-                }
+
+        for(int i = 0; i < listRes.size(); i++){
+            if(trackingNum.equals(listRes.get(i).getTrackingNum())){
+                index = i;
+                break;
             }
         }
+
         final Restaurant restaurant = manager.get(index);
         DecimalFormat decimalFormat = new DecimalFormat("0",DecimalFormatSymbols.getInstance(Locale.ENGLISH));
         decimalFormat.setMaximumFractionDigits(340);
         // parse out the double quote
         String addr = manager.get(index).getPhysicalAddr();
         TextView toolbar_title = findViewById(R.id.toolbarTitle);
-        toolbar_title.setText(resName);
+        toolbar_title.setText(listRes.get(index).getName());
         TextView txtAddress = findViewById(R.id.txtAddress);
         txtAddress.setText(getString(R.string.rest_addr_prefix, addr));
         TextView txtLatitude = findViewById(R.id.txtLattitude);
@@ -90,7 +78,7 @@ public class RestaurantActivity extends AppCompatActivity {
         {
             critIssue[i] = inspectionList.get(i).getNumCritIssues();
             nonCritIssue[i] = inspectionList.get(i).getNumNonCritIssues();
-            lastInspec[i]=inspectionList.get(i).dayFromLastInspection();
+            lastInspec[i]=inspectionList.get(i).getInspectionDateDisplay(this);
             hazardLevel[i]=inspectionList.get(i).getHazardRating();
         }
         ListView listView;
@@ -121,11 +109,10 @@ public class RestaurantActivity extends AppCompatActivity {
 
     }
 
-    public static Intent makeIntent(Context context, String resName, String totalIssues)
+    public static Intent makeIntent(Context context, String trackingNum)
     {
         Intent intent = new Intent(context, RestaurantActivity.class);
-        intent.putExtra("resName", resName);
-        intent.putExtra("totalIssues", totalIssues);
+        intent.putExtra("trackingNumber", trackingNum);
         return intent;
     }
 }

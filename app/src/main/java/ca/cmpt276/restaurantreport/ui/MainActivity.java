@@ -82,12 +82,9 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener((parent, view, position, id) -> {
-            String resName = ((TextView) view.findViewById(R.id.txtRestaurantName)).getText().toString();
-            String totalIssues = ((TextView) view.findViewById(R.id.txtNumOfIssues)).getText().toString();
+            String trackingNum = allRestaurantsList.get(position).getTrackingNum();
 
-            //parse out the number part
-            totalIssues = totalIssues.substring(0,totalIssues.indexOf(" "));
-            Intent intent = RestaurantActivity.makeIntent(MainActivity.this,resName,totalIssues);
+            Intent intent = RestaurantActivity.makeIntent(MainActivity.this, trackingNum);
             startActivity(intent);
 
         });

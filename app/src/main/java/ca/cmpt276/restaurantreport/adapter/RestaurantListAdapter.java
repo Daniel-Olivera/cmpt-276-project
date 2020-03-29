@@ -2,8 +2,6 @@ package ca.cmpt276.restaurantreport.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,19 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.time.format.TextStyle;
 import java.util.List;
-import java.util.Locale;
 
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.applogic.Inspection;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
+import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 
 
 /*
@@ -34,10 +26,13 @@ to a Linear Layout that show all the Restaurant in a database
 public class RestaurantListAdapter extends ArrayAdapter<String>{
 
     private List<Restaurant> res;
+    private Context context;
+    private RestaurantManager manager;
 
     public RestaurantListAdapter (Context c, List<Restaurant> rest, String[] titles){
         super(c,R.layout.restaurant_row, R.id.txtRestaurantName, titles);
         this.res = rest;
+        this.context = c;
     }
 
     @NonNull
@@ -63,10 +58,11 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
         Restaurant currentRestaurant = res.get(position);
         List<Inspection> insp = currentRestaurant.getInspections();
 
-        int issueCount = currentRestaurant.getMostRecentIssues();
+        int issueCount = currentRestaurant.getTotalIssues();
+        manager = RestaurantManager.getInstance(context);
 
         String issuesFound = issueCount + " Issues Found";
-        String lastInspected = lastInspection(currentRestaurant);
+        String lastInspected = getLatestInspectionDate(currentRestaurant);
         String inspectDate = "Last Inspected: " + lastInspected;
         String hazardText = currentRestaurant.getLatestInspectionHazard();
         if(hazardText.equals("Moderate")){
@@ -80,7 +76,7 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
 
         //changes the hazard icon based on the hazard level
         ImageView hazIcon = row.findViewById(R.id.imgHazardIcon);
-        getHazardIcon(hazardText,hazIcon);
+        manager.getHazardIcon(hazardText,hazIcon);
         ImageView restaurantIcon = row.findViewById(R.id.imgRestaurantIcon);
         getRestaurantIcon(currentRestaurant.getName(), restaurantIcon);
 
@@ -122,104 +118,9 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
 
     }
 
-    private void getHazardIcon(String hazardText, ImageView hazIcon){
-        switch(hazardText){
-            case("\"Low\""):
-            default:{
-                hazIcon.setImageResource(R.drawable.haz_low);
-                break;
-            }
-            case("Mid"):
-            case("Moderate"):{
-                hazIcon.setImageResource(R.drawable.haz_medium);
-                break;
-            }
-            case("High"):{
-                hazIcon.setImageResource(R.drawable.haz_high);
-                break;
-            }
-        }
-    }
-
-    //returns the day of the last inspection based on how long ago it was
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private String lastInspection(Restaurant restaurant){
-
-        String output = "Never";
-
-        //gets the current date on the phone
-        LocalDate currentDate = LocalDate.now();
-
+    private String getLatestInspectionDate(Restaurant restaurant) {
         //get the latest inspection of the current restaurant
-        int dateLastInspection = restaurant.getLatestInspectionDate();
-
-        //convert the inspection date to string
-        String lastInspectedDate = Integer.toString(dateLastInspection);
-        if(lastInspectedDate.equals("0")){
-            return "Never";
-        }
-
-        //format the inspection date
-        LocalDate lastInspection = null;
-        try {
-            lastInspection = LocalDate.parse(lastInspectedDate, DateTimeFormatter.BASIC_ISO_DATE);
-        } catch (DateTimeParseException e) {
-            Log.d("RestaurantListAdapter","String cannot be parsed into LocalDate");
-            e.printStackTrace();
-        }
-
-        //get values of month, day and year of the inspection
-        assert lastInspection != null;
-        int inspectionDay = lastInspection.getDayOfMonth();
-        int inspectionYear = lastInspection.getYear();
-        Month inspectionMonth = lastInspection.getMonth();
-
-        //get values of the current date
-        int currentDay = currentDate.getDayOfMonth();
-        int currentYear = currentDate.getYear();
-        Month currentMonth = currentDate.getMonth();
-
-        //get month number for calculations
-        int numInspMon = inspectionMonth.getValue();
-        int numCurMon = currentMonth.getValue();
-
-        //check the recency of the inspection compared to today's date
-        if(inspectionYear == currentYear) {
-            if(numInspMon == numCurMon){
-                int result = currentDay - inspectionDay;
-                if(result > 1){
-                    output = result + " days ago.";
-                }
-                else if(result < 1){
-                    output = "Inspection scheduled in " + result + " days";
-                }
-                else {
-                    output = result + "day ago.";
-                }
-            }
-            //if within the last month, calculate how many days ago
-            else if(numInspMon == numCurMon - 1){
-                    int inspMonthLen = inspectionMonth.length(lastInspection.isLeapYear());
-                    int result = currentDay + inspMonthLen;
-                    result -= inspectionDay;
-                    output = result + " days ago.";
-            }
-            else{
-                output = inspectionMonth.getDisplayName(TextStyle.SHORT,Locale.US) + " " + inspectionDay;
-            }
-        }
-        else if(inspectionYear == currentYear - 1){
-            int monthsAgo = (currentMonth.getValue() + 12) - inspectionMonth.getValue();
-            if(monthsAgo <= 12 && monthsAgo >= 0){
-                output = inspectionMonth.getDisplayName(TextStyle.SHORT,Locale.US) + " " + inspectionDay;
-            }
-        }
-        else{
-            output = inspectionMonth.getDisplayName(TextStyle.SHORT,Locale.US) + " " + inspectionYear;
-        }
-
-        return output;
+        int dateOfLastInspection = restaurant.getLatestInspectionDate();
+        return manager.getDisplayDate(dateOfLastInspection);
     }
-
-
 }

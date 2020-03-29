@@ -112,13 +112,14 @@ public class Restaurant implements ClusterItem {
 
     public int getMostRecentIssues(){
         int issueCount = 0;
-        int latestInspectionDate = getLatestInspectionDate();
+        int dateOfLastInspection = getLatestInspectionDate();
 
         //counts all the issues (critical and non-critical) that a restaurant has
         for (int i = 0; i < Inspections.size(); i++) {
-            if(latestInspectionDate == Inspections.get(i).getDate()){
+            if(dateOfLastInspection == Inspections.get(i).getDate()){
                 issueCount = Inspections.get(i).getTotalIssues();
             }
+
         }
 
         return issueCount;
