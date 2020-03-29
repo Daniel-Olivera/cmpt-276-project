@@ -129,9 +129,10 @@ public class RestaurantManager implements Iterable<Restaurant> {
         //get month number for calculations
         int numInspMon = inspectionMonth.getValue();
         int numCurMon = currentMonth.getValue();
+        String inspectionMonthName = inspectionMonth.getDisplayName(TextStyle.SHORT, Locale.US);
 
         //check the recency of the inspection compared to today's date
-            if(inspectionYear == currentYear) {
+        if(inspectionYear == currentYear) {
             if(numInspMon == numCurMon){
                 int result = currentDay - inspectionDay;
                 if(result > 1){
@@ -153,22 +154,25 @@ public class RestaurantManager implements Iterable<Restaurant> {
                 if(result <= 30){
                     output = result + " days ago";
                 }
+                else{
+                    output = inspectionMonthName + " " + inspectionDay;
+                }
             }
             else{
-                output = inspectionMonth.getDisplayName(TextStyle.SHORT, Locale.US) + " " + inspectionDay;
+                output = inspectionMonthName + " " + inspectionDay;
             }
         }
             else if(inspectionYear == currentYear - 1){
             int monthsAgo = (currentMonth.getValue() + 12) - inspectionMonth.getValue();
             if(monthsAgo <= 12 && monthsAgo >= 0){
-                output = inspectionMonth.getDisplayName(TextStyle.SHORT,Locale.US) + " " + inspectionDay;
+                output = inspectionMonthName + " " + inspectionDay;
             }
             else{
-                output = inspectionMonth.getDisplayName(TextStyle.SHORT, Locale.US) + " " + inspectionYear;
+                output = inspectionMonthName + " " + inspectionYear;
             }
         }
             else{
-            output = inspectionMonth.getDisplayName(TextStyle.SHORT,Locale.US) + " " + inspectionYear;
+            output = inspectionMonthName + " " + inspectionYear;
         }
 
             return output;
