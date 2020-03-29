@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import ca.cmpt276.restaurantreport.R;
+import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 
 /*
 most of the code was learned/taken from:
@@ -24,10 +25,12 @@ to a Linear Layout that show all the inspection of a restaurant
 */
 
 public class InspectionListAdapter extends ArrayAdapter<String> {
+    private final Context context;
     private int[] critNum;
     private int[] nonCritNum;
     private String[] lastInspec;
     private String[] hazardLevels;
+    private RestaurantManager manager;
 
     public InspectionListAdapter(Context c, int[] critNum, int[] nonCritNum, String[] lastInspec, String[] hazardLevel) {
         super(c, R.layout.inspection_row, R.id.txtInspCritNums, lastInspec);
@@ -35,6 +38,8 @@ public class InspectionListAdapter extends ArrayAdapter<String> {
         this.nonCritNum = nonCritNum;
         this.lastInspec = lastInspec;
         this.hazardLevels = hazardLevel;
+        this.context = c;
+        this.manager = RestaurantManager.getInstance(c);
     }
 
     @NonNull
@@ -50,21 +55,20 @@ public class InspectionListAdapter extends ArrayAdapter<String> {
 
         ImageView imgInspHazIcon = row.findViewById(R.id.imgInspHazIcon);
 
-            setText(txtInspDate, lastInspec[position]);
-            if(critNum[position] == 1){
-                setText(txtInspCritNums, R.string.crit_postfix, critNum[position]);
-            } else {
-                setText(txtInspCritNums, R.string.crit_postfix_s, critNum[position]);
-            }
-            if(nonCritNum[position] == 1){
-                setText(txtInspNCrtiNums, R.string.non_crit_postfix,nonCritNum[position]);
-            } else {
-                setText(txtInspNCrtiNums,R.string.non_crit_postfix_s,nonCritNum[position]);
-            }
+        setText(txtInspDate, lastInspec[position]);
+        if(critNum[position] == 1){
+            setText(txtInspCritNums, R.string.crit_postfix, critNum[position]);
+        } else {
+            setText(txtInspCritNums, R.string.crit_postfix_s, critNum[position]);
+        }
+        if(nonCritNum[position] == 1){
+            setText(txtInspNCrtiNums, R.string.non_crit_postfix,nonCritNum[position]);
+        } else {
+            setText(txtInspNCrtiNums,R.string.non_crit_postfix_s,nonCritNum[position]);
+        }
 
         txtInspHazLvl.setText(hazardLevels[position]);
-
-        getHazardIcon(hazardLevels[position],imgInspHazIcon);
+        manager.getHazardIcon(hazardLevels[position], imgInspHazIcon);
 
         return row;
     }
@@ -76,22 +80,5 @@ public class InspectionListAdapter extends ArrayAdapter<String> {
     private void setText(TextView textBox, int stringResID, int arrayItem ){
         textBox.setText(getContext().getString(stringResID, Integer.toString(arrayItem)));
     }
-
-    private void getHazardIcon(String hazardLevel, ImageView icon) {
-        switch (hazardLevel) {
-            case ("Low"):
-            default: {
-                icon.setImageResource(R.drawable.haz_low);
-                break;
-            }
-            case ("Moderate"): {
-                icon.setImageResource(R.drawable.haz_medium);
-                break;
-            }
-            case ("High"): {
-                icon.setImageResource(R.drawable.haz_high);
-                break;
-            }
-        }
-    }
+    
 }

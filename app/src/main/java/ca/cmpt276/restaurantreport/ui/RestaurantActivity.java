@@ -3,11 +3,8 @@ package ca.cmpt276.restaurantreport.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TabWidget;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -90,7 +87,7 @@ public class RestaurantActivity extends AppCompatActivity {
         {
             critIssue[i] = inspectionList.get(i).getNumCritIssues();
             nonCritIssue[i] = inspectionList.get(i).getNumNonCritIssues();
-            lastInspec[i]=inspectionList.get(i).dayFromLastInspection();
+            lastInspec[i]=inspectionList.get(i).getInspectionDateDisplay(this);
             hazardLevel[i]=inspectionList.get(i).getHazardRating();
         }
         ListView listView;
