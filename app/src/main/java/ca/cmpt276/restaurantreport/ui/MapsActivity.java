@@ -104,9 +104,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
     }
 
     private void setupSearchButton() {
-        FloatingActionButton floatingButton = mapView.findViewById(R.id.btnMapSearch);
-
-        floatingButton.setOnClickListener(v -> {
+        FloatingActionButton mapSearchButton = mapView.findViewById(R.id.btnMapSearch);
+        mapSearchButton.setOnClickListener(v -> {
             Intent intent = SearchActivity.makeIntent(MapsActivity.this);
             startActivity(intent);
         });

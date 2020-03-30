@@ -48,12 +48,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupSearchButton() {
         FloatingActionButton btnSearch = findViewById(R.id.btnFloatSearch);
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = SearchActivity.makeIntent(MainActivity.this);
-                startActivity(intent);
-            }
+        btnSearch.setOnClickListener(v -> {
+            Intent intent = SearchActivity.makeIntent(MainActivity.this);
+            startActivity(intent);
         });
     }
 

@@ -18,6 +18,10 @@ import android.widget.Toast;
 
 import ca.cmpt276.restaurantreport.R;
 
+/*
+* Allows the user to enter search/filter settings
+* to find restaurants with specific criteria more easily
+* */
 public class SearchActivity extends AppCompatActivity {
 
     @Override
@@ -36,6 +40,7 @@ public class SearchActivity extends AppCompatActivity {
         setupFavouriteCheckBox();
     }
 
+    //set a flag for search settings to find favourited restaurants
     private void setupFavouriteCheckBox() {
         CheckBox chkFav = findViewById(R.id.chkBoxFav);
         if(chkFav.isChecked()){
@@ -46,6 +51,8 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
+    // Enables/disables the violation search setting
+    // perhaps use a boolean in the search state class for this
     @SuppressLint("ResourceType")
     private void setupViolationCheckBox() {
         CheckBox chkViolation = findViewById(R.id.chkBoxViolation);
@@ -53,6 +60,8 @@ public class SearchActivity extends AppCompatActivity {
         TextView txtGreaterThan = findViewById(R.id.txtGreaterThan);
         EditText violationNum = findViewById(R.id.edtxtNumViolations);
 
+        //on activity launch, check the state of the checkbox
+        //and disable/enable settings accordingly
         if(chkViolation.isChecked()){
             txtGreaterThan.setTextColor(Color.BLACK);
             lessOrGreaterThanSwitch.setEnabled(true);
@@ -64,6 +73,7 @@ public class SearchActivity extends AppCompatActivity {
             violationNum.setEnabled(false);
         }
 
+        //updates the flag and enables/disables the options
         chkViolation.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked){
                 txtGreaterThan.setTextColor(Color.BLACK);
@@ -81,6 +91,8 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
+    // Enables/disables the hazard search setting
+    // perhaps use a boolean in the search state class for this
     private void setupHazardCheckBox() {
         RadioGroup hazardRadioGroup = findViewById(R.id.radioHazSelection);
         CheckBox chkHaz = findViewById(R.id.chkBoxHazard);
@@ -112,12 +124,14 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
+    //lets user input number of critical violations they want to search for
     private void setupViolationInput() {
         EditText violationNum = findViewById(R.id.edtxtNumViolations);
         String numCritViolations = violationNum.getText().toString();
         //TODO: send to search state class
     }
 
+    //toggle between <= and >= for the above method
     private void setupToggleSwitch() {
         Switch lessOrGreaterThanSwitch = findViewById(R.id.valueSwitch);
 
@@ -131,12 +145,14 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
+    //Search for restaurant name
     private void setupSearchBar() {
         EditText restaurantSearch = findViewById(R.id.edtxtResName);
         String restaurantName = restaurantSearch.getText().toString();
         //TODO: send to search state class
     }
 
+    //allow user to select a hazard level to search for
     private void setupRadioButtons() {
         RadioGroup hazardRadioGroup = findViewById(R.id.radioHazSelection);
 
@@ -148,6 +164,7 @@ public class SearchActivity extends AppCompatActivity {
 
                 if(isChecked){
                     //TODO: set the values in the search state class
+                    //Toast for testing. Can be removed.
                     Toast.makeText(SearchActivity.this, checkedButton.getText(), Toast.LENGTH_SHORT)
                     .show();
                 }
@@ -156,11 +173,16 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
+    /*
+    For issue #3 [Implement Search Logic] instead of using finish(), we may want to send the context
+    of the activity that called the search activity so that we can use startActivity instead
+    in order to refresh the displayed data
+    */
     private void setupSearchButton() {
         Button searchBtn = findViewById(R.id.btnSearch);
 
         searchBtn.setOnClickListener(v -> {
-            //TODO: Apply search settings and finish the activity
+            //TODO: Apply search settings in the search state class and finish the activity
             finish();
         });
     }
@@ -169,7 +191,7 @@ public class SearchActivity extends AppCompatActivity {
         Button clearBtn = findViewById(R.id.btnClear);
 
         clearBtn.setOnClickListener(v -> {
-            //TODO: Clear search options and finish the activity to go back
+            //TODO: Clear search options in the search state class and finish current activity
             finish();
         });
     }
