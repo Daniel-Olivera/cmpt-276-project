@@ -9,16 +9,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import com.android.volley.RequestQueue;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
@@ -29,6 +26,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.algo.Algorithm;
 import com.google.maps.android.clustering.algo.NonHierarchicalDistanceBasedAlgorithm;
@@ -40,7 +38,6 @@ import java.util.Objects;
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.adapter.MapInfoWindowAdapter;
 import ca.cmpt276.restaurantreport.applogic.CustomClusterRenderer;
-import ca.cmpt276.restaurantreport.applogic.ProcessData;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 
@@ -103,6 +100,16 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
         //ReadCSV.getInstance(this,true);
         allRestaurants = manager.getRestaurants();
         setupListButton();
+        setupSearchButton();
+    }
+
+    private void setupSearchButton() {
+        FloatingActionButton mapSearchButton = mapView.findViewById(R.id.btnMapSearch);
+        mapSearchButton.setOnClickListener(v -> {
+            Intent intent = SearchActivity.makeIntent(MapsActivity.this);
+            startActivity(intent);
+        });
+
     }
 
     private void findAndShowMarker(String trackingID) {

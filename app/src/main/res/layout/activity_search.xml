@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.SearchActivity"
+    >
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbrSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    <TextView
+        android:id="@+id/tbrSearchTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginStart="16dp"
+        android:text="@string/tbrSearchTitle"
+        android:textColor="#ffffff"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tbrSearch"
+        app:layout_constraintStart_toStartOf="@+id/tbrSearch"
+        app:layout_constraintTop_toTopOf="@+id/tbrSearch" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <EditText
+        android:id="@+id/edtxtResName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:autofillHints="@string/srch_restaurant_name"
+        android:ems="10"
+        android:hint="@string/srch_restaurant_name"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbrSearch" />
+
+    <TextView
+        android:id="@+id/txtRadioGroupTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/srch_hazard_level"
+        app:layout_constraintStart_toStartOf="@+id/edtxtResName"
+        app:layout_constraintTop_toBottomOf="@+id/edtxtResName" />
+
+    <RadioGroup
+        android:id="@+id/radioHazSelection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@+id/txtRadioGroupTitle"
+        app:layout_constraintTop_toBottomOf="@+id/txtRadioGroupTitle">
+
+        <RadioButton
+            android:id="@+id/radioButton1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:text="@string/srch_low" />
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:text="@string/srch_mid" />
+
+        <RadioButton
+            android:id="@+id/radioButton3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/srch_high" />
+
+    </RadioGroup>
+
+    <Switch
+        android:id="@+id/valueSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/srch_less_than"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/radioHazSelection"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <TextView
+        android:id="@+id/txtGreaterThan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/srch_greater_than"
+        android:textColor="?android:attr/textColorPrimary"
+        app:layout_constraintBottom_toBottomOf="@+id/valueSwitch"
+        app:layout_constraintStart_toEndOf="@+id/valueSwitch"
+        app:layout_constraintTop_toTopOf="@+id/valueSwitch" />
+
+    <EditText
+        android:id="@+id/edtxtNumViolations"
+        android:layout_width="67dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="16dp"
+        android:autofillHints="input a number"
+        android:ems="10"
+        android:inputType="number"
+        android:text="@string/srch_0"
+        app:layout_constraintBottom_toBottomOf="@+id/txtGreaterThan"
+        app:layout_constraintStart_toEndOf="@+id/txtGreaterThan"
+        app:layout_constraintTop_toTopOf="@+id/txtGreaterThan"
+        tools:ignore="LabelFor" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/srch_num_crit_violations"
+        app:layout_constraintStart_toStartOf="@+id/radioHazSelection"
+        app:layout_constraintTop_toBottomOf="@+id/radioHazSelection" />
+
+    <CheckBox
+        android:id="@+id/chkBoxHazard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/radioHazSelection"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <CheckBox
+        android:id="@+id/chkBoxViolation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/edtxtNumViolations"
+        app:layout_constraintEnd_toEndOf="@+id/chkBoxHazard" />
+
+    <CheckBox
+        android:id="@+id/chkBoxFav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/srch_favourited"
+        app:layout_constraintStart_toStartOf="@+id/valueSwitch"
+        app:layout_constraintTop_toBottomOf="@+id/valueSwitch" />
+
+    <Button
+        android:id="@+id/btnClear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/srch_clear"
+        app:layout_constraintStart_toStartOf="@+id/chkBoxFav"
+        app:layout_constraintTop_toBottomOf="@+id/chkBoxFav" />
+
+    <Button
+        android:id="@+id/btnSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="@string/srch_btn_search"
+        app:layout_constraintBottom_toBottomOf="@+id/edtxtResName"
+        app:layout_constraintStart_toEndOf="@+id/edtxtResName" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
