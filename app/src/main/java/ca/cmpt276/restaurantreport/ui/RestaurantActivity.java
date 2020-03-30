@@ -9,12 +9,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
 
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.adapter.InspectionListAdapter;
@@ -42,6 +38,7 @@ public class RestaurantActivity extends AppCompatActivity {
         int index = 0;
 
         for(int i = 0; i < listRes.size(); i++){
+            assert trackingNum != null;
             if(trackingNum.equals(listRes.get(i).getTrackingNum())){
                 index = i;
                 break;
@@ -49,19 +46,20 @@ public class RestaurantActivity extends AppCompatActivity {
         }
 
         final Restaurant restaurant = manager.get(index);
-        DecimalFormat decimalFormat = new DecimalFormat("0",DecimalFormatSymbols.getInstance(Locale.ENGLISH));
-        decimalFormat.setMaximumFractionDigits(340);
-        // parse out the double quote
-        String addr = manager.get(index).getPhysicalAddr();
+
+        String address = manager.get(index).getPhysicalAddr();
+
         TextView toolbar_title = findViewById(R.id.toolbarTitle);
-        toolbar_title.setText(listRes.get(index).getName());
         TextView txtAddress = findViewById(R.id.txtAddress);
-        txtAddress.setText(getString(R.string.rest_addr_prefix, addr));
         TextView txtLatitude = findViewById(R.id.txtLattitude);
-        txtLatitude.setText(getString(R.string.rest_lat_prefix, Double.toString(manager.get(index).getLatitude())));
         TextView txtLongitude = findViewById(R.id.txtLongtitude);
-        txtLongitude.setText(getString(R.string.rest_long_prefix, Double.toString(manager.get(index).getLongitude())));
         TextView txtInspHeader = findViewById(R.id.txtInspHeader);
+
+
+        toolbar_title.setText(listRes.get(index).getName());
+        manager.setText(txtAddress,R.string.rest_addr_prefix,address);
+        manager.setText(txtLatitude,R.string.rest_lat_prefix,manager.get(index).getLatitude());
+        manager.setText(txtLongitude,R.string.rest_long_prefix,manager.get(index).getLongitude());
         txtInspHeader.setText(R.string.rest_insp_prefix);
 
         List<Inspection> inspectionList = manager.get(index).getInspections();
@@ -94,8 +92,6 @@ public class RestaurantActivity extends AppCompatActivity {
         });
 
         setupCoordinatesButton(restaurant);
-
-
     }
 
     private void setupCoordinatesButton(Restaurant restaurant) {

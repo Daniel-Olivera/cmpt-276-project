@@ -65,12 +65,12 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
         //set the texts with the right parameters
         txtRestaurantName.setText(currentRestaurant.getName());
         if(issueCount == 1){
-            setText(txtNumOfIssues,R.string.lastInspect_found_issue,issueCount);
+            manager.setText(txtNumOfIssues,R.string.lastInspect_found_issue,issueCount);
         }else{
-            setText(txtNumOfIssues,R.string.lastInspect_found_issue_s,issueCount);
+            manager.setText(txtNumOfIssues,R.string.lastInspect_found_issue_s,issueCount);
         }
 
-        setText(txtInspectionDate,R.string.lastInspect_date,lastInspected);
+        manager.setText(txtInspectionDate,R.string.lastInspect_date,lastInspected);
         if(hazardText.equals("Moderate")){
             txtHazardLevel.setText(context.getString(R.string.restaurant_hazard_mid));
         }else{
@@ -81,7 +81,7 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
 
         //changes the hazard icon based on the hazard level
         ImageView hazIcon = row.findViewById(R.id.imgHazardIcon);
-        manager.getHazardIcon(hazardText,hazIcon);
+        manager.setHazardIcon(hazardText,hazIcon);
         ImageView restaurantIcon = row.findViewById(R.id.imgRestaurantIcon);
         getRestaurantIcon(currentRestaurant.getName(), restaurantIcon);
 
@@ -127,13 +127,5 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
         //get the latest inspection of the current restaurant
         int dateOfLastInspection = restaurant.getLatestInspectionDate();
         return manager.getDisplayDate(dateOfLastInspection);
-    }
-
-    private void setText(TextView textBox, int stringResID, String arrayItem){
-        textBox.setText(getContext().getString(stringResID, arrayItem));
-    }
-
-    private void setText(TextView textBox, int stringResID, int arrayItem ){
-        textBox.setText(getContext().getString(stringResID, Integer.toString(arrayItem)));
     }
 }

@@ -9,7 +9,7 @@
     <string name="short_description_of_violaition">违规简介</string>
     <string name="critical">严重</string>
     <string name="_07_march_2019">2019年3月7号</string>
-    <string name="placehold_haz_lvl">级别</string>
+    <string name="placehold_haz_lvl">未评级</string>
     <string name="changeable_icon_for_hazard_level">危险级别可变图标</string>
     <string name="rest_addr_prefix">地址：%1$s</string>
     <string name="rest_lat_prefix">纬度：%1$s</string>
@@ -29,7 +29,7 @@
     <string name="Update">更新</string>
     <string name="Later">稍后</string>
     <string name="checking_for_updates">正在检查更新中。。。</string>
-    <string name="lastInspect_never">无</string>
+    <string name="lastInspect_never">从不</string>
     <string name="lastInspect_found_issue_s">%1$s 个问题</string>
     <string name="lastInspect_found_issue">%1$s 个问题</string>
     <string name="lastInspect_date">最近检查日期：%1$s</string>
@@ -185,6 +185,13 @@
         <item>502</item>
         <item>当操作员缺席时，替补人员没有FOODSAFE L1或等效认证</item>
     </array>
+    <string name="violation_list_critical">严重</string>
+    <string name="violation_list_not_critical">非严重</string>
+    <string name="inspect_type_routine">例行检查</string>
+    <string name="inspect_type_follow_up">跟踪检查</string>
+    <string name="get_date_ago_day">%1$s 天前</string>
+    <string name="get_date_ago_day_s">%1$s 天前</string>
+    <string name="get_date_inspect_scheduled">卫生检查计划在 %1$s 天后</string>
 
 
 </resources>

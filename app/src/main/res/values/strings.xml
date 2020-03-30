@@ -37,7 +37,8 @@
     <string name="non_critical_issues" translatable="false"># Non - Critical Issues</string>
     <string name="hazard_icon">hazard icon</string>
 
-    <string name="inpect_type_prefix">%1$s Inspection</string>
+    <string name="inspect_type_routine">Routine Inspection</string>
+    <string name="inspect_type_follow_up">Follow-Up Inspection</string>
 
     <string name="back">Back</string>
     <string name="pop_up_title">Detail</string>
@@ -64,6 +65,17 @@
     <string name="restaurant_hazard_moderate">moderate</string>
     <string name="restaurant_hazard_mid">mid</string>
     <string name="restaurant_hazard_high">high</string>
+
+    <!--ViolationListAdapter-->
+    <string name="violation_list_critical">Critical</string>
+    <string name="violation_list_not_critical">Not Critical</string>
+
+    <!--getDisplayDate-->
+    <string name="get_date_ago_day">%1$s day ago</string>
+    <string name="get_date_ago_day_s">%1$s days ago</string>
+    <string name="get_date_inspect_scheduled">Inspection scheduled in %1$s days</string>
+    <string name="get_date_str1_str2" translatable="false">%1$s %2$s</string>
+
 
     <!--Short Violation data arrays-->
     <array name="violation_1">

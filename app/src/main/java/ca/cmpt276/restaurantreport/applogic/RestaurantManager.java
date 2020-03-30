@@ -96,7 +96,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public String getDisplayDate(int date){
 
-        String output = "Never";
+        String output;
 
         //gets the current date on the phone
         LocalDate currentDate = LocalDate.now();
@@ -104,7 +104,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
         //convert the inspection date to string
         String lastInspectedDate = Integer.toString(date);
             if(lastInspectedDate.equals("0")){
-            return "Never";
+            return context.getString(R.string.lastInspect_never);
         }
 
         //format the inspection date
@@ -117,7 +117,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
         }
 
         //get values of month, day and year of the inspection
-            assert lastInspection != null;
+        assert lastInspection != null;
         int inspectionDay = lastInspection.getDayOfMonth();
         int inspectionYear = lastInspection.getYear();
         Month inspectionMonth = lastInspection.getMonth();
@@ -137,13 +137,14 @@ public class RestaurantManager implements Iterable<Restaurant> {
             if(numInspMon == numCurMon){
                 int result = currentDay - inspectionDay;
                 if(result > 1){
-                    output = result + " days ago";
+                    //output = result + " days ago";
+                    output = context.getString(R.string.get_date_ago_day_s,Integer.toString(result));
                 }
                 else if(result < 1){
-                    output = "Inspection scheduled in " + result + " days";
+                    output = context.getString(R.string.get_date_inspect_scheduled,Integer.toString(result));
                 }
                 else {
-                    output = result + "day ago";
+                    output = context.getString(R.string.get_date_ago_day,Integer.toString(result));
                 }
             }
             //if within the last month, calculate how many days ago
@@ -153,33 +154,49 @@ public class RestaurantManager implements Iterable<Restaurant> {
                 result -= inspectionDay;
 
                 if(result <= 30){
-                    output = result + " days ago";
+                    output = context.getString(
+                            R.string.get_date_ago_day,
+                            Integer.toString(result));
                 }
                 else{
-                    output = inspectionMonthName + " " + inspectionDay;
+                    output = context.getString(
+                            R.string.get_date_str1_str2,
+                            inspectionMonthName,
+                            Integer.toString(inspectionDay));
                 }
             }
             else{
-                output = inspectionMonthName + " " + inspectionDay;
+                output = context.getString(
+                        R.string.get_date_str1_str2,
+                        inspectionMonthName,
+                        Integer.toString(inspectionDay));
             }
         }
-            else if(inspectionYear == currentYear - 1){
+        else if(inspectionYear == currentYear - 1){
             int monthsAgo = (currentMonth.getValue() + 12) - inspectionMonth.getValue();
             if(monthsAgo <= 12 && monthsAgo >= 0){
-                output = inspectionMonthName + " " + inspectionDay;
+                output = context.getString(
+                        R.string.get_date_str1_str2,
+                        inspectionMonthName,
+                        Integer.toString(inspectionDay));
             }
             else{
-                output = inspectionMonthName + " " + inspectionYear;
+                output = context.getString(
+                        R.string.get_date_str1_str2,
+                        inspectionMonthName,
+                        Integer.toString(inspectionYear));
             }
         }
-            else{
-            output = inspectionMonthName + " " + inspectionYear;
+        else{
+            output = context.getString(
+                    R.string.get_date_str1_str2,
+                    inspectionMonthName,
+                    Integer.toString(inspectionYear));
         }
-
-            return output;
+        return output;
     }
 
-    public void getHazardIcon(String hazardText, ImageView hazIcon){
+    public void setHazardIcon(String hazardText, ImageView hazIcon){
         switch(hazardText){
             case("Low"):
             default:{
@@ -210,5 +227,39 @@ public class RestaurantManager implements Iterable<Restaurant> {
                 textbox.setText(context.getString(R.string.restaurant_hazard_high));
                 break;
         }
+    }
+
+    public void setCriticalityText(TextView textbox, String violationCriticality) {
+        switch(violationCriticality) {
+            case ("Critical"):
+                textbox.setText(context.getString(R.string.violation_list_critical));
+                break;
+            case("Not Critical"):
+                textbox.setText(context.getString(R.string.violation_list_not_critical));
+                break;
+        }
+    }
+
+    public void setInspectionType(TextView textbox, String inspectionType) {
+        switch(inspectionType) {
+            case ("Routine"):
+                textbox.setText(context.getString(R.string.inspect_type_routine));
+                break;
+            case("Follow-Up"):
+                textbox.setText(context.getString(R.string.inspect_type_follow_up));
+                break;
+        }
+    }
+
+    public void setText(TextView textBox, int stringResID, String arrayItem){
+        textBox.setText(context.getString(stringResID, arrayItem));
+    }
+
+    public void setText(TextView textBox, int stringResID, int arrayItem ){
+        textBox.setText(context.getString(stringResID, Integer.toString(arrayItem)));
+    }
+
+    public void setText(TextView textBox, int stringResID, double arrayItem ){
+        textBox.setText(context.getString(stringResID, Double.toString(arrayItem)));
     }
 }

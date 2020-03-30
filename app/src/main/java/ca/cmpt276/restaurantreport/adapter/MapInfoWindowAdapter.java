@@ -57,7 +57,7 @@ public class MapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
                 txtAddress.setText(address);
                 //txtHaz.setText(hazardLvl);
                 manager.setHazardLevelText(txtHaz,hazardLvl);
-                manager.getHazardIcon(hazardLvl, imgHaz);
+                manager.setHazardIcon(hazardLvl, imgHaz);
                 break;
             }
         }
