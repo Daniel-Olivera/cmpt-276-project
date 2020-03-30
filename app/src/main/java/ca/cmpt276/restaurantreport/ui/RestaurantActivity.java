@@ -14,7 +14,6 @@ import java.text.DecimalFormatSymbols;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.adapter.InspectionListAdapter;
@@ -53,7 +52,7 @@ public class RestaurantActivity extends AppCompatActivity {
         decimalFormat.setMaximumFractionDigits(340);
         // parse out the double quote
         String addr = manager.get(index).getPhysicalAddr();
-        TextView toolbar_title = findViewById(R.id.toolbarTitle);
+        TextView toolbar_title = findViewById(R.id.tbrSearchTitle);
         toolbar_title.setText(listRes.get(index).getName());
         TextView txtAddress = findViewById(R.id.txtAddress);
         txtAddress.setText(getString(R.string.rest_addr_prefix, addr));

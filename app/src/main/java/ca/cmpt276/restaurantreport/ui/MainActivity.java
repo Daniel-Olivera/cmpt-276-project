@@ -1,25 +1,21 @@
 package ca.cmpt276.restaurantreport.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import androidx.activity.OnBackPressedCallback;
-import androidx.activity.OnBackPressedDispatcher;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Collections;
 import java.util.List;
 
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.adapter.RestaurantListAdapter;
-import ca.cmpt276.restaurantreport.applogic.ReadCSV;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 
@@ -47,6 +43,18 @@ public class MainActivity extends AppCompatActivity {
 
         setupListView(manager);
         setupMapButton();
+        setupSearchButton();
+    }
+
+    private void setupSearchButton() {
+        FloatingActionButton btnSearch = findViewById(R.id.btnFloatSearch);
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = SearchActivity.makeIntent(MainActivity.this);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setupMapButton() {

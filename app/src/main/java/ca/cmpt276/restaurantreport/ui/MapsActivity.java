@@ -26,6 +26,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.algo.Algorithm;
 import com.google.maps.android.clustering.algo.NonHierarchicalDistanceBasedAlgorithm;
@@ -99,6 +100,17 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
         //ReadCSV.getInstance(this,true);
         allRestaurants = manager.getRestaurants();
         setupListButton();
+        setupSearchButton();
+    }
+
+    private void setupSearchButton() {
+        FloatingActionButton floatingButton = mapView.findViewById(R.id.btnMapSearch);
+
+        floatingButton.setOnClickListener(v -> {
+            Intent intent = SearchActivity.makeIntent(MapsActivity.this);
+            startActivity(intent);
+        });
+
     }
 
     private void findAndShowMarker(String trackingID) {
