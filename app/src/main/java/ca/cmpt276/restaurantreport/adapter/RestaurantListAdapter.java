@@ -56,7 +56,7 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
         //Get the current restaurant information for the appropriate row and its inspections
         Restaurant currentRestaurant = res.get(position);
 
-        int issueCount = currentRestaurant.getTotalIssues();
+        int issueCount = currentRestaurant.getMostRecentIssues();
         manager = RestaurantManager.getInstance(context);
 
         String lastInspected = getLatestInspectionDate(currentRestaurant);

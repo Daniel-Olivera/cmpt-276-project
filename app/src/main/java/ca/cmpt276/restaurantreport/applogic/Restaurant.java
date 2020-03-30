@@ -114,7 +114,7 @@ public class Restaurant implements ClusterItem {
         return result;
     }
 
-    public int getTotalIssues(){
+    public int getMostRecentIssues(){
         int issueCount = 0;
         int dateOfLastInspection = getLatestInspectionDate();
 

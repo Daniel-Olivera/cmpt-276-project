@@ -47,3 +47,15 @@ https://stackoverflow.com/questions/34489162/cluster-marker-click-event-android
 https://stackoverflow.com/questions/27470137/android-google-map-utils-clustering-distance
 https://stackoverflow.com/questions/23658561/how-to-set-my-own-icon-for-markers-in-clusterer-in-google-maps
 https://stackoverflow.com/questions/27745299/how-to-add-title-snippet-and-icon-to-clusteritem/27745681#27745681
+
+RadioButton reference:
+https://stackoverflow.com/questions/6780981/android-radiogroup-how-to-configure-the-event-listener
+
+Switch reference:
+https://stackoverflow.com/questions/10576307/android-how-do-i-correctly-get-the-value-from-a-switch
+
+button Border reference:
+https://android--code.blogspot.com/2015/01/amdroid-button-strokeborder-color.html
+
+move search button on map:
+https://stackoverflow.com/questions/14489880/change-position-of-google-maps-apis-my-location-button

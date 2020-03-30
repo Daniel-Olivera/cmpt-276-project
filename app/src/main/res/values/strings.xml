@@ -76,6 +76,21 @@
     <string name="get_date_inspect_scheduled">Inspection scheduled in %1$s days</string>
     <string name="get_date_str1_str2" translatable="false">%1$s %2$s</string>
 
+    <!--SearchActivity-->
+    <string name="tbrSearch">Search</string>
+    <string name="tbrSearchTitle">Search</string>
+    <string name="srch_restaurant_name">Restaurant Name</string>
+    <string name="srch_hazard_level">Hazard Level:</string>
+    <string name="srch_low">Low</string>
+    <string name="srch_mid">Mid</string>
+    <string name="srch_high">High</string>
+    <string name="srch_num_crit_violations">Number of Critical Violations:</string>
+    <string name="srch_favourited">Favourited</string>
+    <string name="srch_0">0</string>
+    <string name="srch_greater_than">Greater Than</string>
+    <string name="srch_less_than">Less Than</string>
+    <string name="srch_clear">Clear Search</string>
+    <string name="srch_btn_search">Search</string>
 
     <!--Short Violation data arrays-->
     <array name="violation_1">
