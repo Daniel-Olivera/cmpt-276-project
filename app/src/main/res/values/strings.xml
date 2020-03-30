@@ -60,8 +60,12 @@
 
     <!--Restaurant class-->
     <string name="restaurant_n_a">N/A</string>
-    <!--Short Violation data arrays-->
+    <string name="restaurant_hazard_low">low</string>
+    <string name="restaurant_hazard_moderate">moderate</string>
+    <string name="restaurant_hazard_mid">mid</string>
+    <string name="restaurant_hazard_high">high</string>
 
+    <!--Short Violation data arrays-->
     <array name="violation_1">
         <item>101</item>
         <item>Construction not built according to code</item>

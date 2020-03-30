@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import java.util.List;
 
 import ca.cmpt276.restaurantreport.R;
-import ca.cmpt276.restaurantreport.applogic.Inspection;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 
@@ -63,9 +62,6 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
         String lastInspected = getLatestInspectionDate(currentRestaurant);
         String hazardText = currentRestaurant.getLatestInspectionHazard(context);
 
-        if(hazardText.equals("Moderate")){
-            hazardText = "Mid";
-        }
         //set the texts with the right parameters
         txtRestaurantName.setText(currentRestaurant.getName());
         if(issueCount == 1){
@@ -75,7 +71,13 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
         }
 
         setText(txtInspectionDate,R.string.lastInspect_date,lastInspected);
-        txtHazardLevel.setText(hazardText.replace("\"",""));
+        if(hazardText.equals("Moderate")){
+            txtHazardLevel.setText(context.getString(R.string.restaurant_hazard_mid));
+        }else{
+            manager.setHazardLevelText(txtHazardLevel,hazardText);
+        }
+
+
 
         //changes the hazard icon based on the hazard level
         ImageView hazIcon = row.findViewById(R.id.imgHazardIcon);

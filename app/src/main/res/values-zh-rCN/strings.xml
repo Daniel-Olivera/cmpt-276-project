@@ -36,6 +36,10 @@
     <string name="restaurant_n_a">查无此项</string>
     <string name="list_view">餐厅列表</string>
     <string name="map_view">地图</string>
+    <string name="restaurant_hazard_low">低危</string>
+    <string name="restaurant_hazard_moderate">中危</string>
+    <string name="restaurant_hazard_high">高危</string>
+    <string name="restaurant_hazard_mid">中危</string>
 
     <array name="violation_1">
         <item>101</item>
@@ -181,5 +185,6 @@
         <item>502</item>
         <item>当操作员缺席时，替补人员没有FOODSAFE L1或等效认证</item>
     </array>
+
 
 </resources>

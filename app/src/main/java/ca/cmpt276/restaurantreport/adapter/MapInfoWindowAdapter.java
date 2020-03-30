@@ -55,7 +55,8 @@ public class MapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
                 txtName.setText(restaurantName);
                 txtAddress.setText(address);
-                txtHaz.setText(hazardLvl);
+                //txtHaz.setText(hazardLvl);
+                manager.setHazardLevelText(txtHaz,hazardLvl);
                 manager.getHazardIcon(hazardLvl, imgHaz);
                 break;
             }

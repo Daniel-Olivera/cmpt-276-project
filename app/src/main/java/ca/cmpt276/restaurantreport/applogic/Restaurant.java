@@ -87,16 +87,16 @@ public class Restaurant implements ClusterItem {
     public String getLatestInspectionHazard(Context context) {
 
         int mostRecentInspectionDate = 0;
-        String inspectionDateString = context.getString(R.string.restaurant_n_a);
+        String hazardText = context.getString(R.string.restaurant_n_a);
 
         for (int i = 0; i < Inspections.size(); i++) {
             if (Inspections.get(i).getDate() > mostRecentInspectionDate) {
                 mostRecentInspectionDate = Inspections.get(i).getDate();
 
-                inspectionDateString = Inspections.get(i).getHazardRating();
+                hazardText = Inspections.get(i).getHazardRating();
             }
         }
-        return inspectionDateString;
+        return hazardText;
     }
 
     public int getLatestInspectionDate(){

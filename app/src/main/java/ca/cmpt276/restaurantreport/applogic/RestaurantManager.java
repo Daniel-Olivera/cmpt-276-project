@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
@@ -18,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 import ca.cmpt276.restaurantreport.R;
 
@@ -181,7 +181,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
 
     public void getHazardIcon(String hazardText, ImageView hazIcon){
         switch(hazardText){
-            case("\"Low\""):
+            case("Low"):
             default:{
                 hazIcon.setImageResource(R.drawable.haz_low);
                 break;
@@ -195,6 +195,20 @@ public class RestaurantManager implements Iterable<Restaurant> {
                 hazIcon.setImageResource(R.drawable.haz_high);
                 break;
             }
+        }
+    }
+
+    public void setHazardLevelText(TextView textbox, String hazardText){
+        switch (hazardText){
+            case "Low":
+                textbox.setText(context.getString(R.string.restaurant_hazard_low));
+                break;
+            case "Moderate":
+                textbox.setText(context.getString(R.string.restaurant_hazard_moderate));
+                break;
+            case "High":
+                textbox.setText(context.getString(R.string.restaurant_hazard_high));
+                break;
         }
     }
 }
