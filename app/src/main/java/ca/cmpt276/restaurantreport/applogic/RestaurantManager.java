@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.annotation.RequiresApi;
+import androidx.annotation.StyleableRes;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -90,7 +91,8 @@ public class RestaurantManager implements Iterable<Restaurant> {
 
     private void fillViolationList(){
         for (TypedArray item: ResourceHelper.getMultiTypedArray(context)) {
-            @SuppressLint("ResourceType") ShortViolation shortViolation = new ShortViolation(item.getInt(0,0),item.getString(1));
+            @StyleableRes int index = 1;
+            ShortViolation shortViolation = new ShortViolation(item.getInt(0,0),item.getString(index));
             shortViolationList.add(shortViolation);
         }
     }

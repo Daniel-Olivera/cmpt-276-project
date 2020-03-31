@@ -1,7 +1,5 @@
 package ca.cmpt276.restaurantreport.applogic;
 
-import android.annotation.SuppressLint;
-
 public class SearchState {
 
     /*
@@ -20,7 +18,6 @@ public class SearchState {
 
     private boolean onlyFavourites;
 
-    @SuppressLint("StaticFieldLeak")
     private static SearchState instance;
 
     public static SearchState getInstance() {
