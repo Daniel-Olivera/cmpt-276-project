@@ -4,11 +4,18 @@ import android.annotation.SuppressLint;
 
 public class SearchState {
 
-    private boolean activeSearchStateFlag; // true if we clicked search on the search activity leading to an ongoing search false when clicked clear
+    /*
+    true if we clicked search on the search activity leading
+     to an ongoing search false when clicked clear
+    */
+    private boolean activeSearchStateFlag;
+    private boolean hazardSearchOn;
+    private boolean violationSearchOn;
 
     private String restaurantName;
     private String hazardLevel;
-    private int lessOrGreaterThanFlag;  //-1 means less than or equal and 1 means greater or equal to; while 0 means condition not used
+    //-1 means less than or equal and 1 means greater or equal to; while 0 means condition not used
+    private boolean lessOrGreaterThanFlag;
     private int numOfCriticalViolations;
 
     private boolean onlyFavourites;
@@ -18,10 +25,16 @@ public class SearchState {
 
     public static SearchState getInstance() {
         if(instance == null) {
-            instance = new SearchState();
+            instance = new SearchState(false,0);
         }
         return instance;
     }
+
+    public SearchState(boolean activeSearchStateFlag, int numOfCriticalViolations) {
+        this.activeSearchStateFlag = activeSearchStateFlag;
+        this.numOfCriticalViolations = numOfCriticalViolations;
+    }
+
     public boolean activeSearchStateFlag() {
         return activeSearchStateFlag;
     }
@@ -46,11 +59,11 @@ public class SearchState {
         this.hazardLevel = hazardLevel;
     }
 
-    public int getLessOrGreaterThanFlag() {
+    public boolean getLessOrGreaterThanFlag() {
         return lessOrGreaterThanFlag;
     }
 
-    public void setLessOrGreaterThanFlag(int lessOrGreaterThanFlag) {
+    public void setLessOrGreaterThanFlag(boolean lessOrGreaterThanFlag) {
         this.lessOrGreaterThanFlag = lessOrGreaterThanFlag;
     }
 
@@ -80,5 +93,25 @@ public class SearchState {
                 ", numOfCriticalViolations=" + numOfCriticalViolations +
                 ", onlyFavourites=" + onlyFavourites +
                 '}';
+    }
+
+    public boolean isHazardSearchOn() {
+        return hazardSearchOn;
+    }
+
+    public void setHazardSearchOn(boolean hazardSearchOn) {
+        this.hazardSearchOn = hazardSearchOn;
+    }
+
+    public boolean isViolationSearchOn() {
+        return violationSearchOn;
+    }
+
+    public void setViolationSearchOn(boolean violationSearchOn) {
+        this.violationSearchOn = violationSearchOn;
+    }
+
+    public void clearSearchState(){
+        instance = new SearchState(false, 0);
     }
 }
