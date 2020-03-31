@@ -53,6 +53,9 @@
     <string name="Later">Later</string>
     <string name="checking_for_updates">Checking for Updates</string>
 
+    <!--PopupDialog-->
+    <string name="popup_title">Details</string>
+
     <!--RestaurantListAdapter-->
     <string name="lastInspect_never">Never</string>
     <string name="lastInspect_found_issue_s">%1$s Issues Found</string>
@@ -86,7 +89,7 @@
     <string name="srch_high">High</string>
     <string name="srch_num_crit_violations">Number of Critical Violations:</string>
     <string name="srch_favourited">Favourited</string>
-    <string name="srch_0">0</string>
+    <string name="srch_0" translatable="false">0</string>
     <string name="srch_greater_than">Greater Than</string>
     <string name="srch_less_than">Less Than</string>
     <string name="srch_clear">Clear Search</string>
@@ -127,11 +130,11 @@
     </array>
     <array name="violation_9">
         <item>205</item>
-        <item>Cold food stored/displayed above 4 °C</item>
+        <item>Cold food stored/displayed above 4 &#176;C</item>
     </array>
     <array name="violation_10">
         <item>206</item>
-        <item>Hot food stored/displayed below 60 °C</item>
+        <item>Hot food stored/displayed below 60 &#176;C</item>
     </array>
     <array name="violation_11">
         <item>208</item>
@@ -147,7 +150,7 @@
     </array>
     <array name="violation_14">
         <item>211</item>
-        <item>Frozen food stored/displayed above -18 °C</item>
+        <item>Frozen food stored/displayed above -18 &#176;C</item>
     </array>
     <array name="violation_15">
         <item>212</item>

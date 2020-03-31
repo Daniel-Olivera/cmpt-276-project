@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.adapter.InspectionListAdapter;
@@ -50,7 +49,7 @@ public class RestaurantActivity extends AppCompatActivity {
 
         String address = manager.get(index).getPhysicalAddr();
 
-        TextView toolbar_title = findViewById(R.id.toolbarTitle);
+        TextView toolbar_title = findViewById(R.id.tbrSearchTitle);
         TextView txtAddress = findViewById(R.id.txtAddress);
         TextView txtLatitude = findViewById(R.id.txtLattitude);
         TextView txtLongitude = findViewById(R.id.txtLongtitude);

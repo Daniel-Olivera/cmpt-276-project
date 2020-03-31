@@ -192,6 +192,20 @@
     <string name="get_date_ago_day">%1$s 天前</string>
     <string name="get_date_ago_day_s">%1$s 天前</string>
     <string name="get_date_inspect_scheduled">卫生检查计划在 %1$s 天后</string>
+    <string name="tbrSearch">搜索</string>
+    <string name="tbrSearchTitle">搜索</string>
+    <string name="srch_restaurant_name">请输入。。。</string>
+    <string name="srch_hazard_level">危险级别：</string>
+    <string name="srch_low">低危</string>
+    <string name="srch_mid">中危</string>
+    <string name="srch_high">高危</string>
+    <string name="srch_num_crit_violations">严重违规数量：</string>
+    <string name="srch_favourited">加星标项</string>
+    <string name="srch_greater_than">大于等于</string>
+    <string name="srch_less_than">小于等于</string>
+    <string name="srch_clear">清空检索设置</string>
+    <string name="srch_btn_search">搜索</string>
+    <string name="popup_title">违规详情（英文）</string>
 
 
 </resources>
