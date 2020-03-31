@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 import ca.cmpt276.restaurantreport.R;
 
@@ -32,6 +31,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
     private List<Restaurant> restaurantList;
     private List<ShortViolation> shortViolationList;
     private Context context;
+    private SearchState searchState;
 
     //constructor with context of an activity passed because we need the context when we want to access the data files to read from
     private RestaurantManager(Context context) {
@@ -40,6 +40,9 @@ public class RestaurantManager implements Iterable<Restaurant> {
         this.context = context;
 
         fillViolationList();
+
+        //TODO: After getting the instance use it for making a new list of restaurants with the specific search values
+        searchState = SearchState.getInstance();
     }
 
     //adds a Restaurant object to the list of restaurants
@@ -66,6 +69,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
     }
 
     public List<Restaurant> getRestaurants(){
+        //TODO: Check for the activeSearchFlag in searchStateClass and return either normal restaurants list or new restaurant list based on search
         return this.restaurantList;
     }
 
