@@ -24,7 +24,6 @@
     <string name="back">返回</string>
     <string name="pop_up_title">细节</string>
     <string name="title_activity_maps">地图</string>
-    <string name="inpect_type_prefix">%1$s 检查</string>
     <string name="hazard_icon">危险级别图标</string>
     <string name="Update">更新</string>
     <string name="Later">稍后</string>
