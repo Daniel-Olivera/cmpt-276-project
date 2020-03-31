@@ -300,7 +300,7 @@ public class SearchActivity extends AppCompatActivity {
             boolean isChecked = checkedButton.isChecked();
 
             if(isChecked){
-                searchState.setHazardLevel(checkedButton.getText().toString());
+                searchState.setHazardLevel(checkedButton.getTag().toString());
             }
         });
 

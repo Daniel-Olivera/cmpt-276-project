@@ -68,6 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="32dp"
+            android:tag="Low"
             android:text="@string/srch_low" />
 
         <RadioButton
@@ -75,12 +76,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="32dp"
+            android:tag="Mid"
             android:text="@string/srch_mid" />
 
         <RadioButton
             android:id="@+id/radioBtnHigh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:tag="High"
             android:text="@string/srch_high" />
 
     </RadioGroup>
