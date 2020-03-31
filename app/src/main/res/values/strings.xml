@@ -94,6 +94,12 @@
     <string name="srch_less_than">Less Than</string>
     <string name="srch_clear">Clear Search</string>
     <string name="srch_btn_search">Search</string>
+    <string name="update_download">Download</string>
+    <string name="update_cancel">Cancel</string>
+    <string name="update_progress">update progress</string>
+    <string name="update_available">Update Available.</string>
+    <string name="update_ask">Would you like to update?</string>
+    <string name="update_update">Update</string>
 
     <!--Short Violation data arrays-->
     <array name="violation_1">
