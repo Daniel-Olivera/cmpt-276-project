@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 
 import java.util.Objects;
 
+import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.applogic.ProcessData;
 
 /*
@@ -38,14 +39,14 @@ public class AskForUpdateDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
-        builder.setTitle("Update Available.")
-                .setMessage("Would you like to update?")
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setTitle(R.string.update_available)
+                .setMessage(R.string.update_ask)
+                .setNegativeButton(R.string.update_cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
                     }
                 })
-                .setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.update_update, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         UpdateActivity.clickedUpdate = true;

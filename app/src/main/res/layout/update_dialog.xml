@@ -10,8 +10,8 @@
             android:id="@+id/dialog_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Download"
-            android:textSize="24dp"
+            android:text="@string/update_download"
+            android:textSize="24sp"
             android:textColor="#000"
             />
 
@@ -26,8 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:text="Cancel"
+            android:layout_alignParentEnd="true"
+            android:text="@string/update_cancel"
             android:id="@+id/cancel_button"
 
             />
