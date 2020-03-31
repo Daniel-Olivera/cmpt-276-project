@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
+import androidx.annotation.StyleableRes;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -32,6 +33,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
     private List<Restaurant> restaurantList;
     private List<ShortViolation> shortViolationList;
     private Context context;
+    private SearchState searchState;
 
     //constructor with context of an activity passed because we need the context when we want to access the data files to read from
     private RestaurantManager(Context context) {
@@ -40,6 +42,9 @@ public class RestaurantManager implements Iterable<Restaurant> {
         this.context = context;
 
         fillViolationList();
+
+        //TODO: After getting the instance use it for making a new list of restaurants with the specific search values
+        searchState = SearchState.getInstance();
     }
 
     //adds a Restaurant object to the list of restaurants
@@ -66,6 +71,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
     }
 
     public List<Restaurant> getRestaurants(){
+        //TODO: Check for the activeSearchFlag in searchStateClass and return either normal restaurants list or new restaurant list based on search
         return this.restaurantList;
     }
 
@@ -87,7 +93,8 @@ public class RestaurantManager implements Iterable<Restaurant> {
 
     private void fillViolationList(){
         for (TypedArray item: ResourceHelper.getMultiTypedArray(context)) {
-            @SuppressLint("ResourceType") ShortViolation shortViolation = new ShortViolation(item.getInt(0,0),item.getString(1));
+            @StyleableRes int index = 1;
+            ShortViolation shortViolation = new ShortViolation(item.getInt(0,0),item.getString(index));
             shortViolationList.add(shortViolation);
         }
     }

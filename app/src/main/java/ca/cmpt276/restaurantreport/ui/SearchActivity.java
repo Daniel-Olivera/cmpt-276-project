@@ -1,12 +1,13 @@
 package ca.cmpt276.restaurantreport.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -14,9 +15,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import ca.cmpt276.restaurantreport.R;
+import ca.cmpt276.restaurantreport.applogic.SearchState;
 
 /*
 * Allows the user to enter search/filter settings
@@ -24,31 +27,100 @@ import ca.cmpt276.restaurantreport.R;
 * */
 public class SearchActivity extends AppCompatActivity {
 
+    SearchState searchState;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        searchState = SearchState.getInstance();
+
         setupSearchButton();
         setupClearButton();
-        setupRadioButtons();
-        setupSearchBar();
-        setupToggleSwitch();
-        setupViolationInput();
         setupHazardCheckBox();
+        setupRadioButtons();
         setupViolationCheckBox();
+        setupToggleSwitch();
         setupFavouriteCheckBox();
+        setupViolationInputBox();
+        setupSearchBar();
+    }
+
+    private void setupSearchBar() {
+        EditText restaurantName = findViewById(R.id.edtxtResName);
+        String resName = searchState.getRestaurantName();
+        restaurantName.setText(resName);
+
+        restaurantName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String resName = restaurantName.getText().toString();
+                searchState.setRestaurantName(resName);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+    }
+
+    private void setupViolationInputBox() {
+        EditText violationNumberInput = findViewById(R.id.edtxtNumViolations);
+        String numViolations = Integer.toString(searchState.getNumOfCriticalViolations());
+
+        violationNumberInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!violationNumberInput.getText().toString().equals("")){
+                    int numViolations = Integer.parseInt(violationNumberInput.getText().toString());
+                    searchState.setNumOfCriticalViolations(numViolations);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        violationNumberInput.setText(numViolations);
     }
 
     //set a flag for search settings to find favourited restaurants
     private void setupFavouriteCheckBox() {
         CheckBox chkFav = findViewById(R.id.chkBoxFav);
-        if(chkFav.isChecked()){
-            //TODO: send to search state class
+
+        boolean onlyFavouritesOn = searchState.onlyFavourites();
+
+        if(onlyFavouritesOn){
+            chkFav.setChecked(true);
+            searchState.setOnlyFavourites(true);
         }
         else{
-            //TODO: send to search state class
+            chkFav.setChecked(false);
+            searchState.setOnlyFavourites(false);
         }
+
+        chkFav.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(chkFav.isChecked()){
+                searchState.setOnlyFavourites(true);
+            }
+            else{
+                searchState.setOnlyFavourites(false);
+            }
+        });
     }
 
     // Enables/disables the violation search setting
@@ -60,33 +132,50 @@ public class SearchActivity extends AppCompatActivity {
         TextView txtGreaterThan = findViewById(R.id.txtGreaterThan);
         EditText violationNum = findViewById(R.id.edtxtNumViolations);
 
+        boolean violationSearchOn = searchState.isViolationSearchOn();
+
         //on activity launch, check the state of the checkbox
         //and disable/enable settings accordingly
-        if(chkViolation.isChecked()){
-            txtGreaterThan.setTextColor(Color.BLACK);
+        if(violationSearchOn){
+            if(lessOrGreaterThanSwitch.isChecked()){
+                txtGreaterThan.setTextColor(Color.BLACK);
+            }
+            else{
+                txtGreaterThan.setTextColor(Color.LTGRAY);
+            }
+
             lessOrGreaterThanSwitch.setEnabled(true);
             violationNum.setEnabled(true);
+            chkViolation.setChecked(true);
         }
         else{
             txtGreaterThan.setTextColor(Color.LTGRAY);
             lessOrGreaterThanSwitch.setEnabled(false);
             violationNum.setEnabled(false);
+            chkViolation.setChecked(false);
         }
 
         //updates the flag and enables/disables the options
         chkViolation.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked){
-                txtGreaterThan.setTextColor(Color.BLACK);
                 lessOrGreaterThanSwitch.setEnabled(true);
                 violationNum.setEnabled(true);
-                //TODO: tell Search state class to use the values
-
+                if(lessOrGreaterThanSwitch.isChecked()){
+                    txtGreaterThan.setTextColor(Color.BLACK);
+                    searchState.setLessOrGreaterThanFlag(true);
+                }else{
+                    lessOrGreaterThanSwitch.setTextColor(Color.BLACK);
+                    searchState.setLessOrGreaterThanFlag(false);
+                }
+                searchState.setViolationSearchOn(true);
             }
             else{
                 txtGreaterThan.setTextColor(Color.LTGRAY);
+                lessOrGreaterThanSwitch.setTextColor(Color.LTGRAY);
                 lessOrGreaterThanSwitch.setEnabled(false);
                 violationNum.setEnabled(false);
-                //TODO: tell Search state class to not use the values
+
+                searchState.setViolationSearchOn(false);
             }
         });
     }
@@ -97,77 +186,121 @@ public class SearchActivity extends AppCompatActivity {
         RadioGroup hazardRadioGroup = findViewById(R.id.radioHazSelection);
         CheckBox chkHaz = findViewById(R.id.chkBoxHazard);
 
-        if(chkHaz.isChecked()){
+        boolean hazardSearchOn = searchState.isHazardSearchOn();
+
+        if(hazardSearchOn){
             for (int i = 0; i < hazardRadioGroup.getChildCount(); i++) {
                 hazardRadioGroup.getChildAt(i).setEnabled(true);
+                chkHaz.setChecked(true);
             }
         }
         else{
             for (int i = 0; i < hazardRadioGroup.getChildCount(); i++) {
                 hazardRadioGroup.getChildAt(i).setEnabled(false);
+                chkHaz.setChecked(false);
             }
+            searchState.setHazardLevel("none");
         }
 
         chkHaz.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 for (int i = 0; i < hazardRadioGroup.getChildCount(); i++) {
                     hazardRadioGroup.getChildAt(i).setEnabled(true);
+
                 }
-                //TODO: tell search state class
-            } else {
+                searchState.setHazardSearchOn(true);
+            }
+            else {
                 for (int i = 0; i < hazardRadioGroup.getChildCount(); i++) {
                     hazardRadioGroup.getChildAt(i).setEnabled(false);
+
                 }
-                //TODO: tell search state class
+                searchState.setHazardSearchOn(false);
+                searchState.setHazardLevel("none");
             }
         });
 
     }
 
     //lets user input number of critical violations they want to search for
-    private void setupViolationInput() {
+    private void getViolationInput() {
         EditText violationNum = findViewById(R.id.edtxtNumViolations);
         String numCritViolations = violationNum.getText().toString();
-        //TODO: send to search state class
+
+        if(numCritViolations.isEmpty()){
+            searchState.setNumOfCriticalViolations(0);
+            violationNum.setText("0");
+        }else {
+            int numCriticalViolations = Integer.parseInt(numCritViolations);
+            searchState.setNumOfCriticalViolations(numCriticalViolations);
+        }
     }
 
     //toggle between <= and >= for the above method
     private void setupToggleSwitch() {
         Switch lessOrGreaterThanSwitch = findViewById(R.id.valueSwitch);
+        TextView txtGreaterThan = findViewById(R.id.txtGreaterThan);
 
+        boolean switchState = searchState.getLessOrGreaterThanFlag();
+
+        if (switchState) {
+            lessOrGreaterThanSwitch.setChecked(true);
+            lessOrGreaterThanSwitch.setTextColor(Color.LTGRAY);
+            txtGreaterThan.setTextColor(Color.BLACK);
+        }
+        else {
+            lessOrGreaterThanSwitch.setChecked(false);
+            lessOrGreaterThanSwitch.setTextColor(Color.BLACK);
+            txtGreaterThan.setTextColor(Color.LTGRAY);
+        }
         lessOrGreaterThanSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked){
-                //TODO: set greater than...
+                lessOrGreaterThanSwitch.setTextColor(Color.LTGRAY);
+                txtGreaterThan.setTextColor(Color.BLACK);
+
+                searchState.setLessOrGreaterThanFlag(true);
             }
             else{
-                //TODO: set less than...
+                lessOrGreaterThanSwitch.setTextColor(Color.BLACK);
+                txtGreaterThan.setTextColor(Color.LTGRAY);
+
+                searchState.setLessOrGreaterThanFlag(false);
             }
         });
     }
 
     //Search for restaurant name
-    private void setupSearchBar() {
+    private void getSearchBarInput() {
         EditText restaurantSearch = findViewById(R.id.edtxtResName);
         String restaurantName = restaurantSearch.getText().toString();
-        //TODO: send to search state class
+
+        searchState.setRestaurantName(restaurantName);
     }
 
     //allow user to select a hazard level to search for
     private void setupRadioButtons() {
         RadioGroup hazardRadioGroup = findViewById(R.id.radioHazSelection);
+        String hazLvl = searchState.getHazardLevel();
 
-        hazardRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton checkedButton = group.findViewById(checkedId);
-                boolean isChecked = checkedButton.isChecked();
+        switch(hazLvl){
+            case("Low"):
+                hazardRadioGroup.check(R.id.radioBtnLow);
+                break;
+            case("Mid"):
+                hazardRadioGroup.check(R.id.radioBtnMid);
 
-                if(isChecked){
-                    //TODO: set the values in the search state class
-                    //Toast for testing. Can be removed.
-                    Toast.makeText(SearchActivity.this, checkedButton.getText(), Toast.LENGTH_SHORT)
-                    .show();
-                }
+                break;
+            case("High"):
+                hazardRadioGroup.check(R.id.radioBtnHigh);
+                break;
+        }
+
+        hazardRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            RadioButton checkedButton = group.findViewById(checkedId);
+            boolean isChecked = checkedButton.isChecked();
+
+            if(isChecked){
+                searchState.setHazardLevel(checkedButton.getText().toString());
             }
         });
 
@@ -182,8 +315,10 @@ public class SearchActivity extends AppCompatActivity {
         Button searchBtn = findViewById(R.id.btnSearch);
 
         searchBtn.setOnClickListener(v -> {
-            //TODO: Apply search settings in the search state class and finish the activity
-            finish();
+            getSearchBarInput();
+            getViolationInput();
+            searchState.setActiveSearchStateFlag(true);
+            //finish();
         });
     }
 
@@ -191,7 +326,9 @@ public class SearchActivity extends AppCompatActivity {
         Button clearBtn = findViewById(R.id.btnClear);
 
         clearBtn.setOnClickListener(v -> {
-            //TODO: Clear search options in the search state class and finish current activity
+            //just set the flag to false with the search values still in the search state class because when ever we use search state
+            //we will always check the flag and use
+            searchState.clearSearchState();
             finish();
         });
     }
