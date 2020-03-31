@@ -99,51 +99,36 @@ public class InspectionActivity extends AppCompatActivity {
 
         //set the texts for Date, Crit Issues and Non Crit Issues and hazard level
         TextView txtDate = findViewById(R.id.txtDate);
-        txtDate.setText(inspectionDateFull);
-
-        String inspectionType = inspectionList.get(inspectionPosition).getInspectionType();
         TextView txtInspectionType = findViewById(R.id.txtInspectionType);
-        setText(txtInspectionType, inspectionType);
+        TextView txtCriticalIssues = findViewById(R.id.txtCriticalIssues);
+        TextView txtNonCriticalIssues = findViewById(R.id.txtNonCriticalIssues);
+        TextView txtHazardLevel = findViewById(R.id.txtHazardLevel);
+        ImageView imgHazardIcon = findViewById(R.id.imgHazardIcon);
+
+        txtDate.setText(inspectionDateFull);
+        String inspectionType = inspectionList.get(inspectionPosition).getInspectionType();
+        manager.setInspectionType(txtInspectionType, inspectionType);
 
         int criticalIssues = inspectionList.get(inspectionPosition).getNumCritIssues();
-        TextView txtCriticalIssues = findViewById(R.id.txtCriticalIssues);
         if(criticalIssues == 1){
-            setText(txtCriticalIssues, R.string.crit_postfix, criticalIssues);
+            manager.setText(txtCriticalIssues, R.string.crit_postfix, criticalIssues);
         } else {
-            setText(txtCriticalIssues, R.string.crit_postfix_s, criticalIssues);
+            manager.setText(txtCriticalIssues, R.string.crit_postfix_s, criticalIssues);
         }
 
         int nonCriticalIssues = inspectionList.get(inspectionPosition).getNumNonCritIssues();
-        TextView txtNonCriticalIssues = findViewById(R.id.txtNonCriticalIssues);
         if(nonCriticalIssues == 1){
-            setText(txtNonCriticalIssues, R.string.non_crit_postfix,nonCriticalIssues);
+            manager.setText(txtNonCriticalIssues, R.string.non_crit_postfix,nonCriticalIssues);
         } else {
-            setText(txtNonCriticalIssues,R.string.non_crit_postfix_s,nonCriticalIssues);
+            manager.setText(txtNonCriticalIssues,R.string.non_crit_postfix_s,nonCriticalIssues);
         }
 
         String hazardLevel = inspectionList.get(inspectionPosition).getHazardRating();
-        TextView txtHazardLevel = findViewById(R.id.txtHazardLevel);
-        txtHazardLevel.setText(hazardLevel);
-
-        ImageView imgHazardIcon = findViewById(R.id.imgHazardIcon);
-        switch(hazardLevel){
-            case("Low"):
-            default:{
-                imgHazardIcon.setImageResource(R.drawable.haz_low);
-                break;
-            }
-            case("Moderate"):{
-                imgHazardIcon.setImageResource(R.drawable.haz_medium);
-                break;
-            }
-            case("High"):{
-                imgHazardIcon.setImageResource(R.drawable.haz_high);
-                break;
-            }
-        }
+        manager.setHazardLevelText(txtHazardLevel,hazardLevel);
+        manager.setHazardIcon(hazardLevel,imgHazardIcon);
 
         //Incase there are no issues we won't need to setup the listView
-        totalIssues = criticalIssues + nonCriticalIssues;
+        totalIssues = inspectionList.get(inspectionPosition).getTotalIssues();
     }
 
     private void setupListView() {
@@ -209,13 +194,5 @@ public class InspectionActivity extends AppCompatActivity {
 
             popUp.show(fm, "pop_up_dialog");
         });
-    }
-
-    private void setText(TextView textBox, int stringResID, int item ){
-        textBox.setText(getString(stringResID, Integer.toString(item)));
-    }
-
-    private void setText(TextView textBox, String item){
-        textBox.setText(getString(R.string.inpect_type_prefix, item));
     }
 }

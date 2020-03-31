@@ -25,7 +25,7 @@ to a Linear Layout that show all the inspection of a restaurant
 */
 
 public class InspectionListAdapter extends ArrayAdapter<String> {
-    private final Context context;
+    //private final Context context;
     private int[] critNum;
     private int[] nonCritNum;
     private String[] lastInspec;
@@ -38,7 +38,7 @@ public class InspectionListAdapter extends ArrayAdapter<String> {
         this.nonCritNum = nonCritNum;
         this.lastInspec = lastInspec;
         this.hazardLevels = hazardLevel;
-        this.context = c;
+        //this.context = c;
         this.manager = RestaurantManager.getInstance(c);
     }
 
@@ -55,30 +55,21 @@ public class InspectionListAdapter extends ArrayAdapter<String> {
 
         ImageView imgInspHazIcon = row.findViewById(R.id.imgInspHazIcon);
 
-        setText(txtInspDate, lastInspec[position]);
+        manager.setText(txtInspDate,R.string.insp_date_prefix, lastInspec[position]);
         if(critNum[position] == 1){
-            setText(txtInspCritNums, R.string.crit_postfix, critNum[position]);
+            manager.setText(txtInspCritNums, R.string.crit_postfix, critNum[position]);
         } else {
-            setText(txtInspCritNums, R.string.crit_postfix_s, critNum[position]);
+            manager.setText(txtInspCritNums, R.string.crit_postfix_s, critNum[position]);
         }
         if(nonCritNum[position] == 1){
-            setText(txtInspNCrtiNums, R.string.non_crit_postfix,nonCritNum[position]);
+            manager.setText(txtInspNCrtiNums, R.string.non_crit_postfix,nonCritNum[position]);
         } else {
-            setText(txtInspNCrtiNums,R.string.non_crit_postfix_s,nonCritNum[position]);
+            manager.setText(txtInspNCrtiNums,R.string.non_crit_postfix_s,nonCritNum[position]);
         }
 
-        txtInspHazLvl.setText(hazardLevels[position]);
-        manager.getHazardIcon(hazardLevels[position], imgInspHazIcon);
+        manager.setHazardLevelText(txtInspHazLvl,hazardLevels[position]);
+        manager.setHazardIcon(hazardLevels[position], imgInspHazIcon);
 
         return row;
     }
-
-    private void setText(TextView textBox, String arrayItem){
-        textBox.setText(getContext().getString(R.string.insp_date_prefix, arrayItem));
-    }
-
-    private void setText(TextView textBox, int stringResID, int arrayItem ){
-        textBox.setText(getContext().getString(stringResID, Integer.toString(arrayItem)));
-    }
-    
 }

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">餐厅安全报告</string>
+    <string name="restaurant_name">餐厅名称</string>
+    <string name="issues_found">个卫生安全问题</string>
+    <string name="last_inspected">最近检查日期：</string>
+    <string name="low">低危</string>
+    <string name="restaurant_icon">餐厅图标</string>
+    <string name="short_description_of_violaition">违规简介</string>
+    <string name="critical">严重</string>
+    <string name="_07_march_2019">2019年3月7号</string>
+    <string name="placehold_haz_lvl">未评级</string>
+    <string name="changeable_icon_for_hazard_level">危险级别可变图标</string>
+    <string name="rest_addr_prefix">地址：%1$s</string>
+    <string name="rest_lat_prefix">纬度：%1$s</string>
+    <string name="rest_long_prefix">经度：%1$s</string>
+    <string name="rest_insp_prefix">历史检查记录：</string>
+    <string name="crit_postfix">%1$s 个严重问题</string>
+    <string name="crit_postfix_s">%1$s 个严重问题</string>
+    <string name="non_crit_postfix">%1$s 个非严重问题</string>
+    <string name="non_crit_postfix_s">%1$s 个非严重问题</string>
+    <string name="inspection_report">检查报告</string>
+    <string name="inspection_type_routine">类别：例行检查</string>
+    <string name="back">返回</string>
+    <string name="pop_up_title">细节</string>
+    <string name="title_activity_maps">地图</string>
+    <string name="hazard_icon">危险级别图标</string>
+    <string name="Update">更新</string>
+    <string name="Later">稍后</string>
+    <string name="checking_for_updates">正在检查更新中。。。</string>
+    <string name="lastInspect_never">从不</string>
+    <string name="lastInspect_found_issue_s">%1$s 个问题</string>
+    <string name="lastInspect_found_issue">%1$s 个问题</string>
+    <string name="lastInspect_date">最近检查日期：%1$s</string>
+    <string name="restaurant_n_a">查无此项</string>
+    <string name="list_view">餐厅列表</string>
+    <string name="map_view">地图</string>
+    <string name="restaurant_hazard_low">低危</string>
+    <string name="restaurant_hazard_moderate">中危</string>
+    <string name="restaurant_hazard_high">高危</string>
+    <string name="restaurant_hazard_mid">中危</string>
+
+    <array name="violation_1">
+        <item>101</item>
+        <item>工程建造不符合标准</item>
+    </array>
+    <array name="violation_2">
+        <item>102</item>
+        <item>违规经营食品处理场所</item>
+    </array>
+    <array name="violation_3">
+        <item>103</item>
+        <item>经营餐厅时未持有有效许可证</item>
+    </array>
+    <array name="violation_4">
+        <item>104</item>
+        <item>营业执照张贴不够明显</item>
+    </array>
+    <array name="violation_5">
+        <item>201</item>
+        <item>食品被污染或不宜食用</item>
+    </array>
+    <array name="violation_6">
+        <item>202</item>
+        <item>食品加工方式存在安全隐患</item>
+    </array>
+    <array name="violation_7">
+        <item>203</item>
+        <item>食品冷却方式不符合安全标准</item>
+    </array>
+    <array name="violation_8">
+        <item>204</item>
+        <item>食品加热方式不符合安全标准</item>
+    </array>
+    <array name="violation_9">
+        <item>205</item>
+        <item>冷藏食品储存温度高于4摄氏度</item>
+    </array>
+    <array name="violation_10">
+        <item>206</item>
+        <item>熟食储存和展示温度低于60摄氏度</item>
+    </array>
+    <array name="violation_11">
+        <item>208</item>
+        <item>食品供货源未经批准</item>
+    </array>
+    <array name="violation_12">
+        <item>209</item>
+        <item>食品污染保护不足</item>
+    </array>
+    <array name="violation_13">
+        <item>210</item>
+        <item>食品解冻方式不符合安全标准</item>
+    </array>
+    <array name="violation_14">
+        <item>211</item>
+        <item>冷冻食品储存温度高于-18摄氏度</item>
+    </array>
+    <array name="violation_15">
+        <item>212</item>
+        <item>经营者未提供可接受的书面食品处理程序</item>
+    </array>
+    <array name="violation_16">
+        <item>301</item>
+        <item>设备/器具/食品接触面未保持卫生状态</item>
+    </array>
+    <array name="violation_17">
+        <item>302</item>
+        <item>设备/用具/食品接触面未正确清洗和消毒</item>
+    </array>
+    <array name="violation_18">
+        <item>303</item>
+        <item>用于维护卫生的设备/设施/冷热水不足</item>
+    </array>
+    <array name="violation_19">
+        <item>304</item>
+        <item>经营场所有害虫</item>
+    </array>
+    <array name="violation_20">
+        <item>305</item>
+        <item>存在允许害虫进入/藏匿/繁殖的条件</item>
+    </array>
+    <array name="violation_21">
+        <item>306</item>
+        <item>食品经营场所不卫生</item>
+    </array>
+    <array name="violation_22">
+        <item>307</item>
+        <item>设备/器具/食品接触面设计/材料不适合食品处理</item>
+    </array>
+    <array name="violation_23">
+        <item>308</item>
+        <item>设备/用具/食品接触面不能正常使用</item>
+    </array>
+    <array name="violation_24">
+        <item>309</item>
+        <item>清洁剂存放或标贴不当</item>
+    </array>
+    <array name="violation_25">
+        <item>310</item>
+        <item>一次性容器和用具被重复使用</item>
+    </array>
+    <array name="violation_26">
+        <item>311</item>
+        <item>未按已批方案维护经营场所</item>
+    </array>
+    <array name="violation_27">
+        <item>312</item>
+        <item>无关设备/用具堆放在经营场所</item>
+    </array>
+    <array name="violation_28">
+        <item>313</item>
+        <item>经营场所有家畜(残障辅助动物除外)</item>
+    </array>
+    <array name="violation_29">
+        <item>314</item>
+        <item>操作人员未提供可接受的书面卫生程序</item>
+    </array>
+    <array name="violation_30">
+        <item>315</item>
+        <item>制冷机组和保温设备缺少精确的温度计</item>
+    </array>
+    <array name="violation_31">
+        <item>401</item>
+        <item>员工没有足够的洗手台</item>
+    </array>
+    <array name="violation_32">
+        <item>402</item>
+        <item>员工洗手不当或频率不够</item>
+    </array>
+    <array name="violation_33">
+        <item>403</item>
+        <item>员工缺乏良好的个人卫生、干净的衣着和毛发控制</item>
+    </array>
+    <array name="violation_34">
+        <item>404</item>
+        <item>员工在食品制备/加工/储存区吸烟</item>
+    </array>
+    <array name="violation_35">
+        <item>501</item>
+        <item>操作员没有FOODSAFE L1或等效认证</item>
+    </array>
+    <array name="violation_36">
+        <item>502</item>
+        <item>当操作员缺席时，替补人员没有FOODSAFE L1或等效认证</item>
+    </array>
+    <string name="violation_list_critical">严重</string>
+    <string name="violation_list_not_critical">非严重</string>
+    <string name="inspect_type_routine">例行检查</string>
+    <string name="inspect_type_follow_up">跟踪检查</string>
+    <string name="get_date_ago_day">%1$s 天前</string>
+    <string name="get_date_ago_day_s">%1$s 天前</string>
+    <string name="get_date_inspect_scheduled">卫生检查计划在 %1$s 天后</string>
+    <string name="tbrSearch">搜索</string>
+    <string name="tbrSearchTitle">搜索</string>
+    <string name="srch_restaurant_name">请输入。。。</string>
+    <string name="srch_hazard_level">危险级别：</string>
+    <string name="srch_low">低危</string>
+    <string name="srch_mid">中危</string>
+    <string name="srch_high">高危</string>
+    <string name="srch_num_crit_violations">严重违规数量：</string>
+    <string name="srch_favourited">加星标项</string>
+    <string name="srch_greater_than">大于等于</string>
+    <string name="srch_less_than">小于等于</string>
+    <string name="srch_clear">清空检索设置</string>
+    <string name="srch_btn_search">搜索</string>
+    <string name="popup_title">违规详情（英文）</string>
+    <string name="update_download">下载中，请稍后。。。</string>
+    <string name="update_cancel">取消更新</string>
+    <string name="update_progress">更新进程</string>
+    <string name="update_available">数据更新</string>
+    <string name="update_ask">您想要更新吗？</string>
+    <string name="update_update">更新</string>
+
+
+</resources>

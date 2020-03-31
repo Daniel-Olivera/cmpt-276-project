@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import java.util.List;
 
 import ca.cmpt276.restaurantreport.R;
-import ca.cmpt276.restaurantreport.applogic.Inspection;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 
@@ -56,27 +55,33 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
 
         //Get the current restaurant information for the appropriate row and its inspections
         Restaurant currentRestaurant = res.get(position);
-        List<Inspection> insp = currentRestaurant.getInspections();
 
         int issueCount = currentRestaurant.getMostRecentIssues();
         manager = RestaurantManager.getInstance(context);
 
-        String issuesFound = issueCount + " Issues Found";
         String lastInspected = getLatestInspectionDate(currentRestaurant);
-        String inspectDate = "Last Inspected: " + lastInspected;
-        String hazardText = currentRestaurant.getLatestInspectionHazard();
-        if(hazardText.equals("Moderate")){
-            hazardText = "Mid";
-        }
+        String hazardText = currentRestaurant.getLatestInspectionHazard(context);
+
         //set the texts with the right parameters
         txtRestaurantName.setText(currentRestaurant.getName());
-        txtNumOfIssues.setText(issuesFound);
-        txtInspectionDate.setText(inspectDate);
-        txtHazardLevel.setText(hazardText.replace("\"",""));
+        if(issueCount == 1){
+            manager.setText(txtNumOfIssues,R.string.lastInspect_found_issue,issueCount);
+        }else{
+            manager.setText(txtNumOfIssues,R.string.lastInspect_found_issue_s,issueCount);
+        }
+
+        manager.setText(txtInspectionDate,R.string.lastInspect_date,lastInspected);
+        if(hazardText.equals("Moderate")){
+            txtHazardLevel.setText(context.getString(R.string.restaurant_hazard_mid));
+        }else{
+            manager.setHazardLevelText(txtHazardLevel,hazardText);
+        }
+
+
 
         //changes the hazard icon based on the hazard level
         ImageView hazIcon = row.findViewById(R.id.imgHazardIcon);
-        manager.getHazardIcon(hazardText,hazIcon);
+        manager.setHazardIcon(hazardText,hazIcon);
         ImageView restaurantIcon = row.findViewById(R.id.imgRestaurantIcon);
         getRestaurantIcon(currentRestaurant.getName(), restaurantIcon);
 

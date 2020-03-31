@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import java.util.Objects;
 
 import ca.cmpt276.restaurantreport.R;
+import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 
 /*
 This class is used for putting data about each violation
@@ -25,12 +26,14 @@ public class ViolationListAdapter extends ArrayAdapter<String> {
     private int [] violationCodes;
     private String[] shortDescriptions;
     private String [] violationCriticalities;
+    private RestaurantManager manager;
 
     public ViolationListAdapter(@NonNull Context context, int [] violationCodes, String[] shortDescriptions, String[] violationCriticalities) {
         super(context, R.layout.violation_row,R.id.txtShortDescription,shortDescriptions);
         this.violationCodes = violationCodes;
         this.shortDescriptions = shortDescriptions;
         this.violationCriticalities = violationCriticalities;
+        manager = RestaurantManager.getInstance(context);
     }
 
     @NonNull
@@ -38,18 +41,20 @@ public class ViolationListAdapter extends ArrayAdapter<String> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         assert layoutInflater != null;
-        @SuppressLint("ViewHolder") View row = layoutInflater.inflate(R.layout.violation_row, parent, false);
+        @SuppressLint("ViewHolder")
+        View row = layoutInflater.inflate(R.layout.violation_row, parent, false);
 
-        TextView shortDescription = row.findViewById(R.id.txtShortDescription);
-        TextView criticalityText = row.findViewById(R.id.txtCriticality);
+        TextView txtShortDescription = row.findViewById(R.id.txtShortDescription);
+        TextView txtCriticalityText = row.findViewById(R.id.txtCriticality);
 
         ImageView violationNature = row.findViewById(R.id.violationNatureIcon);
         ImageView criticalityIcon = row.findViewById(R.id.imgCriticalityIcon);
+        String violationCriticality = violationCriticalities[position];
 
-        shortDescription.setText(shortDescriptions[position]);
-        criticalityText.setText(violationCriticalities[position]);
+        txtShortDescription.setText(shortDescriptions[position]);
+        manager.setCriticalityText(txtCriticalityText,violationCriticality);
 
-        setCriticalityIcon(violationCriticalities[position],criticalityIcon);
+        setCriticalityIcon(violationCriticality,criticalityIcon);
 
         setViolationNatureIcon(violationCodes[position],violationNature);
 
