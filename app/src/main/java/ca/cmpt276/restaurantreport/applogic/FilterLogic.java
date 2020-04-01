@@ -54,7 +54,7 @@ public class FilterLogic {
                 6.) search bar not used, hazard level used, num of violations not used
                 7.) search bar not used, hazard level not used, num of violations used
             ** used none of the criteria
-               TODO: take care of this in search activity when clicking search. Either show a log or something else
+                8.) search bar not used, hazard level not used, num of violations not used
              */
             //Number 1
             if((!restaurantName.isEmpty()) && (hazardSearchOn) && (violationSearchOn)){
@@ -110,13 +110,18 @@ public class FilterLogic {
                     }
                 }
             }
-            else{
+            //Number 7
+            else if(restaurantName.isEmpty() && !hazardSearchOn && violationSearchOn){
                 System.out.println("entering number seven");
                 for(Restaurant restaurant: restaurantList){
                     if(checkNumCritViolations(restaurant)){
                         manager.addToFilteredRestaurantList(restaurant);
                     }
                 }
+            }
+            else{
+                System.out.println("entering number eight");
+                //do nothing and return an empty filtered Restaurant List
             }
 
         }

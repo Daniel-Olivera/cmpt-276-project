@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -324,6 +325,10 @@ public class SearchActivity extends AppCompatActivity {
             int num = 1;
             RestaurantManager manager = RestaurantManager.getInstance(SearchActivity.this);
             List<Restaurant> restaurants = manager.getRestaurants();
+
+            if(restaurants.isEmpty()){
+                Toast.makeText(SearchActivity.this,"NO Results Found",Toast.LENGTH_SHORT).show();
+            }
             for(Restaurant restaurant:restaurants){
                 System.out.println("Restaurant " + num + " " + restaurant.toString());
                 num++;
