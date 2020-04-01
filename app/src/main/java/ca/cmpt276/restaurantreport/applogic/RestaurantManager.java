@@ -31,9 +31,11 @@ in the database
 public class RestaurantManager implements Iterable<Restaurant> {
 
     private List<Restaurant> restaurantList;
+    private List<Restaurant> filteredRestaurantList;
     private List<ShortViolation> shortViolationList;
     private Context context;
     private SearchState searchState;
+    private FilterLogic filterLogic;
 
     //constructor with context of an activity passed because we need the context when we want to access the data files to read from
     private RestaurantManager(Context context) {
@@ -72,7 +74,15 @@ public class RestaurantManager implements Iterable<Restaurant> {
 
     public List<Restaurant> getRestaurants(){
         //TODO: Check for the activeSearchFlag in searchStateClass and return either normal restaurants list or new restaurant list based on search
+        if(searchState.activeSearchStateFlag()){
+            filterLogic = new FilterLogic(context, restaurantList);
+            filterLogic.populateFilteredRestaurantList();
+            return filteredRestaurantList;
+        }
         return this.restaurantList;
+    }
+    public void addToFilteredRestaurantList(Restaurant restaurant){
+        this.filteredRestaurantList.add(restaurant);
     }
 
     public List<ShortViolation> getShortViolationList() {return this.shortViolationList; }
