@@ -147,6 +147,11 @@ public class FilterLogic {
                 return true;
             }
         }
+        else{
+            if(critViolationsOfActualRestaurant <= numOfCriticalViolations){
+                return true;
+            }
+        }
         return false;
     }
 
