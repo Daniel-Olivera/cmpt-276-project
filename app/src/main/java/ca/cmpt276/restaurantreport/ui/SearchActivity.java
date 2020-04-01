@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -18,7 +17,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
+
 import ca.cmpt276.restaurantreport.R;
+import ca.cmpt276.restaurantreport.applogic.Restaurant;
+import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 import ca.cmpt276.restaurantreport.applogic.SearchState;
 
 /*
@@ -318,6 +321,27 @@ public class SearchActivity extends AppCompatActivity {
             getSearchBarInput();
             getViolationInput();
             searchState.setActiveSearchStateFlag(true);
+            int num = 1;
+            RestaurantManager manager = RestaurantManager.getInstance(SearchActivity.this);
+            List<Restaurant> restaurants = manager.getRestaurants();
+            for(Restaurant restaurant:restaurants){
+                System.out.println("Restaurant " + num + " " + restaurant.toString());
+                num++;
+            }
+            //TODO: create intent to launch the activity that previously called search activity
+//            Intent intent = getIntent();
+//            String whichActivity = intent.getStringExtra("calling activity");
+//            assert whichActivity != null;
+//            switch (whichActivity){
+//                case "maps activity":
+//                    Intent intentForMapsActivity = MapsActivity.makeIntent(SearchActivity.this);
+//                    startActivity(intentForMapsActivity);
+//                    break;
+//                case "restaurant activity":
+//                    Intent intentForMainActivity = MainActivity.makeIntent(SearchActivity.this);
+//                    startActivity(intentForMainActivity);
+//                    break;
+//            }
             //finish();
         });
     }
@@ -329,6 +353,20 @@ public class SearchActivity extends AppCompatActivity {
             //just set the flag to false with the search values still in the search state class because when ever we use search state
             //we will always check the flag and use
             searchState.clearSearchState();
+
+//            Intent intent = getIntent();
+//            String whichActivity = intent.getStringExtra("calling activity");
+//            assert whichActivity != null;
+//            switch (whichActivity){
+//                case "maps activity":
+//                    Intent intentForMapsActivity = MapsActivity.makeIntent(SearchActivity.this);
+//                    startActivity(intentForMapsActivity);
+//                    break;
+//                case "restaurant activity":
+//                    Intent intentForMainActivity = MainActivity.makeIntent(SearchActivity.this);
+//                    startActivity(intentForMainActivity);
+//                    break;
+//            }
             finish();
         });
     }

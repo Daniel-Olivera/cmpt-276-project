@@ -59,3 +59,9 @@ https://android--code.blogspot.com/2015/01/amdroid-button-strokeborder-color.htm
 
 move search button on map:
 https://stackoverflow.com/questions/14489880/change-position-of-google-maps-apis-my-location-button
+
+parsing int to Date
+https://stackoverflow.com/questions/34483023/parse-armydate-long-number-to-localdate
+
+Difference between two dates using Period between
+https://www.baeldung.com/java-date-difference

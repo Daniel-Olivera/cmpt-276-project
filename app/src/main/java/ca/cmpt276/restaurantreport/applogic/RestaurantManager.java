@@ -41,12 +41,13 @@ public class RestaurantManager implements Iterable<Restaurant> {
     private RestaurantManager(Context context) {
         restaurantList = new ArrayList<>();
         shortViolationList = new ArrayList<>();
+        filteredRestaurantList = new ArrayList<>();
         this.context = context;
 
         fillViolationList();
 
         //TODO: After getting the instance use it for making a new list of restaurants with the specific search values
-        searchState = SearchState.getInstance();
+
     }
 
     //adds a Restaurant object to the list of restaurants
@@ -74,14 +75,15 @@ public class RestaurantManager implements Iterable<Restaurant> {
 
     public List<Restaurant> getRestaurants(){
         //TODO: Check for the activeSearchFlag in searchStateClass and return either normal restaurants list or new restaurant list based on search
+        searchState = SearchState.getInstance();
         if(searchState.activeSearchStateFlag()){
             filterLogic = new FilterLogic(context, restaurantList);
             filterLogic.populateFilteredRestaurantList();
-            return filteredRestaurantList;
+            return this.filteredRestaurantList;
         }
         return this.restaurantList;
     }
-    public void addToFilteredRestaurantList(Restaurant restaurant){
+    void addToFilteredRestaurantList(Restaurant restaurant){
         this.filteredRestaurantList.add(restaurant);
     }
 

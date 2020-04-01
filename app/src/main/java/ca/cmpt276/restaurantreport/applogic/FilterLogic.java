@@ -58,6 +58,7 @@ public class FilterLogic {
              */
             //Number 1
             if((!restaurantName.isEmpty()) && (hazardSearchOn) && (violationSearchOn)){
+                System.out.println("entering number one");
                 for(Restaurant restaurant: restaurantList){
                     if((checkNameSimilarity(restaurant)) && (checkHazardLevel(restaurant)) && (checkNumCritViolations(restaurant))){
                         manager.addToFilteredRestaurantList(restaurant);
@@ -66,6 +67,7 @@ public class FilterLogic {
             }
             //Number 2
             else if(!restaurantName.isEmpty() && hazardSearchOn && !violationSearchOn){
+                System.out.println("entering number two");
                 for(Restaurant restaurant: restaurantList){
                     if((checkNameSimilarity(restaurant)) && (checkHazardLevel(restaurant))){
                         manager.addToFilteredRestaurantList(restaurant);
@@ -74,6 +76,7 @@ public class FilterLogic {
             }
             //Number 3
             else if(!restaurantName.isEmpty() && !hazardSearchOn && violationSearchOn){
+                System.out.println("entering number three");
                 for(Restaurant restaurant: restaurantList){
                     if((checkNameSimilarity(restaurant)) && (checkNumCritViolations(restaurant))){
                         manager.addToFilteredRestaurantList(restaurant);
@@ -82,6 +85,7 @@ public class FilterLogic {
             }
             //Number 4
             else if(restaurantName.isEmpty() && hazardSearchOn && violationSearchOn){
+                System.out.println("entering number four");
                 for(Restaurant restaurant: restaurantList){
                     if((checkHazardLevel(restaurant)) && (checkNumCritViolations(restaurant))){
                         manager.addToFilteredRestaurantList(restaurant);
@@ -90,6 +94,7 @@ public class FilterLogic {
             }
             //Number 5
             else if (!restaurantName.isEmpty() && !hazardSearchOn && !violationSearchOn){
+                System.out.println("entering number five");
                 for(Restaurant restaurant: restaurantList){
                     if(checkNameSimilarity(restaurant)){
                         manager.addToFilteredRestaurantList(restaurant);
@@ -98,6 +103,7 @@ public class FilterLogic {
             }
             //Number 6
             else if (restaurantName.isEmpty() && hazardSearchOn && !violationSearchOn){
+                System.out.println("entering number six");
                 for(Restaurant restaurant: restaurantList){
                     if(checkHazardLevel(restaurant)){
                         manager.addToFilteredRestaurantList(restaurant);
@@ -105,6 +111,7 @@ public class FilterLogic {
                 }
             }
             else{
+                System.out.println("entering number seven");
                 for(Restaurant restaurant: restaurantList){
                     if(checkNumCritViolations(restaurant)){
                         manager.addToFilteredRestaurantList(restaurant);
@@ -134,8 +141,11 @@ public class FilterLogic {
     }
 
     private boolean checkNumCritViolations(Restaurant restaurant) {
-        int critViolationsOfActualRestaurant;
+        int critViolationsOfActualRestaurant = restaurant.getNumCritViolationsWithinLastYear();
         if(lessOrGreaterThanFlag){
+            if(critViolationsOfActualRestaurant >= numOfCriticalViolations){
+                return true;
+            }
         }
         return false;
     }

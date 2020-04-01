@@ -5,6 +5,9 @@ import android.content.Context;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
 
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -127,6 +130,27 @@ public class Restaurant implements ClusterItem {
         }
 
         return issueCount;
+    }
+
+    public int getNumCritViolationsWithinLastYear(){
+        LocalDate currentDate = LocalDate.now();
+        LocalDate dateOfInspection;
+
+        int criticalViolations = 0;
+        for(Inspection inspection: Inspections){
+            int dateOfInspectionInt = inspection.getDate();
+            dateOfInspection = LocalDate.of((int) ( dateOfInspectionInt/ 10000),
+                    Month.of((int) (dateOfInspectionInt / 100) % 100),
+                    (int) (dateOfInspectionInt % 100));
+
+            Period periodBetweenNowAndInspection = Period.between(dateOfInspection,currentDate);
+
+            long diffInYears = periodBetweenNowAndInspection.getYears();
+            if(diffInYears <= 0){
+                criticalViolations += inspection.getNumCritIssues();
+            }
+        }
+        return criticalViolations;
     }
 
     @Override
