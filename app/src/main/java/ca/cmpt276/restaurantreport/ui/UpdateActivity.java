@@ -214,7 +214,7 @@ public class UpdateActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    private void saveUpdateFlag(int i) {
+    private void saveUpdateFlag(@SuppressWarnings("SameParameterValue") int i) {
         SharedPreferences sharedPreferencesUpdateFlag = UpdateActivity.this
                 .getSharedPreferences("Update_flag_prefs", MODE_PRIVATE);
 

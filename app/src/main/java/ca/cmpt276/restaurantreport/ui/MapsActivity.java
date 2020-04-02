@@ -40,7 +40,6 @@ import ca.cmpt276.restaurantreport.adapter.MapInfoWindowAdapter;
 import ca.cmpt276.restaurantreport.applogic.CustomClusterRenderer;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
-import ca.cmpt276.restaurantreport.applogic.SearchState;
 
 /*
 displays a google maps view showing the user where the restaurants are
@@ -123,6 +122,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
     }
 
     private void findAndShowMarker(String trackingID) {
+        @SuppressWarnings("unchecked")
         Collection<Restaurant> restaurantMarkers = clusterManagerAlgorithm.getItems();
 
         for (Restaurant restaurant : restaurantMarkers) {
