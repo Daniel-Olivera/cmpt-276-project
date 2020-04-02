@@ -1,24 +1,23 @@
 package ca.cmpt276.restaurantreport.applogic;
 
-import android.util.Log;
-
 public class SearchState {
 
     /*
     true if we clicked search on the search activity leading
      to an ongoing search false when clicked clear
     */
-    private boolean activeSearchStateFlag;
-    private boolean hazardSearchOn;
-    private boolean violationSearchOn;
+    private boolean searchStateActive;
 
-    private String restaurantName;
-    private String hazardLevel;
-    //-1 means less than or equal and 1 means greater or equal to; while 0 means condition not used
-    private boolean lessOrGreaterThanFlag;
+    private boolean doHazardSearch;
+    private boolean doViolationSearch;
+
+    private String searchKeyWords;
+    private String searchHazardLevel;
+
+    private boolean lesserOrGreaterThanFlag;
     private int numOfCriticalViolations;
 
-    private boolean onlyFavourites;
+    private boolean searchByFavourites;
 
     private static SearchState instance;
 
@@ -29,46 +28,46 @@ public class SearchState {
         return instance;
     }
 
-    private SearchState(boolean activeSearchStateFlag, int numOfCriticalViolations) {
-        this.activeSearchStateFlag = activeSearchStateFlag;
+    private SearchState(boolean searchStateActive, int numOfCriticalViolations) {
+        this.searchStateActive = searchStateActive;
         this.numOfCriticalViolations = numOfCriticalViolations;
     }
 
-    boolean activeSearchStateFlag() {
-        return activeSearchStateFlag;
+    boolean getSearchStateActive() {
+        return searchStateActive;
     }
 
-    public void setActiveSearchStateFlag(boolean activeSearchStateFlag) {
-        this.activeSearchStateFlag = activeSearchStateFlag;
+    public void setSearchStateActive(boolean searchStateActive) {
+        this.searchStateActive = searchStateActive;
     }
 
-    public String getRestaurantName() {
-        return restaurantName;
+    public String getSearchKeyWords() {
+        return searchKeyWords;
     }
 
-    public void setRestaurantName(String restaurantName) {
-        this.restaurantName = restaurantName;
+    public void setSearchKeyWords(String searchKeyWords) {
+        this.searchKeyWords = searchKeyWords;
     }
 
-    public String getHazardLevel() {
-        return hazardLevel;
+    public String getSearchHazardLevel() {
+        return searchHazardLevel;
     }
 
-    public void setHazardLevel(String hazardLevel) {
-        if(hazardLevel.equals("Mid")){
-            this.hazardLevel = "Moderate";
+    public void setSearchHazardLevel(String searchHazardLevel) {
+        if(searchHazardLevel.equals("Mid")){
+            this.searchHazardLevel = "Moderate";
         }
         else {
-            this.hazardLevel = hazardLevel;
+            this.searchHazardLevel = searchHazardLevel;
         }
     }
 
-    public boolean getLessOrGreaterThanFlag() {
-        return lessOrGreaterThanFlag;
+    public boolean getLesserOrGreaterThanFlag() {
+        return lesserOrGreaterThanFlag;
     }
 
-    public void setLessOrGreaterThanFlag(boolean lessOrGreaterThanFlag) {
-        this.lessOrGreaterThanFlag = lessOrGreaterThanFlag;
+    public void setLesserOrGreaterThanFlag(boolean lesserOrGreaterThanFlag) {
+        this.lesserOrGreaterThanFlag = lesserOrGreaterThanFlag;
     }
 
     public int getNumOfCriticalViolations() {
@@ -79,50 +78,50 @@ public class SearchState {
         this.numOfCriticalViolations = numOfCriticalViolations;
     }
 
-    public boolean onlyFavourites() {
-        return onlyFavourites;
+    public boolean getSearchByFavourites() {
+        return searchByFavourites;
     }
 
-    public void setOnlyFavourites(boolean onlyFavourites) {
-        this.onlyFavourites = onlyFavourites;
+    public void setSearchByFavourites(boolean searchByFavourites) {
+        this.searchByFavourites = searchByFavourites;
+    }
+
+    public boolean isDoHazardSearch() {
+        return doHazardSearch;
+    }
+
+    public void setDoHazardSearch(boolean doHazardSearch) {
+        this.doHazardSearch = doHazardSearch;
+    }
+
+    public boolean isDoViolationSearch() {
+        return doViolationSearch;
+    }
+
+    public void setDoViolationSearch(boolean doViolationSearch) {
+        this.doViolationSearch = doViolationSearch;
+    }
+
+    public void clearSearchState(){
+        searchStateActive = false;
+        doHazardSearch = false;
+        doViolationSearch = false;
+        searchKeyWords = "";
+        searchHazardLevel = "none";
+        lesserOrGreaterThanFlag = false;
+        numOfCriticalViolations = 0;
+        searchByFavourites = false;
     }
 
     @Override
     public String toString() {
         return "SearchState{" +
-                "activeSearchStateFlag=" + activeSearchStateFlag +
-                ", restaurantName='" + restaurantName + '\'' +
-                ", hazardLevel='" + hazardLevel + '\'' +
-                ", lessOrGreaterThanFlag=" + lessOrGreaterThanFlag +
+                "activeSearchStateFlag=" + searchStateActive +
+                ", restaurantName='" + searchKeyWords + '\'' +
+                ", hazardLevel='" + searchHazardLevel + '\'' +
+                ", lessOrGreaterThanFlag=" + lesserOrGreaterThanFlag +
                 ", numOfCriticalViolations=" + numOfCriticalViolations +
-                ", onlyFavourites=" + onlyFavourites +
+                ", onlyFavourites=" + searchByFavourites +
                 '}';
-    }
-
-    public boolean isHazardSearchOn() {
-        return hazardSearchOn;
-    }
-
-    public void setHazardSearchOn(boolean hazardSearchOn) {
-        this.hazardSearchOn = hazardSearchOn;
-    }
-
-    public boolean isViolationSearchOn() {
-        return violationSearchOn;
-    }
-
-    public void setViolationSearchOn(boolean violationSearchOn) {
-        this.violationSearchOn = violationSearchOn;
-    }
-
-    public void clearSearchState(){
-        activeSearchStateFlag = false;
-        hazardSearchOn = false;
-        violationSearchOn = false;
-        restaurantName = "";
-        hazardLevel = "none";
-        lessOrGreaterThanFlag = false;
-        numOfCriticalViolations = 0;
-        onlyFavourites = false;
     }
 }

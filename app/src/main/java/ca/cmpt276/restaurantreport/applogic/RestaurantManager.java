@@ -35,7 +35,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
     private List<ShortViolation> shortViolationList;
     private Context context;
     private SearchState searchState;
-    private FilterLogic filterLogic;
 
     //constructor with context of an activity passed because we need the context when we want to access the data files to read from
     private RestaurantManager(Context context) {
@@ -43,7 +42,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
         shortViolationList = new ArrayList<>();
         filteredRestaurantList = new ArrayList<>();
         this.context = context;
-
+        this.searchState = SearchState.getInstance();
         fillViolationList();
 
         //TODO: After getting the instance use it for making a new list of restaurants with the specific search values
@@ -60,8 +59,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
     }
     //returns the restaurant in the list at index
     public Restaurant get(int index) {
-        searchState = SearchState.getInstance();
-        if(searchState.activeSearchStateFlag()){
+        if(searchState.getSearchStateActive()){
             return this.filteredRestaurantList.get(index);
         }
         else{
@@ -80,8 +78,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
     }
 
     public List<Restaurant> getRestaurants(){
-        searchState = SearchState.getInstance();
-        if(searchState.activeSearchStateFlag()){
+        if(searchState.getSearchStateActive()){
             return this.filteredRestaurantList;
         }
         else{

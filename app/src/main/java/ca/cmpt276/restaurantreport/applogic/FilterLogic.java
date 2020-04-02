@@ -24,11 +24,11 @@ public class FilterLogic {
         searchState = SearchState.getInstance();
         this.restaurantList = restaurantList;
 
-        this.hazardSearchOn = searchState.isHazardSearchOn();
-        this.violationSearchOn = searchState.isViolationSearchOn();
-        this.restaurantName = searchState.getRestaurantName();
-        this.hazardLevel = searchState.getHazardLevel();
-        this.lessOrGreaterThanFlag = searchState.getLessOrGreaterThanFlag();
+        this.hazardSearchOn = searchState.isDoHazardSearch();
+        this.violationSearchOn = searchState.isDoViolationSearch();
+        this.restaurantName = searchState.getSearchKeyWords();
+        this.hazardLevel = searchState.getSearchHazardLevel();
+        this.lessOrGreaterThanFlag = searchState.getLesserOrGreaterThanFlag();
         this.numOfCriticalViolations = searchState.getNumOfCriticalViolations();
     }
 
@@ -37,7 +37,7 @@ public class FilterLogic {
         If favourites checkbox is checked search from the favouritedRestaurantList in manager
         else search from the default restaurantList in manager
          */
-        if(searchState.onlyFavourites()){
+        if(searchState.getSearchByFavourites()){
             // TODO: create a favouritedRestaurantList in manager that holds all the restaurants marked as favourite
         }
         else{
@@ -123,13 +123,12 @@ public class FilterLogic {
                 System.out.println("entering number eight");
                 //do nothing and return an empty filtered Restaurant List
             }
-
         }
     }
 
     private boolean checkNameSimilarity(Restaurant restaurant) {
         String actualRestaurantName = restaurant.getName().toLowerCase();
-        String searchedWord = searchState.getRestaurantName().toLowerCase();
+        String searchedWord = searchState.getSearchKeyWords().toLowerCase();
 
         return actualRestaurantName.contains(searchedWord);
     }
@@ -148,5 +147,4 @@ public class FilterLogic {
             return critViolationsOfActualRestaurant <= numOfCriticalViolations;
         }
     }
-
 }
