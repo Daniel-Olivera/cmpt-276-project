@@ -17,12 +17,16 @@ import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.adapter.RestaurantListAdapter;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
+import ca.cmpt276.restaurantreport.applogic.SearchState;
 
 
 /*
 This class show the list of all restaurants in the database
  */
 public class MainActivity extends AppCompatActivity {
+
+    List<Restaurant> allRestaurantsList;
+    RestaurantManager manager;
 
 
     public static Intent makeIntent(Context context) {
@@ -34,16 +38,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (getIntent().getBooleanExtra("EXIT", false)) {
-            finish();
-        }
+        manager = RestaurantManager.getInstance(this);
 
-        RestaurantManager manager = RestaurantManager.getInstance(this);
-
-        setupListView(manager);
         setupMapButton();
         setupSearchButton();
     }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        setupListView();
+    }
+
 
     private void setupSearchButton() {
         FloatingActionButton btnSearch = findViewById(R.id.btnFloatSearch);
@@ -68,9 +74,9 @@ public class MainActivity extends AppCompatActivity {
         finishAffinity();
     }
 
-    private void setupListView(RestaurantManager manager){
+    private void setupListView(){
 
-        List<Restaurant> allRestaurantsList = manager.getRestaurants();
+        allRestaurantsList = manager.getRestaurants();
 
         //Sorts all the restaurants by name
         Collections.sort(allRestaurantsList, (firstRes, nextRes) -> firstRes.getName().compareTo(nextRes.getName()));

@@ -18,7 +18,7 @@ public class FilterLogic {
     private boolean lessOrGreaterThanFlag;
     private int numOfCriticalViolations;
 
-    FilterLogic(Context context, List<Restaurant> restaurantList) {
+    public FilterLogic(Context context, List<Restaurant> restaurantList) {
         this.context = context;
         manager = RestaurantManager.getInstance(context);
         searchState = SearchState.getInstance();
@@ -131,33 +131,22 @@ public class FilterLogic {
         String actualRestaurantName = restaurant.getName().toLowerCase();
         String searchedWord = searchState.getRestaurantName().toLowerCase();
 
-        if(actualRestaurantName.contains(searchedWord)){
-            return true;
-        }
-        return false;
+        return actualRestaurantName.contains(searchedWord);
     }
 
     private boolean checkHazardLevel(Restaurant restaurant) {
         String actualRestaurantHazardLevel = restaurant.getLatestInspectionHazard(context);
-        if(actualRestaurantHazardLevel.equalsIgnoreCase(hazardLevel)){
-            return true;
-        }
-        return false;
+        return actualRestaurantHazardLevel.equalsIgnoreCase(hazardLevel);
     }
 
     private boolean checkNumCritViolations(Restaurant restaurant) {
         int critViolationsOfActualRestaurant = restaurant.getNumCritViolationsWithinLastYear();
         if(lessOrGreaterThanFlag){
-            if(critViolationsOfActualRestaurant >= numOfCriticalViolations){
-                return true;
-            }
+            return critViolationsOfActualRestaurant >= numOfCriticalViolations;
         }
         else{
-            if(critViolationsOfActualRestaurant <= numOfCriticalViolations){
-                return true;
-            }
+            return critViolationsOfActualRestaurant <= numOfCriticalViolations;
         }
-        return false;
     }
 
 }

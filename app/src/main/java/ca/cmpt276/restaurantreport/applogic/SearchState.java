@@ -1,5 +1,7 @@
 package ca.cmpt276.restaurantreport.applogic;
 
+import android.util.Log;
+
 public class SearchState {
 
     /*
@@ -27,12 +29,12 @@ public class SearchState {
         return instance;
     }
 
-    public SearchState(boolean activeSearchStateFlag, int numOfCriticalViolations) {
+    private SearchState(boolean activeSearchStateFlag, int numOfCriticalViolations) {
         this.activeSearchStateFlag = activeSearchStateFlag;
         this.numOfCriticalViolations = numOfCriticalViolations;
     }
 
-    public boolean activeSearchStateFlag() {
+    boolean activeSearchStateFlag() {
         return activeSearchStateFlag;
     }
 
@@ -53,7 +55,12 @@ public class SearchState {
     }
 
     public void setHazardLevel(String hazardLevel) {
-        this.hazardLevel = hazardLevel;
+        if(hazardLevel.equals("Mid")){
+            this.hazardLevel = "Moderate";
+        }
+        else {
+            this.hazardLevel = hazardLevel;
+        }
     }
 
     public boolean getLessOrGreaterThanFlag() {
@@ -109,6 +116,13 @@ public class SearchState {
     }
 
     public void clearSearchState(){
-        instance = new SearchState(false, 0);
+        activeSearchStateFlag = false;
+        hazardSearchOn = false;
+        violationSearchOn = false;
+        restaurantName = "";
+        hazardLevel = "none";
+        lessOrGreaterThanFlag = false;
+        numOfCriticalViolations = 0;
+        onlyFavourites = false;
     }
 }

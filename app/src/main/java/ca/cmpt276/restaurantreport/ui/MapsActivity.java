@@ -40,6 +40,7 @@ import ca.cmpt276.restaurantreport.adapter.MapInfoWindowAdapter;
 import ca.cmpt276.restaurantreport.applogic.CustomClusterRenderer;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
+import ca.cmpt276.restaurantreport.applogic.SearchState;
 
 /*
 displays a google maps view showing the user where the restaurants are
@@ -97,10 +98,18 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
         }
 
         manager = RestaurantManager.getInstance(this);
-        //ReadCSV.getInstance(this,true);
-        allRestaurants = manager.getRestaurants();
         setupListButton();
         setupSearchButton();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        allRestaurants = manager.getRestaurants();
+        if(clusterManager != null){
+            mMap.clear();
+            populateRestaurants();
+        }
     }
 
     private void setupSearchButton() {
@@ -176,8 +185,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         moveRealignButton();
+
         populateRestaurants();
         getLocationPermission();
 

@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -21,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 
 import ca.cmpt276.restaurantreport.R;
+import ca.cmpt276.restaurantreport.applogic.FilterLogic;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 import ca.cmpt276.restaurantreport.applogic.SearchState;
@@ -290,7 +292,7 @@ public class SearchActivity extends AppCompatActivity {
             case("Low"):
                 hazardRadioGroup.check(R.id.radioBtnLow);
                 break;
-            case("Mid"):
+            case("Moderate"):
                 hazardRadioGroup.check(R.id.radioBtnMid);
 
                 break;
@@ -310,44 +312,36 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
-    /*
-    For issue #3 [Implement Search Logic] instead of using finish(), we may want to send the context
-    of the activity that called the search activity so that we can use startActivity instead
-    in order to refresh the displayed data
-    */
     private void setupSearchButton() {
         Button searchBtn = findViewById(R.id.btnSearch);
 
         searchBtn.setOnClickListener(v -> {
+            RestaurantManager manager = RestaurantManager.getInstance(SearchActivity.this);
+
+            manager.clearFilteredList();
+
             getSearchBarInput();
             getViolationInput();
-            searchState.setActiveSearchStateFlag(true);
-            int num = 1;
-            RestaurantManager manager = RestaurantManager.getInstance(SearchActivity.this);
-            List<Restaurant> restaurants = manager.getRestaurants();
 
-            if(restaurants.isEmpty()){
-                Toast.makeText(SearchActivity.this,"NO Results Found",Toast.LENGTH_SHORT).show();
+            //when flag is false, manager returns original data set
+            searchState.setActiveSearchStateFlag(false);
+            List<Restaurant> allRestaurants = manager.getRestaurants();
+
+            //filter from the entire data set
+            FilterLogic filterLogic = new FilterLogic(this, allRestaurants);
+            filterLogic.populateFilteredRestaurantList();
+
+            //set flag to true to indicate that the search filter is now active
+            // i.e. manager returns the filtered list when the flag is true
+            searchState.setActiveSearchStateFlag(true);
+
+            if(manager.getRestaurants().isEmpty()){
+                searchState.setActiveSearchStateFlag(false);
+                Toast.makeText(this, R.string.srch_no_result, Toast.LENGTH_SHORT).show();
             }
-            for(Restaurant restaurant:restaurants){
-                System.out.println("Restaurant " + num + " " + restaurant.toString());
-                num++;
+            else {
+                finish();
             }
-            //TODO: create intent to launch the activity that previously called search activity
-//            Intent intent = getIntent();
-//            String whichActivity = intent.getStringExtra("calling activity");
-//            assert whichActivity != null;
-//            switch (whichActivity){
-//                case "maps activity":
-//                    Intent intentForMapsActivity = MapsActivity.makeIntent(SearchActivity.this);
-//                    startActivity(intentForMapsActivity);
-//                    break;
-//                case "restaurant activity":
-//                    Intent intentForMainActivity = MainActivity.makeIntent(SearchActivity.this);
-//                    startActivity(intentForMainActivity);
-//                    break;
-//            }
-            //finish();
         });
     }
 
@@ -355,23 +349,9 @@ public class SearchActivity extends AppCompatActivity {
         Button clearBtn = findViewById(R.id.btnClear);
 
         clearBtn.setOnClickListener(v -> {
-            //just set the flag to false with the search values still in the search state class because when ever we use search state
-            //we will always check the flag and use
+            RestaurantManager manager = RestaurantManager.getInstance(SearchActivity.this);
+            manager.clearFilteredList();
             searchState.clearSearchState();
-
-//            Intent intent = getIntent();
-//            String whichActivity = intent.getStringExtra("calling activity");
-//            assert whichActivity != null;
-//            switch (whichActivity){
-//                case "maps activity":
-//                    Intent intentForMapsActivity = MapsActivity.makeIntent(SearchActivity.this);
-//                    startActivity(intentForMapsActivity);
-//                    break;
-//                case "restaurant activity":
-//                    Intent intentForMainActivity = MainActivity.makeIntent(SearchActivity.this);
-//                    startActivity(intentForMainActivity);
-//                    break;
-//            }
             finish();
         });
     }
