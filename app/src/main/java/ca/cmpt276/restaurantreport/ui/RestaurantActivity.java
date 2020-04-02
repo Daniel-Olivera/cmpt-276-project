@@ -45,7 +45,7 @@ public class RestaurantActivity extends AppCompatActivity {
             }
         }
 
-        final Restaurant restaurant = manager.get(index);
+        final Restaurant restaurant = listRes.get(index);
 
         String address = manager.get(index).getPhysicalAddr();
 

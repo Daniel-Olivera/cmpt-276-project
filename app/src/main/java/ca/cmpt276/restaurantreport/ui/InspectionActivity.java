@@ -153,6 +153,7 @@ public class InspectionActivity extends AppCompatActivity {
         //as the inspections were sorted according to recent Date first
         Collections.sort(inspectionList,Collections.reverseOrder());
 
+        @SuppressWarnings("unchecked")
         final List<Violation> violationList = inspectionList.get(inspectionPosition).getViolations();
 
         List<ShortViolation> shortViolationList = new ArrayList<>();

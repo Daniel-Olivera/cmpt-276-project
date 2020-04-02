@@ -97,22 +97,32 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
         }
 
         manager = RestaurantManager.getInstance(this);
-        //ReadCSV.getInstance(this,true);
-        allRestaurants = manager.getRestaurants();
         setupListButton();
         setupSearchButton();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        allRestaurants = manager.getRestaurants();
+        if(clusterManager != null){
+            mMap.clear();
+            populateRestaurants();
+        }
     }
 
     private void setupSearchButton() {
         FloatingActionButton mapSearchButton = mapView.findViewById(R.id.btnMapSearch);
         mapSearchButton.setOnClickListener(v -> {
             Intent intent = SearchActivity.makeIntent(MapsActivity.this);
+            intent.putExtra("calling activity","maps activity");
             startActivity(intent);
         });
 
     }
 
     private void findAndShowMarker(String trackingID) {
+        @SuppressWarnings("unchecked")
         Collection<Restaurant> restaurantMarkers = clusterManagerAlgorithm.getItems();
 
         for (Restaurant restaurant : restaurantMarkers) {
@@ -175,8 +185,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         moveRealignButton();
+
         populateRestaurants();
         getLocationPermission();
 

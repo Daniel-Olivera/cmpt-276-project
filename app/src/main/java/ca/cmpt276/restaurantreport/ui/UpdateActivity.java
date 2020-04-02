@@ -30,6 +30,7 @@ import java.time.LocalDateTime;
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.applogic.ProcessData;
 import ca.cmpt276.restaurantreport.applogic.ReadCSV;
+import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 
 public class UpdateActivity extends AppCompatActivity {
 
@@ -213,7 +214,7 @@ public class UpdateActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    private void saveUpdateFlag(int i) {
+    private void saveUpdateFlag(@SuppressWarnings("SameParameterValue") int i) {
         SharedPreferences sharedPreferencesUpdateFlag = UpdateActivity.this
                 .getSharedPreferences("Update_flag_prefs", MODE_PRIVATE);
 
@@ -228,6 +229,7 @@ public class UpdateActivity extends AppCompatActivity {
 
     private void askUserForUpdate() {
 
+        RestaurantManager manager = RestaurantManager.getInstance(this);
         FragmentManager askUpdateFragmentManager = getSupportFragmentManager();
         AskForUpdateDialog askForUpdateDialog = new AskForUpdateDialog(csvUrl, reportUrl,
                 UpdateActivity.this);
@@ -235,8 +237,8 @@ public class UpdateActivity extends AppCompatActivity {
         switch (updateFlag) {
             case -1: {
                 saveUpdateFlag(0);
-                    readCSV = new ReadCSV(this, false, -1);
-                    startActivity(new Intent(this, MapsActivity.class));
+                readCSV = new ReadCSV(this, false, -1);
+                startActivity(new Intent(this, MapsActivity.class));
                 break;
             }
             case 0: {
@@ -244,7 +246,9 @@ public class UpdateActivity extends AppCompatActivity {
                     askForUpdateDialog.show(askUpdateFragmentManager, "ask_for_update_dialog");
             }
                 else {
-                    readCSV = new ReadCSV(this, false, 0);
+                    if(manager.getRestaurants().isEmpty()) {
+                        readCSV = new ReadCSV(this, false, 0);
+                    }
                     startActivity(new Intent(this, MapsActivity.class));
                 }
                 break;

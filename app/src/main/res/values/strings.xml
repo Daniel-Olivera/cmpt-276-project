@@ -100,6 +100,7 @@
     <string name="update_available">Update Available.</string>
     <string name="update_ask">Would you like to update?</string>
     <string name="update_update">Update</string>
+    <string name="srch_no_result">No results found!</string>
 
     <!--Short Violation data arrays-->
     <array name="violation_1">

@@ -31,6 +31,7 @@ in the database
 public class RestaurantManager implements Iterable<Restaurant> {
 
     private List<Restaurant> restaurantList;
+    private List<Restaurant> filteredRestaurantList;
     private List<ShortViolation> shortViolationList;
     private Context context;
     private SearchState searchState;
@@ -39,12 +40,13 @@ public class RestaurantManager implements Iterable<Restaurant> {
     private RestaurantManager(Context context) {
         restaurantList = new ArrayList<>();
         shortViolationList = new ArrayList<>();
+        filteredRestaurantList = new ArrayList<>();
         this.context = context;
-
+        this.searchState = SearchState.getInstance();
         fillViolationList();
 
         //TODO: After getting the instance use it for making a new list of restaurants with the specific search values
-        searchState = SearchState.getInstance();
+
     }
 
     //adds a Restaurant object to the list of restaurants
@@ -57,7 +59,12 @@ public class RestaurantManager implements Iterable<Restaurant> {
     }
     //returns the restaurant in the list at index
     public Restaurant get(int index) {
-        return restaurantList.get(index);
+        if(searchState.getSearchStateActive()){
+            return this.filteredRestaurantList.get(index);
+        }
+        else{
+            return this.restaurantList.get(index);
+        }
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -71,8 +78,19 @@ public class RestaurantManager implements Iterable<Restaurant> {
     }
 
     public List<Restaurant> getRestaurants(){
-        //TODO: Check for the activeSearchFlag in searchStateClass and return either normal restaurants list or new restaurant list based on search
-        return this.restaurantList;
+        if(searchState.getSearchStateActive()){
+            return this.filteredRestaurantList;
+        }
+        else{
+            return this.restaurantList;
+        }
+    }
+    void addToFilteredRestaurantList(Restaurant restaurant){
+        this.filteredRestaurantList.add(restaurant);
+    }
+
+    public void clearFilteredList(){
+        this.filteredRestaurantList.clear();
     }
 
     public List<ShortViolation> getShortViolationList() {return this.shortViolationList; }
