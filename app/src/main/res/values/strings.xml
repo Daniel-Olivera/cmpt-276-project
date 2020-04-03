@@ -14,7 +14,7 @@
     <string name="rest_tool_title" translatable="false">rest toolbar title</string>
     <string name="placehold_toolbar_title_1" translatable="false">restaurant name</string>
     <string name="placehold_textView" translatable="false">TextView</string>
-    <string name="placehold_insp_name" translatable="false">Inspection Name</string>
+    <string name="placehold_insp_date" translatable="false">Inspection Date</string>
     <string name="placehold_detail_1" translatable="false">Detail 1</string>
     <string name="placehold_detail_2" translatable="false">Detail 2</string>
     <string name="placehold_haz_lvl">N/A</string>

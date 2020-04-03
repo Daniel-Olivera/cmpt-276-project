@@ -1,77 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layoutInspRow"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:layout_height="wrap_content"
 
-    android:padding="5dp">
+    android:padding="4dp">
 
-    <LinearLayout
-        android:id="@+id/layoutInspRowText"
-        android:layout_width="match_parent"
+
+    <TextView
+        android:id="@+id/txtInspDate"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="0dp"
-        android:orientation="vertical"
-        tools:ignore="UselessParent">
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="2dp"
+        android:text="@string/placehold_insp_date"
+        android:textColor="#000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/txtInspDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="3dp"
-            android:text="@string/placehold_insp_name"
-            android:textColor="#000"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+    <TextView
+        android:id="@+id/txtInspCritNums"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/placehold_detail_1"
+        android:textColor="#a9a9a9"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/txtInspHazLvl"
+        app:layout_constraintStart_toStartOf="@+id/txtInspDate"
+        app:layout_constraintTop_toBottomOf="@+id/txtInspDate" />
 
-        <TextView
-            android:id="@+id/txtInspCritNums"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="0dp"
-            android:text="@string/placehold_detail_1"
-            android:textColor="#a9a9a9"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+    <TextView
+        android:id="@+id/txtInspHazLvl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/placehold_haz_lvl"
+        android:textColor="#000"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgInspHazIcon"
+        app:layout_constraintEnd_toStartOf="@+id/imgInspHazIcon"
+        app:layout_constraintTop_toTopOf="@+id/imgInspHazIcon" />
 
-        <TextView
-            android:id="@+id/txtInspHazLvl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="-25dp"
-            android:layout_marginEnd="36dp"
-            android:text="@string/placehold_haz_lvl"
-            android:textColor="#000"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/txtInspNCrtiNums"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="0dp"
-            android:text="@string/placehold_detail_2"
-            android:textColor="#a9a9a9"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+    <TextView
+        android:id="@+id/txtInspNCrtiNums"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="@string/placehold_detail_2"
+        android:textColor="#a9a9a9"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/txtInspCritNums"
+        app:layout_constraintStart_toStartOf="@+id/txtInspDate"
+        app:layout_constraintTop_toBottomOf="@+id/txtInspCritNums" />
 
 
-        <ImageView
-            android:id="@+id/imgInspHazIcon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="end"
-            android:layout_marginTop="-50dp"
-            android:contentDescription="@string/changeable_icon_for_hazard_level"
-            android:src="@drawable/haz_low" />
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/imgInspHazIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="2dp"
+        android:contentDescription="@string/changeable_icon_for_hazard_level"
+        android:src="@drawable/haz_low"
+        app:layout_constraintBottom_toBottomOf="@+id/txtInspNCrtiNums"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtInspCritNums" />
 
-</LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
