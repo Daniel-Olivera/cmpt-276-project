@@ -314,6 +314,7 @@ public class SearchActivity extends AppCompatActivity {
             RestaurantManager manager = RestaurantManager.getInstance(SearchActivity.this);
 
             manager.clearFilteredList();
+            manager.clearFilterFavoriteList();
 
             getSearchBarInput();
             getViolationInput();
@@ -329,8 +330,19 @@ public class SearchActivity extends AppCompatActivity {
             //set flag to true to indicate that the search filter is now active
             // i.e. manager returns the filtered list when the flag is true
             searchState.setSearchStateActive(true);
-
-            if(manager.getRestaurants().isEmpty()){
+            /*if (searchState.getSearchByFavourites())
+            {
+                if (manager.getFavoriteRestaurantList().isEmpty())
+                {
+                    searchState.setSearchStateActive(false);
+                    Toast.makeText(this, R.string.srch_no_result, Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    finish();
+                }
+            }
+            else */if(manager.getRestaurants().isEmpty()){
                 searchState.setSearchStateActive(false);
                 Toast.makeText(this, R.string.srch_no_result, Toast.LENGTH_SHORT).show();
             }

@@ -3,9 +3,13 @@ package ca.cmpt276.restaurantreport.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,6 +28,7 @@ and list of inspection related to it
  */
 public class RestaurantActivity extends AppCompatActivity {
     RestaurantManager manager;
+    int restaurantIndex = 0 ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,23 +36,26 @@ public class RestaurantActivity extends AppCompatActivity {
         setContentView(R.layout.activity_restaurant);
         manager = RestaurantManager.getInstance(this);
 
+
+
         Intent intent = getIntent();
         String trackingNum = intent.getStringExtra("trackingNumber");
 
         List<Restaurant> listRes = manager.getRestaurants();
-        int index = 0;
+
+
 
         for(int i = 0; i < listRes.size(); i++){
             assert trackingNum != null;
             if(trackingNum.equals(listRes.get(i).getTrackingNum())){
-                index = i;
+                restaurantIndex = i;
                 break;
             }
         }
 
-        final Restaurant restaurant = listRes.get(index);
+        final Restaurant restaurant = listRes.get(restaurantIndex);
 
-        String address = manager.get(index).getPhysicalAddr();
+        String address = manager.get(restaurantIndex).getPhysicalAddr();
 
         TextView toolbar_title = findViewById(R.id.tbrSearchTitle);
         TextView txtAddress = findViewById(R.id.txtAddress);
@@ -55,14 +63,23 @@ public class RestaurantActivity extends AppCompatActivity {
         TextView txtLongitude = findViewById(R.id.txtLongtitude);
         TextView txtInspHeader = findViewById(R.id.txtInspHeader);
 
+        ImageView favIcon = findViewById(R.id.clickableFavIcon);
+        if (restaurant.isFavorite()) {
+            favIcon.setImageResource(R.drawable.ic_favorite_black_24dp);
+        }
+        else {
+            favIcon.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+        }
 
-        toolbar_title.setText(listRes.get(index).getName());
+
+
+        toolbar_title.setText(listRes.get(restaurantIndex).getName());
         manager.setText(txtAddress,R.string.rest_addr_prefix,address);
-        manager.setText(txtLatitude,R.string.rest_lat_prefix,manager.get(index).getLatitude());
-        manager.setText(txtLongitude,R.string.rest_long_prefix,manager.get(index).getLongitude());
+        manager.setText(txtLatitude,R.string.rest_lat_prefix,manager.get(restaurantIndex).getLatitude());
+        manager.setText(txtLongitude,R.string.rest_long_prefix,manager.get(restaurantIndex).getLongitude());
         txtInspHeader.setText(R.string.rest_insp_prefix);
 
-        List<Inspection> inspectionList = manager.get(index).getInspections();
+        List<Inspection> inspectionList = manager.get(restaurantIndex).getInspections();
 
         //Sort the inspection list according to date
         Collections.sort(inspectionList,Collections.reverseOrder());
@@ -92,6 +109,24 @@ public class RestaurantActivity extends AppCompatActivity {
         });
 
         setupCoordinatesButton(restaurant);
+    }
+    // If the favorite icon is clicked
+    public void clickFavorite(View V)
+    {
+        Toast.makeText(this, "Show some text on the screen.", Toast.LENGTH_SHORT).show();
+        Restaurant restaurant = manager.get(restaurantIndex);
+        ImageView favIcon = findViewById(R.id.clickableFavIcon);
+        if (restaurant.isFavorite()) {
+            restaurant.setFavorite(false);
+            favIcon.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+            manager.removeFromFavoriteList(restaurant);
+        }
+        else {
+            restaurant.setFavorite(true);
+            favIcon.setImageResource(R.drawable.ic_favorite_black_24dp);
+            manager.addToFavoriteList(restaurant);
+
+        }
     }
 
     private void setupCoordinatesButton(Restaurant restaurant) {

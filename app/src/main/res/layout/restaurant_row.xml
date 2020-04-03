@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layoutListRow"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -30,6 +31,7 @@
             android:text="@string/restaurant_name"
             android:textColor="#000"
             android:textSize="18sp" />
+
 
         <TextView
             android:id="@+id/txtNumOfIssues"
@@ -67,9 +69,16 @@
             android:layout_gravity="end"
             android:layout_marginTop="-32dp"
             android:contentDescription="@string/changeable_icon_for_hazard_level"
-            android:src="@drawable/haz_low">
+            android:src="@drawable/haz_low"/>
 
-        </ImageView>
+        <ImageView
+            android:id="@+id/nonClickableFavIcon"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="end"
+            android:layout_marginTop="-65dp"
+            android:src="@drawable/ic_favorite_border_black_24dp" />
+
 
     </LinearLayout>
 

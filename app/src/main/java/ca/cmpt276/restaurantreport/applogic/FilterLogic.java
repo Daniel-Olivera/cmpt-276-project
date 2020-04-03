@@ -1,6 +1,7 @@
 package ca.cmpt276.restaurantreport.applogic;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.List;
 
@@ -32,15 +33,16 @@ public class FilterLogic {
         this.numOfCriticalViolations = searchState.getNumOfCriticalViolations();
     }
 
-    public void populateFilteredRestaurantList(){
+    public void populateFilteredRestaurantList() {
         /*
         If favourites checkbox is checked search from the favouritedRestaurantList in manager
         else search from the default restaurantList in manager
          */
-        if(searchState.getSearchByFavourites()){
-            // TODO: create a favouritedRestaurantList in manager that holds all the restaurants marked as favourite
+        if (searchState.getSearchByFavourites()) {
+            // get the favorite restarant list
+            restaurantList = manager.getFavoriteRestaurantList();
         }
-        else{
+
             /*
             account for these possibilities
             ** used 3 of the criteria
@@ -56,75 +58,102 @@ public class FilterLogic {
             ** used none of the criteria
                 8.) search bar not used, hazard level not used, num of violations not used
              */
-            //Number 1
-            if((!restaurantName.isEmpty()) && (hazardSearchOn) && (violationSearchOn)){
-                System.out.println("entering number one");
-                for(Restaurant restaurant: restaurantList){
-                    if((checkNameSimilarity(restaurant)) && (checkHazardLevel(restaurant)) && (checkNumCritViolations(restaurant))){
+        //Number 1
+        if ((!restaurantName.isEmpty()) && (hazardSearchOn) && (violationSearchOn)) {
+            System.out.println("entering number one");
+            for (Restaurant restaurant : restaurantList) {
+                if ((checkNameSimilarity(restaurant)) && (checkHazardLevel(restaurant)) && (checkNumCritViolations(restaurant))) {
+                    if (searchState.getSearchByFavourites()) {
+                        manager.addToFilterFavoriteList(restaurant);
+                    } else {
                         manager.addToFilteredRestaurantList(restaurant);
                     }
                 }
-            }
-            //Number 2
-            else if(!restaurantName.isEmpty() && hazardSearchOn && !violationSearchOn){
-                System.out.println("entering number two");
-                for(Restaurant restaurant: restaurantList){
-                    if((checkNameSimilarity(restaurant)) && (checkHazardLevel(restaurant))){
-                        manager.addToFilteredRestaurantList(restaurant);
-                    }
-                }
-            }
-            //Number 3
-            else if(!restaurantName.isEmpty() && !hazardSearchOn && violationSearchOn){
-                System.out.println("entering number three");
-                for(Restaurant restaurant: restaurantList){
-                    if((checkNameSimilarity(restaurant)) && (checkNumCritViolations(restaurant))){
-                        manager.addToFilteredRestaurantList(restaurant);
-                    }
-                }
-            }
-            //Number 4
-            else if(restaurantName.isEmpty() && hazardSearchOn && violationSearchOn){
-                System.out.println("entering number four");
-                for(Restaurant restaurant: restaurantList){
-                    if((checkHazardLevel(restaurant)) && (checkNumCritViolations(restaurant))){
-                        manager.addToFilteredRestaurantList(restaurant);
-                    }
-                }
-            }
-            //Number 5
-            else if (!restaurantName.isEmpty() && !hazardSearchOn && !violationSearchOn){
-                System.out.println("entering number five");
-                for(Restaurant restaurant: restaurantList){
-                    if(checkNameSimilarity(restaurant)){
-                        manager.addToFilteredRestaurantList(restaurant);
-                    }
-                }
-            }
-            //Number 6
-            else if (restaurantName.isEmpty() && hazardSearchOn && !violationSearchOn){
-                System.out.println("entering number six");
-                for(Restaurant restaurant: restaurantList){
-                    if(checkHazardLevel(restaurant)){
-                        manager.addToFilteredRestaurantList(restaurant);
-                    }
-                }
-            }
-            //Number 7
-            else if(restaurantName.isEmpty() && !hazardSearchOn && violationSearchOn){
-                System.out.println("entering number seven");
-                for(Restaurant restaurant: restaurantList){
-                    if(checkNumCritViolations(restaurant)){
-                        manager.addToFilteredRestaurantList(restaurant);
-                    }
-                }
-            }
-            else{
-                System.out.println("entering number eight");
-                //do nothing and return an empty filtered Restaurant List
             }
         }
+        //Number 2
+        else if (!restaurantName.isEmpty() && hazardSearchOn && !violationSearchOn) {
+            System.out.println("entering number two");
+            for (Restaurant restaurant : restaurantList) {
+                if ((checkNameSimilarity(restaurant)) && (checkHazardLevel(restaurant))) {
+                    if (searchState.getSearchByFavourites()) {
+                        manager.addToFilterFavoriteList(restaurant);
+                    } else {
+                        manager.addToFilteredRestaurantList(restaurant);
+                    }
+                }
+            }
+        }
+        //Number 3
+        else if (!restaurantName.isEmpty() && !hazardSearchOn && violationSearchOn) {
+            System.out.println("entering number three");
+            for (Restaurant restaurant : restaurantList) {
+                if ((checkNameSimilarity(restaurant)) && (checkNumCritViolations(restaurant))) {
+                    if (searchState.getSearchByFavourites()) {
+                        manager.addToFilterFavoriteList(restaurant);
+                    } else {
+                        manager.addToFilteredRestaurantList(restaurant);
+                    }
+                }
+            }
+        }
+        //Number 4
+        else if (restaurantName.isEmpty() && hazardSearchOn && violationSearchOn) {
+            System.out.println("entering number four");
+            for (Restaurant restaurant : restaurantList) {
+                if ((checkHazardLevel(restaurant)) && (checkNumCritViolations(restaurant))) {
+                    if (searchState.getSearchByFavourites()) {
+                        manager.addToFilterFavoriteList(restaurant);
+                    } else {
+                        manager.addToFilteredRestaurantList(restaurant);
+                    }
+                }
+            }
+        }
+        //Number 5
+        else if (!restaurantName.isEmpty() && !hazardSearchOn && !violationSearchOn) {
+            System.out.println("entering number five");
+            for (Restaurant restaurant : restaurantList) {
+                if (checkNameSimilarity(restaurant)) {
+                    if (searchState.getSearchByFavourites()) {
+                        manager.addToFilterFavoriteList(restaurant);
+                    } else {
+                        manager.addToFilteredRestaurantList(restaurant);
+                    }
+                }
+            }
+        }
+        //Number 6
+        else if (restaurantName.isEmpty() && hazardSearchOn && !violationSearchOn) {
+            System.out.println("entering number six");
+            for (Restaurant restaurant : restaurantList) {
+                if (checkHazardLevel(restaurant)) {
+                    if (searchState.getSearchByFavourites()) {
+                        manager.addToFilterFavoriteList(restaurant);
+                    } else {
+                        manager.addToFilteredRestaurantList(restaurant);
+                    }
+                }
+            }
+        }
+        //Number 7
+        else if (restaurantName.isEmpty() && !hazardSearchOn && violationSearchOn) {
+            System.out.println("entering number seven");
+            for (Restaurant restaurant : restaurantList) {
+                if (checkNumCritViolations(restaurant)) {
+                    if (searchState.getSearchByFavourites()) {
+                        manager.addToFilterFavoriteList(restaurant);
+                    } else {
+                        manager.addToFilteredRestaurantList(restaurant);
+                    }
+                }
+            }
+        } else {
+            System.out.println("entering number eight");
+            //do nothing and return an empty filtered Restaurant List
+        }
     }
+    //}
 
     private boolean checkNameSimilarity(Restaurant restaurant) {
         String actualRestaurantName = restaurant.getName().toLowerCase();
@@ -140,10 +169,9 @@ public class FilterLogic {
 
     private boolean checkNumCritViolations(Restaurant restaurant) {
         int critViolationsOfActualRestaurant = restaurant.getNumCritViolationsWithinLastYear();
-        if(lessOrGreaterThanFlag){
+        if (lessOrGreaterThanFlag) {
             return critViolationsOfActualRestaurant >= numOfCriticalViolations;
-        }
-        else{
+        } else {
             return critViolationsOfActualRestaurant <= numOfCriticalViolations;
         }
     }

@@ -36,8 +36,11 @@ public class Restaurant implements ClusterItem {
 
     private List<Inspection> Inspections = new ArrayList<>();
 
+    private boolean favorite;
 
-    public Restaurant(String trackingNum, String Name, String physicalAddr, String physicalCity,String facType,double latitude, double longitude) {
+
+
+    public Restaurant(String trackingNum, String Name, String physicalAddr, String physicalCity, String facType, double latitude, double longitude) {
 
         this.trackingNum = trackingNum;
         this.Name = Name;
@@ -53,6 +56,13 @@ public class Restaurant implements ClusterItem {
     }
 
     public Restaurant() {
+    }
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
     }
 
     public String getName() {

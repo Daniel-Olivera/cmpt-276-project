@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,6 +33,8 @@ public class RestaurantManager implements Iterable<Restaurant> {
 
     private List<Restaurant> restaurantList;
     private List<Restaurant> filteredRestaurantList;
+    private List<Restaurant> filteredFavoriteRestaurantList;
+    private List<Restaurant> favoriteRestaurantList;
     private List<ShortViolation> shortViolationList;
     private Context context;
     private SearchState searchState;
@@ -41,6 +44,8 @@ public class RestaurantManager implements Iterable<Restaurant> {
         restaurantList = new ArrayList<>();
         shortViolationList = new ArrayList<>();
         filteredRestaurantList = new ArrayList<>();
+        filteredFavoriteRestaurantList = new ArrayList<>();
+        favoriteRestaurantList = new ArrayList<>();
         this.context = context;
         this.searchState = SearchState.getInstance();
         fillViolationList();
@@ -59,7 +64,11 @@ public class RestaurantManager implements Iterable<Restaurant> {
     }
     //returns the restaurant in the list at index
     public Restaurant get(int index) {
-        if(searchState.getSearchStateActive()){
+        if(searchState.getSearchByFavourites() && searchState.getSearchStateActive())
+        {
+            return this.filteredFavoriteRestaurantList.get(index);
+        }
+        else if(searchState.getSearchStateActive()){
             return this.filteredRestaurantList.get(index);
         }
         else{
@@ -78,7 +87,11 @@ public class RestaurantManager implements Iterable<Restaurant> {
     }
 
     public List<Restaurant> getRestaurants(){
-        if(searchState.getSearchStateActive()){
+        if(searchState.getSearchByFavourites() && searchState.getSearchStateActive())
+        {
+            return this.filteredFavoriteRestaurantList;
+        }
+        else if(searchState.getSearchStateActive()){
             return this.filteredRestaurantList;
         }
         else{
@@ -92,6 +105,38 @@ public class RestaurantManager implements Iterable<Restaurant> {
     public void clearFilteredList(){
         this.filteredRestaurantList.clear();
     }
+
+
+    void addToFilterFavoriteList(Restaurant restaurant){
+        this.filteredFavoriteRestaurantList.add(restaurant);
+    }
+    public void clearFilterFavoriteList()
+    {
+        this.filteredFavoriteRestaurantList.clear();
+    }
+
+    public List<Restaurant> getFavoriteRestaurantList()
+    {
+        return this.favoriteRestaurantList;
+    }
+
+    public void addToFavoriteList (Restaurant restaurant)
+    {
+        this.favoriteRestaurantList.add(restaurant);
+    }
+
+    public void removeFromFavoriteList (Restaurant restaurant)
+    {
+        for (int i = 0 ; i < favoriteRestaurantList.size();i++)
+        {
+            if (favoriteRestaurantList.get(i).getTrackingNum().equals(restaurant.getTrackingNum()))
+            {
+                favoriteRestaurantList.remove(i);
+                break;
+            }
+        }
+    }
+
 
     public List<ShortViolation> getShortViolationList() {return this.shortViolationList; }
 
@@ -286,5 +331,16 @@ public class RestaurantManager implements Iterable<Restaurant> {
 
     public void setText(TextView textBox, int stringResID, double arrayItem ){
         textBox.setText(context.getString(stringResID, Double.toString(arrayItem)));
+    }
+
+    public void setFavoriteIcon(boolean favorite,ImageView favIcon) {
+        if(favorite)
+        {
+            favIcon.setImageResource(R.drawable.ic_favorite_black_24dp);
+        }
+        else
+        {
+            favIcon.setVisibility(View.INVISIBLE);
+        }
     }
 }
