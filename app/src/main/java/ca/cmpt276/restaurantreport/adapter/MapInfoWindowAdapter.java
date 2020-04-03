@@ -1,5 +1,6 @@
 package ca.cmpt276.restaurantreport.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
@@ -37,7 +38,7 @@ public class MapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         List<Restaurant> restaurants = manager.getRestaurants();
 
 
-        View view = ((Activity)context).getLayoutInflater()
+        @SuppressLint("InflateParams") View view = ((Activity)context).getLayoutInflater()
                 .inflate(R.layout.map_info_window, null);
 
         TextView txtName = view.findViewById(R.id.txtInfoViewName);

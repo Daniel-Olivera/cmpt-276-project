@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.applogic.ProcessData;
@@ -27,8 +28,6 @@ import static ca.cmpt276.restaurantreport.ui.UpdateActivity.getWhenLastUpdated;
 public class UpdateDialog extends DialogFragment {
 
     private ProgressBar progressBar;
-    private TextView title;
-    private Button cancelButton;
     private int progressStatus = 0;
     private Handler handler = new Handler();
     private ProcessData processData;
@@ -50,8 +49,8 @@ public class UpdateDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.update_dialog, container, false);
 
         progressBar = view.findViewById(R.id.progress_bar);
-        title = view.findViewById(R.id.dialog_title);
-        cancelButton = view.findViewById(R.id.cancel_button);
+        TextView title = view.findViewById(R.id.dialog_title);
+        Button cancelButton = view.findViewById(R.id.cancel_button);
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +59,7 @@ public class UpdateDialog extends DialogFragment {
 
                 updateCancelled = true;
 
-                getDialog().dismiss();
+                Objects.requireNonNull(getDialog()).dismiss();
                 Intent intent = MapsActivity.makeIntent(context);
                 startActivity(intent);
             }

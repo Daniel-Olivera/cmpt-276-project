@@ -14,8 +14,6 @@ import androidx.fragment.app.FragmentManager;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -50,7 +48,6 @@ public class UpdateActivity extends AppCompatActivity {
     int updateFlag;
     static public boolean clickedUpdate;
     static public boolean clickedCancel;
-    //
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +77,7 @@ public class UpdateActivity extends AppCompatActivity {
     private boolean isOnline() {
         boolean connected = false;
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert cm != null;
         if ( cm.getActiveNetworkInfo() != null ) {
             connected = true;
         }
@@ -92,71 +90,52 @@ public class UpdateActivity extends AppCompatActivity {
         String reportURL = "http://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports";
         // Process restaurant data for restaurantURL
         JsonObjectRequest restaurantRequest = new JsonObjectRequest(Request.Method.GET, restaurantURL, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            // get object name result
-                            JSONObject jsonObject = response.getJSONObject("result");
-                            // get date modify
-                            dateModifyRestaurants = jsonObject.getString("metadata_modified");
-                            // get the url to download csv file
-                            JSONArray res = jsonObject.getJSONArray("resources");
-                            JSONObject obj = res.getJSONObject(0);
-                            csvUrl = obj.getString("url");
+                response -> {
+                    try {
+                        // get object name result
+                        JSONObject jsonObject = response.getJSONObject("result");
+                        // get date modify
+                        dateModifyRestaurants = jsonObject.getString("metadata_modified");
+                        // get the url to download csv file
+                        JSONArray res = jsonObject.getJSONArray("resources");
+                        JSONObject obj = res.getJSONObject(0);
+                        csvUrl = obj.getString("url");
 
-                            // Copy data from the url to local file
-                            final Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    // Do something after 5s = 5000ms
-                                timeForUpdate = checkTimeForUpdate();
-                                newDataAvailable = checkNewDataAvailable();
-                                askUserForUpdate();
+                        // Copy data from the url to local file
+                        final Handler handler = new Handler();
+                        handler.postDelayed(() -> {
+                            // Do something after 5s = 5000ms
+                        timeForUpdate = checkTimeForUpdate();
+                        newDataAvailable = checkNewDataAvailable();
+                        askUserForUpdate();
 
-                                }
-                            }, 2000);
+                        }, 2000);
 
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
+                }, Throwable::printStackTrace);
         // Get request
         mQueue.add(restaurantRequest);
 
         // Process report data from reportURL
         JsonObjectRequest reportRequest = new JsonObjectRequest(Request.Method.GET, reportURL, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            // get object name result
-                            JSONObject jsonObject = response.getJSONObject("result");
-                            // get date modify
-                            dateModifyInspections = jsonObject.getString("metadata_modified");
-                            // get the url to download csv file
-                            JSONArray res = jsonObject.getJSONArray("resources");
-                            JSONObject obj = res.getJSONObject(0);
-                            reportUrl = obj.getString("url");
+                response -> {
+                    try {
+                        // get object name result
+                        JSONObject jsonObject = response.getJSONObject("result");
+                        // get date modify
+                        dateModifyInspections = jsonObject.getString("metadata_modified");
+                        // get the url to download csv file
+                        JSONArray res = jsonObject.getJSONArray("resources");
+                        JSONObject obj = res.getJSONObject(0);
+                        reportUrl = obj.getString("url");
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
+                }, Throwable::printStackTrace);
         mQueue.add(reportRequest);
     }
 
@@ -180,11 +159,8 @@ public class UpdateActivity extends AppCompatActivity {
             if(daysFromLastUpdate > 0) {
                 return true;
             }
-            if(hoursFromLastUpdate >= 20){
-                return true;
-            }
+            return hoursFromLastUpdate >= 20;
         }
-        return false;
     }
 
     private boolean checkNewDataAvailable() {
