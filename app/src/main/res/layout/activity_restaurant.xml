@@ -7,12 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".ui.RestaurantActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/tbrRestanurant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
+        android:padding="4dp"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -21,25 +22,31 @@
 
         <TextView
             android:id="@+id/tbrSearchTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="4dp"
             android:text="@string/placehold_toolbar_title_1"
             android:textColor="#ffffff"
             android:textSize="26sp"
             android:textStyle="bold"
-            tools:layout_editor_absoluteX="131dp"
-            tools:layout_editor_absoluteY="14dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/clickableFavIcon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/clickableFavIcon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="end"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="4dp"
             android:clickable="true"
+            android:contentDescription="@string/restaurant_details_fav_button"
             android:onClick="clickFavorite"
-            android:src="@drawable/ic_favorite_border_black_24dp" />
-    </androidx.appcompat.widget.Toolbar>
+            android:src="@drawable/ic_favorite_border_black_24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tbrSearchTitle" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/txtAddress"
@@ -86,6 +93,17 @@
         app:layout_constraintStart_toStartOf="@+id/txtLongtitude"
         app:layout_constraintTop_toBottomOf="@+id/txtLongtitude" />
 
+    <Button
+        android:id="@+id/btnCoords"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:text="@string/btn_coords_text"
+        app:layout_constraintBottom_toBottomOf="@+id/txtLongtitude"
+        app:layout_constraintEnd_toEndOf="@+id/txtLongtitude"
+        app:layout_constraintStart_toStartOf="@+id/txtLattitude"
+        app:layout_constraintTop_toTopOf="@+id/txtLattitude" />
+
     <ImageView
         android:id="@+id/imgRestaurantLogo"
         android:layout_width="75dp"
@@ -124,17 +142,6 @@
 
         </ListView>
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btnCoords"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="@string/btn_coords_text"
-        android:background="@android:color/transparent"
-        app:layout_constraintBottom_toBottomOf="@+id/txtLongtitude"
-        app:layout_constraintEnd_toEndOf="@+id/txtLongtitude"
-        app:layout_constraintStart_toStartOf="@+id/txtLattitude"
-        app:layout_constraintTop_toTopOf="@+id/txtLattitude" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
