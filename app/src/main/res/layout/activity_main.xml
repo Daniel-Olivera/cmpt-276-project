@@ -36,12 +36,14 @@
         <Button
             android:id="@+id/btnMap"
             android:layout_width="wrap_content"
-            android:layout_height="32dp"
+            android:layout_height="match_parent"
             android:layout_gravity="end"
-            android:layout_marginEnd="8dp"
             android:background="@drawable/btn_outline"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp"
             android:text="@string/map_view"
             android:textColor="#FFFFFFFF"
+            android:textSize="16sp"
             tools:layout_editor_absoluteX="323dp"
             tools:layout_editor_absoluteY="4dp" />
     </androidx.appcompat.widget.Toolbar>

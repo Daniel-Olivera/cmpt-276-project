@@ -101,6 +101,7 @@
     <string name="update_ask">Would you like to update?</string>
     <string name="update_update">Update</string>
     <string name="srch_no_result">No results found!</string>
+    <string name="restaurant_favourite_state" translatable="false">Shows Restaurant Favourite State</string>
 
     <!--Short Violation data arrays-->
     <array name="violation_1">

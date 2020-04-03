@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layoutListRow"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -25,7 +24,7 @@
 
         <TextView
             android:id="@+id/txtRestaurantName"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:text="@string/restaurant_name"
@@ -73,10 +72,11 @@
 
         <ImageView
             android:id="@+id/nonClickableFavIcon"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="end"
             android:layout_marginTop="-65dp"
+            android:contentDescription="@string/restaurant_favourite_state"
             android:src="@drawable/ic_favorite_border_black_24dp" />
 
 
