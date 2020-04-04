@@ -61,11 +61,12 @@
     <ListView
         android:id="@+id/listRestaurant"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="55dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/restaurant_toolbar">
+
     </ListView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -76,9 +77,10 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:scaleType="centerCrop"
+        android:elevation="6dp"
         app:backgroundTint="@color/places_autocomplete_progress_tint"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/listRestaurant"
         app:maxImageSize="40dp"
         app:srcCompat="@android:drawable/ic_menu_search" />
 
