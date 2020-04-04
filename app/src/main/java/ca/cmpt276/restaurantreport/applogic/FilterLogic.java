@@ -39,7 +39,7 @@ public class FilterLogic {
         else search from the default restaurantList in manager
          */
         if (searchState.getSearchByFavourites()) {
-            // get the favorite restarant list
+            // get the favorite restaurant list
             restaurantList = manager.getFavoriteRestaurantList();
         }
 
@@ -150,7 +150,12 @@ public class FilterLogic {
             }
         } else {
             System.out.println("entering number eight");
-            //do nothing and return an empty filtered Restaurant List
+            if (searchState.getSearchByFavourites()) {
+                for (int i = 0 ; i < restaurantList.size(); i++)
+                {
+                    manager.addToFilterFavoriteList(restaurantList.get(i));
+                }
+            }
         }
     }
     //}

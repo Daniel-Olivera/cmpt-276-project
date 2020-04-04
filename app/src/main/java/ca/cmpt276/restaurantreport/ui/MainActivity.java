@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
     List<Restaurant> allRestaurantsList;
     RestaurantManager manager;
+    boolean executed = false;
+
 
 
 
@@ -44,6 +46,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         manager = RestaurantManager.getInstance(this);
+
+        //executed only once
+        if(!executed) {
+            manager.readFavoriteList();
+            executed = true;
+        }
 
         setupMapButton();
         setupSearchButton();

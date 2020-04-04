@@ -2,16 +2,22 @@ package ca.cmpt276.restaurantreport.applogic;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.annotation.StyleableRes;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
@@ -23,6 +29,9 @@ import java.util.List;
 import java.util.Locale;
 
 import ca.cmpt276.restaurantreport.R;
+import ca.cmpt276.restaurantreport.ui.MainActivity;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /*
 This class is a singleton that store all the Restaurant as
@@ -38,6 +47,8 @@ public class RestaurantManager implements Iterable<Restaurant> {
     private List<ShortViolation> shortViolationList;
     private Context context;
     private SearchState searchState;
+
+
 
     //constructor with context of an activity passed because we need the context when we want to access the data files to read from
     private RestaurantManager(Context context) {
@@ -80,6 +91,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
     private static RestaurantManager instance;
 
     public static RestaurantManager getInstance(Context context) {
+
         if(instance == null) {
             instance = new RestaurantManager(context);
         }
@@ -119,6 +131,11 @@ public class RestaurantManager implements Iterable<Restaurant> {
     {
         return this.favoriteRestaurantList;
     }
+    public List<Restaurant> getFullRestaurantList()
+    {
+        return this.restaurantList;
+    }
+
 
     public void addToFavoriteList (Restaurant restaurant)
     {
@@ -343,4 +360,38 @@ public class RestaurantManager implements Iterable<Restaurant> {
             favIcon.setVisibility(View.INVISIBLE);
         }
     }
+    
+    public void saveFavoriteList()
+    {
+        final SharedPreferences sharedPreferences = context.getSharedPreferences("USER",MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = gson.toJson(favoriteRestaurantList);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("favoriteList",json );
+        editor.apply();
+    }
+
+    public void readFavoriteList() {
+        final SharedPreferences sharedPreferences = context.getSharedPreferences("USER",MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("favoriteList","");
+        if (json.isEmpty()) {
+        } else {
+            Type type = new TypeToken<List<Restaurant>>() {
+            }.getType();
+            favoriteRestaurantList = gson.fromJson(json, type);
+        }
+        for(int i = 0 ; i < favoriteRestaurantList.size() ; i++)
+        {
+            for(int y = 0 ;y <restaurantList.size(); y++)
+            {
+                if (favoriteRestaurantList.get(i).getTrackingNum().equals(restaurantList.get(y).getTrackingNum()))
+                {
+                    restaurantList.get(y).setFavorite(true);
+                }
+            }
+        }
+
+    }
+
 }

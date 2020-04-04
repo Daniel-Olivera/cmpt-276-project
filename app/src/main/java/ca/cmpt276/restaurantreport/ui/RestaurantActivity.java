@@ -21,6 +21,7 @@ import ca.cmpt276.restaurantreport.adapter.InspectionListAdapter;
 import ca.cmpt276.restaurantreport.applogic.Inspection;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
+import ca.cmpt276.restaurantreport.applogic.SearchState;
 
 /*
 This class show the details about the Restaurant
@@ -120,13 +121,34 @@ public class RestaurantActivity extends AppCompatActivity {
             restaurant.setFavorite(false);
             favIcon.setImageResource(R.drawable.ic_favorite_border_black_24dp);
             manager.removeFromFavoriteList(restaurant);
+
+            //change state in actually List
+            List<Restaurant> fullList = manager.getFullRestaurantList();
+            for (int i = 0; i < fullList.size(); i++) {
+                Restaurant tempRestaurant = fullList.get(i);
+                if(restaurant.getTrackingNum().equals(tempRestaurant.getTrackingNum()))
+                {
+                    tempRestaurant.setFavorite(false);
+                }
+            }
         }
         else {
             restaurant.setFavorite(true);
             favIcon.setImageResource(R.drawable.ic_favorite_black_24dp);
             manager.addToFavoriteList(restaurant);
 
+            //change state in actually List
+            List<Restaurant> fullList = manager.getFullRestaurantList();
+            for (int i = 0; i < fullList.size(); i++) {
+                Restaurant tempRestaurant = fullList.get(i);
+                if(restaurant.getTrackingNum().equals(tempRestaurant.getTrackingNum()))
+                {
+                    tempRestaurant.setFavorite(true);
+                }
+            }
         }
+        //Update the favoriteList for SharedPreferences
+        manager.saveFavoriteList();
     }
 
     private void setupCoordinatesButton(Restaurant restaurant) {
