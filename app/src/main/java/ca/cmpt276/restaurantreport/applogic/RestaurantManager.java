@@ -42,7 +42,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
 
     private List<Restaurant> restaurantList;
     private List<Restaurant> filteredRestaurantList;
-    private List<Restaurant> filteredFavoriteRestaurantList;
     private List<Restaurant> favoriteRestaurantList;
     private List<ShortViolation> shortViolationList;
     private Context context;
@@ -55,7 +54,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
         restaurantList = new ArrayList<>();
         shortViolationList = new ArrayList<>();
         filteredRestaurantList = new ArrayList<>();
-        filteredFavoriteRestaurantList = new ArrayList<>();
         favoriteRestaurantList = new ArrayList<>();
         this.context = context;
         this.searchState = SearchState.getInstance();
@@ -75,11 +73,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
     }
     //returns the restaurant in the list at index
     public Restaurant get(int index) {
-        if(searchState.getSearchByFavourites() && searchState.getSearchStateActive())
-        {
-            return this.filteredFavoriteRestaurantList.get(index);
-        }
-        else if(searchState.getSearchStateActive()){
+       if(searchState.getSearchStateActive()){
             return this.filteredRestaurantList.get(index);
         }
         else{
@@ -99,13 +93,9 @@ public class RestaurantManager implements Iterable<Restaurant> {
     }
 
     public List<Restaurant> getRestaurants(){
-        if(searchState.getSearchByFavourites() && searchState.getSearchStateActive())
-        {
-            return this.filteredFavoriteRestaurantList;
-        }
-        else if(searchState.getSearchStateActive()){
+       if(searchState.getSearchStateActive()){
             return this.filteredRestaurantList;
-        }
+       }
         else{
             return this.restaurantList;
         }
@@ -119,13 +109,13 @@ public class RestaurantManager implements Iterable<Restaurant> {
     }
 
 
-    void addToFilterFavoriteList(Restaurant restaurant){
+    /*void addToFilterFavoriteList(Restaurant restaurant){
         this.filteredFavoriteRestaurantList.add(restaurant);
-    }
-    public void clearFilterFavoriteList()
+    }*/
+    /*public void clearFilterFavoriteList()
     {
         this.filteredFavoriteRestaurantList.clear();
-    }
+    }*/
 
     public List<Restaurant> getFavoriteRestaurantList()
     {

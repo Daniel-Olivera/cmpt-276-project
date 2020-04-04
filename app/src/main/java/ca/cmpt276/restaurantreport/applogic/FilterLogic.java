@@ -63,11 +63,7 @@ public class FilterLogic {
             System.out.println("entering number one");
             for (Restaurant restaurant : restaurantList) {
                 if ((checkNameSimilarity(restaurant)) && (checkHazardLevel(restaurant)) && (checkNumCritViolations(restaurant))) {
-                    if (searchState.getSearchByFavourites()) {
-                        manager.addToFilterFavoriteList(restaurant);
-                    } else {
                         manager.addToFilteredRestaurantList(restaurant);
-                    }
                 }
             }
         }
@@ -76,11 +72,7 @@ public class FilterLogic {
             System.out.println("entering number two");
             for (Restaurant restaurant : restaurantList) {
                 if ((checkNameSimilarity(restaurant)) && (checkHazardLevel(restaurant))) {
-                    if (searchState.getSearchByFavourites()) {
-                        manager.addToFilterFavoriteList(restaurant);
-                    } else {
                         manager.addToFilteredRestaurantList(restaurant);
-                    }
                 }
             }
         }
@@ -89,11 +81,7 @@ public class FilterLogic {
             System.out.println("entering number three");
             for (Restaurant restaurant : restaurantList) {
                 if ((checkNameSimilarity(restaurant)) && (checkNumCritViolations(restaurant))) {
-                    if (searchState.getSearchByFavourites()) {
-                        manager.addToFilterFavoriteList(restaurant);
-                    } else {
                         manager.addToFilteredRestaurantList(restaurant);
-                    }
                 }
             }
         }
@@ -102,11 +90,7 @@ public class FilterLogic {
             System.out.println("entering number four");
             for (Restaurant restaurant : restaurantList) {
                 if ((checkHazardLevel(restaurant)) && (checkNumCritViolations(restaurant))) {
-                    if (searchState.getSearchByFavourites()) {
-                        manager.addToFilterFavoriteList(restaurant);
-                    } else {
                         manager.addToFilteredRestaurantList(restaurant);
-                    }
                 }
             }
         }
@@ -115,11 +99,7 @@ public class FilterLogic {
             System.out.println("entering number five");
             for (Restaurant restaurant : restaurantList) {
                 if (checkNameSimilarity(restaurant)) {
-                    if (searchState.getSearchByFavourites()) {
-                        manager.addToFilterFavoriteList(restaurant);
-                    } else {
                         manager.addToFilteredRestaurantList(restaurant);
-                    }
                 }
             }
         }
@@ -128,11 +108,7 @@ public class FilterLogic {
             System.out.println("entering number six");
             for (Restaurant restaurant : restaurantList) {
                 if (checkHazardLevel(restaurant)) {
-                    if (searchState.getSearchByFavourites()) {
-                        manager.addToFilterFavoriteList(restaurant);
-                    } else {
                         manager.addToFilteredRestaurantList(restaurant);
-                    }
                 }
             }
         }
@@ -141,11 +117,8 @@ public class FilterLogic {
             System.out.println("entering number seven");
             for (Restaurant restaurant : restaurantList) {
                 if (checkNumCritViolations(restaurant)) {
-                    if (searchState.getSearchByFavourites()) {
-                        manager.addToFilterFavoriteList(restaurant);
-                    } else {
                         manager.addToFilteredRestaurantList(restaurant);
-                    }
+
                 }
             }
         } else {
@@ -153,7 +126,7 @@ public class FilterLogic {
             if (searchState.getSearchByFavourites()) {
                 for (int i = 0 ; i < restaurantList.size(); i++)
                 {
-                    manager.addToFilterFavoriteList(restaurantList.get(i));
+                    manager.addToFilteredRestaurantList(restaurantList.get(i));
                 }
             }
         }

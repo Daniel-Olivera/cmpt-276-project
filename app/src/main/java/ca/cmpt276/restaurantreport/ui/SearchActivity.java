@@ -314,7 +314,7 @@ public class SearchActivity extends AppCompatActivity {
             RestaurantManager manager = RestaurantManager.getInstance(SearchActivity.this);
 
             manager.clearFilteredList();
-            manager.clearFilterFavoriteList();
+
 
             getSearchBarInput();
             getViolationInput();

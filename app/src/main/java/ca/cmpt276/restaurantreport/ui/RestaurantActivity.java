@@ -114,11 +114,11 @@ public class RestaurantActivity extends AppCompatActivity {
     // If the favorite icon is clicked
     public void clickFavorite(View V)
     {
-        Toast.makeText(this, "Show some text on the screen.", Toast.LENGTH_SHORT).show();
         Restaurant restaurant = manager.get(restaurantIndex);
         ImageView favIcon = findViewById(R.id.clickableFavIcon);
         if (restaurant.isFavorite()) {
             restaurant.setFavorite(false);
+            Toast.makeText(this, "Restaurant removed from favorite", Toast.LENGTH_SHORT).show();
             favIcon.setImageResource(R.drawable.ic_favorite_border_black_24dp);
             manager.removeFromFavoriteList(restaurant);
 
@@ -134,6 +134,7 @@ public class RestaurantActivity extends AppCompatActivity {
         }
         else {
             restaurant.setFavorite(true);
+            Toast.makeText(this, "Restaurant added to favorite", Toast.LENGTH_SHORT).show();
             favIcon.setImageResource(R.drawable.ic_favorite_black_24dp);
             manager.addToFavoriteList(restaurant);
 
