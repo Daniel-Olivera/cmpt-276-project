@@ -52,7 +52,6 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
         TextView txtHazardLevel = row.findViewById(R.id.txtHazardLevel);
 
 
-
         //Get the current restaurant information for the appropriate row and its inspections
         Restaurant currentRestaurant = res.get(position);
 
@@ -85,12 +84,16 @@ public class RestaurantListAdapter extends ArrayAdapter<String>{
         ImageView restaurantIcon = row.findViewById(R.id.imgRestaurantIcon);
         getRestaurantIcon(currentRestaurant.getName(), restaurantIcon);
 
+        //set favorite icon
+        ImageView favIcon = row.findViewById(R.id.nonClickableFavIcon);
+        manager.setFavoriteIcon(currentRestaurant.isFavorite(),favIcon);
+
         return row;
     }
 
     private void getRestaurantIcon(String name, ImageView restaurantIcon) {
 
-        if(name.contains("Subway ")){
+        if(name.contains("Subway")){
             restaurantIcon.setImageResource(R.drawable.subway_logo);
         }
         else if(name.contains("Tim Horton")){

@@ -2,15 +2,21 @@ package ca.cmpt276.restaurantreport.applogic;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.annotation.StyleableRes;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
@@ -23,6 +29,8 @@ import java.util.Locale;
 
 import ca.cmpt276.restaurantreport.R;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /*
 This class is a singleton that store all the Restaurant as
 a list and can be call in every Activity to get all the data
@@ -32,15 +40,19 @@ public class RestaurantManager implements Iterable<Restaurant> {
 
     private List<Restaurant> restaurantList;
     private List<Restaurant> filteredRestaurantList;
+    private List<Restaurant> favoriteRestaurantList;
     private List<ShortViolation> shortViolationList;
     private Context context;
     private SearchState searchState;
+
+
 
     //constructor with context of an activity passed because we need the context when we want to access the data files to read from
     private RestaurantManager(Context context) {
         restaurantList = new ArrayList<>();
         shortViolationList = new ArrayList<>();
         filteredRestaurantList = new ArrayList<>();
+        favoriteRestaurantList = new ArrayList<>();
         this.context = context;
         this.searchState = SearchState.getInstance();
         fillViolationList();
@@ -59,7 +71,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
     }
     //returns the restaurant in the list at index
     public Restaurant get(int index) {
-        if(searchState.getSearchStateActive()){
+       if(searchState.getSearchStateActive()){
             return this.filteredRestaurantList.get(index);
         }
         else{
@@ -71,6 +83,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
     private static RestaurantManager instance;
 
     public static RestaurantManager getInstance(Context context) {
+
         if(instance == null) {
             instance = new RestaurantManager(context);
         }
@@ -78,9 +91,9 @@ public class RestaurantManager implements Iterable<Restaurant> {
     }
 
     public List<Restaurant> getRestaurants(){
-        if(searchState.getSearchStateActive()){
+       if(searchState.getSearchStateActive()){
             return this.filteredRestaurantList;
-        }
+       }
         else{
             return this.restaurantList;
         }
@@ -92,6 +105,43 @@ public class RestaurantManager implements Iterable<Restaurant> {
     public void clearFilteredList(){
         this.filteredRestaurantList.clear();
     }
+
+
+    /*void addToFilterFavoriteList(Restaurant restaurant){
+        this.filteredFavoriteRestaurantList.add(restaurant);
+    }*/
+    /*public void clearFilterFavoriteList()
+    {
+        this.filteredFavoriteRestaurantList.clear();
+    }*/
+
+    public List<Restaurant> getFavoriteRestaurantList()
+    {
+        return this.favoriteRestaurantList;
+    }
+    public List<Restaurant> getFullRestaurantList()
+    {
+        return this.restaurantList;
+    }
+
+
+    public void addToFavoriteList (Restaurant restaurant)
+    {
+        this.favoriteRestaurantList.add(restaurant);
+    }
+
+    public void removeFromFavoriteList (Restaurant restaurant)
+    {
+        for (int i = 0 ; i < favoriteRestaurantList.size();i++)
+        {
+            if (favoriteRestaurantList.get(i).getTrackingNum().equals(restaurant.getTrackingNum()))
+            {
+                favoriteRestaurantList.remove(i);
+                break;
+            }
+        }
+    }
+
 
     public List<ShortViolation> getShortViolationList() {return this.shortViolationList; }
 
@@ -287,4 +337,48 @@ public class RestaurantManager implements Iterable<Restaurant> {
     public void setText(TextView textBox, int stringResID, double arrayItem ){
         textBox.setText(context.getString(stringResID, Double.toString(arrayItem)));
     }
+
+    public void setFavoriteIcon(boolean favorite,ImageView favIcon) {
+        if(favorite)
+        {
+            favIcon.setImageResource(R.drawable.ic_star_black_24dp);
+        }
+        else
+        {
+            favIcon.setVisibility(View.INVISIBLE);
+        }
+    }
+    
+    public void saveFavoriteList()
+    {
+        final SharedPreferences sharedPreferences = context.getSharedPreferences("USER",MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = gson.toJson(favoriteRestaurantList);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("favoriteList",json );
+        editor.apply();
+    }
+
+    public void readFavoriteList() {
+        final SharedPreferences sharedPreferences = context.getSharedPreferences("USER",MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("favoriteList","");
+        if (!json.isEmpty()) {
+            Type type = new TypeToken<List<Restaurant>>() {
+            }.getType();
+            favoriteRestaurantList = gson.fromJson(json, type);
+        }
+        for(int i = 0 ; i < favoriteRestaurantList.size() ; i++)
+        {
+            for(int y = 0 ;y <restaurantList.size(); y++)
+            {
+                if (favoriteRestaurantList.get(i).getTrackingNum().equals(restaurantList.get(y).getTrackingNum()))
+                {
+                    restaurantList.get(y).setFavorite(true);
+                }
+            }
+        }
+
+    }
+
 }

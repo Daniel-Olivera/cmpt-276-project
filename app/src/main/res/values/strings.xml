@@ -14,10 +14,10 @@
     <string name="rest_tool_title" translatable="false">rest toolbar title</string>
     <string name="placehold_toolbar_title_1" translatable="false">restaurant name</string>
     <string name="placehold_textView" translatable="false">TextView</string>
-    <string name="placehold_insp_name" translatable="false">Inspection Name</string>
+    <string name="placehold_insp_date" translatable="false">Inspection Date</string>
     <string name="placehold_detail_1" translatable="false">Detail 1</string>
     <string name="placehold_detail_2" translatable="false">Detail 2</string>
-    <string name="placehold_haz_lvl">level</string>
+    <string name="placehold_haz_lvl">N/A</string>
     <string name="restaurant_logo_desc" translatable="false">Restaurant Logo</string>
     <string name="changeable_icon_for_hazard_level">Changeable icon for hazard level</string>
     <string name="rest_addr_prefix">Address: %1$s</string>
@@ -46,7 +46,7 @@
 
     <string name="mapApiKey" translatable="false">AIzaSyBzgnaqru9EU5xK8wLIWqK1f7rQ9AzG0qE</string>
     <string name="list_view">List View</string>
-    <string name="map_view">Map View</string>
+    <string name="map_view">Map</string>
     <string name="btn_coords_text" translatable="false" />
 
     <string name="Update">Update</string>
@@ -101,6 +101,8 @@
     <string name="update_ask">Would you like to update?</string>
     <string name="update_update">Update</string>
     <string name="srch_no_result">No results found!</string>
+    <string name="restaurant_favourite_state" translatable="false">Shows Restaurant Favourite State</string>
+    <string name="restaurant_details_fav_button" translatable="false">Click to Favaourite or Unfavourite a Restaurant</string>
 
     <!--Short Violation data arrays-->
     <array name="violation_1">

@@ -7,12 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/restaurant_toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
+        android:padding="4dp"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -23,37 +24,49 @@
             android:id="@+id/rest_tool_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
             android:text="@string/app_name"
             android:textColor="#ffffff"
-            android:textSize="26sp"
+            android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/restaurant_toolbar"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/restaurant_toolbar"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="35dp"
+            tools:layout_conversion_absoluteWidth="213dp" />
 
         <Button
             android:id="@+id/btnMap"
             android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_gravity="end"
-            android:layout_marginEnd="8dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="2dp"
             android:background="@drawable/btn_outline"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp"
             android:text="@string/map_view"
+            android:textAllCaps="false"
             android:textColor="#FFFFFFFF"
-            tools:layout_editor_absoluteX="323dp"
-            tools:layout_editor_absoluteY="4dp" />
-    </androidx.appcompat.widget.Toolbar>
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="48dp"
+            tools:layout_conversion_absoluteWidth="88dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ListView
         android:id="@+id/listRestaurant"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="55dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/restaurant_toolbar">
+
     </ListView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -64,9 +77,10 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:scaleType="centerCrop"
+        android:elevation="6dp"
         app:backgroundTint="@color/places_autocomplete_progress_tint"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/listRestaurant"
         app:maxImageSize="40dp"
         app:srcCompat="@android:drawable/ic_menu_search" />
 

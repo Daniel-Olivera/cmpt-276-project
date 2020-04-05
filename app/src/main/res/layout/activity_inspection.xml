@@ -6,12 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".ui.InspectionActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/toolbarInspection"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
+        android:padding="4dp"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,22 +22,24 @@
             android:id="@+id/txtTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
+            android:layout_marginStart="4dp"
             android:text="@string/inspection_report"
             android:textColor="#ffffff"
             android:textSize="26sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/toolbarInspection"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/toolbarInspection"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.appcompat.widget.Toolbar>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="35dp"
+            tools:layout_conversion_absoluteWidth="208dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/txtDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="2dp"
         android:text="@string/_07_march_2019"
         android:textColor="#000"
         android:textSize="20sp"
@@ -48,14 +51,13 @@
         android:id="@+id/txtInspectionType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="4dp"
         android:text="@string/inspection_type_routine"
         android:textColor="#000"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarInspection" />
+        app:layout_constraintStart_toStartOf="@+id/txtDate"
+        app:layout_constraintTop_toBottomOf="@+id/txtDate" />
 
     <TextView
         android:id="@+id/txtCriticalIssues"
@@ -66,13 +68,13 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/txtDate"
-        app:layout_constraintTop_toBottomOf="@+id/txtDate" />
+        app:layout_constraintTop_toBottomOf="@+id/txtInspectionType" />
 
     <TextView
         android:id="@+id/txtNonCriticalIssues"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:text="@string/non_critical_issues"
         android:textSize="18sp"
         android:textStyle="bold"

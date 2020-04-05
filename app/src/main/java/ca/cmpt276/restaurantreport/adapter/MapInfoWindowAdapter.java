@@ -34,9 +34,7 @@ public class MapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
     @Override
     public View getInfoContents(Marker marker) {
-
         List<Restaurant> restaurants = manager.getRestaurants();
-
 
         @SuppressLint("InflateParams") View view = ((Activity)context).getLayoutInflater()
                 .inflate(R.layout.map_info_window, null);

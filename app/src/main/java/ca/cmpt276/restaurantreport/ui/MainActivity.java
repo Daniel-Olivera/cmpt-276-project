@@ -3,8 +3,12 @@ package ca.cmpt276.restaurantreport.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
 
     List<Restaurant> allRestaurantsList;
     RestaurantManager manager;
+    boolean executed = false;
+
+
 
 
     public static Intent makeIntent(Context context) {
@@ -40,9 +47,16 @@ public class MainActivity extends AppCompatActivity {
 
         manager = RestaurantManager.getInstance(this);
 
+        //executed only once
+        if(!executed) {
+            manager.readFavoriteList();
+            executed = true;
+        }
+
         setupMapButton();
         setupSearchButton();
     }
+
 
     @Override
     protected void onResume(){
@@ -68,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
 
    @Override
    public void onBackPressed(){
