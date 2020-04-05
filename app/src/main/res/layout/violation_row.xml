@@ -1,60 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layoutViolationList"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="16dp">
+    android:padding="4dp">
+
 
     <ImageView
         android:id="@+id/violationNatureIcon"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:contentDescription="@string/restaurant_icon"
-        android:src="@drawable/pest" />
+        android:src="@drawable/pest"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/layoutViolationText"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/txtShortDescription"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="2dp">
+        android:layout_marginStart="12dp"
+        android:text="@string/short_description_of_violaition"
+        android:textColor="#000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/violationNatureIcon"
+        app:layout_constraintEnd_toStartOf="@+id/txtCriticality"
+        app:layout_constraintStart_toEndOf="@+id/violationNatureIcon"
+        app:layout_constraintTop_toTopOf="@+id/violationNatureIcon" />
 
-        <TextView
-            android:id="@+id/txtShortDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="15dp"
-            android:text="@string/short_description_of_violaition"
-            android:textColor="#000"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+    <TextView
+        android:id="@+id/txtCriticality"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/critical"
+        android:textColor="#000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgCriticalityIcon"
+        app:layout_constraintEnd_toStartOf="@+id/imgCriticalityIcon"
+        app:layout_constraintTop_toTopOf="@+id/imgCriticalityIcon" />
 
-        <TextView
-            android:id="@+id/txtCriticality"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="-5dp"
-            android:layout_marginEnd="45dp"
-            android:layout_marginBottom="7dp"
-            android:text="@string/critical"
-            android:textColor="#000"
-            android:textSize="18sp" />
-
-        <ImageView
-            android:id="@+id/imgCriticalityIcon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="end"
-            android:layout_marginTop="-40dp"
-            android:contentDescription="@string/changeable_icon_for_hazard_level"
-            android:src="@drawable/critical" />
+    <ImageView
+        android:id="@+id/imgCriticalityIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="6dp"
+        android:contentDescription="@string/changeable_icon_for_hazard_level"
+        android:src="@drawable/critical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/violationNatureIcon" />
 
 
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
