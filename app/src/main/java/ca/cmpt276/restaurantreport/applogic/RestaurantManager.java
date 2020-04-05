@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.annotation.StyleableRes;
@@ -29,7 +28,6 @@ import java.util.List;
 import java.util.Locale;
 
 import ca.cmpt276.restaurantreport.R;
-import ca.cmpt276.restaurantreport.ui.MainActivity;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -343,7 +341,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
     public void setFavoriteIcon(boolean favorite,ImageView favIcon) {
         if(favorite)
         {
-            favIcon.setImageResource(R.drawable.ic_favorite_black_24dp);
+            favIcon.setImageResource(R.drawable.ic_star_black_24dp);
         }
         else
         {
@@ -365,8 +363,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
         final SharedPreferences sharedPreferences = context.getSharedPreferences("USER",MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString("favoriteList","");
-        if (json.isEmpty()) {
-        } else {
+        if (!json.isEmpty()) {
             Type type = new TypeToken<List<Restaurant>>() {
             }.getType();
             favoriteRestaurantList = gson.fromJson(json, type);

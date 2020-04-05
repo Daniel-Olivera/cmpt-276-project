@@ -3,7 +3,6 @@ package ca.cmpt276.restaurantreport.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,7 +20,6 @@ import ca.cmpt276.restaurantreport.adapter.InspectionListAdapter;
 import ca.cmpt276.restaurantreport.applogic.Inspection;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
-import ca.cmpt276.restaurantreport.applogic.SearchState;
 
 /*
 This class show the details about the Restaurant
@@ -66,10 +64,10 @@ public class RestaurantActivity extends AppCompatActivity {
 
         ImageView favIcon = findViewById(R.id.clickableFavIcon);
         if (restaurant.isFavorite()) {
-            favIcon.setImageResource(R.drawable.ic_favorite_black_24dp);
+            favIcon.setImageResource(R.drawable.ic_star_black_24dp);
         }
         else {
-            favIcon.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+            favIcon.setImageResource(R.drawable.ic_star_border_black_24dp);
         }
 
 
@@ -119,7 +117,7 @@ public class RestaurantActivity extends AppCompatActivity {
         if (restaurant.isFavorite()) {
             restaurant.setFavorite(false);
             Toast.makeText(this, "Restaurant removed from favorite", Toast.LENGTH_SHORT).show();
-            favIcon.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+            favIcon.setImageResource(R.drawable.ic_star_border_black_24dp);
             manager.removeFromFavoriteList(restaurant);
 
             //change state in actually List
@@ -135,7 +133,7 @@ public class RestaurantActivity extends AppCompatActivity {
         else {
             restaurant.setFavorite(true);
             Toast.makeText(this, "Restaurant added to favorite", Toast.LENGTH_SHORT).show();
-            favIcon.setImageResource(R.drawable.ic_favorite_black_24dp);
+            favIcon.setImageResource(R.drawable.ic_star_black_24dp);
             manager.addToFavoriteList(restaurant);
 
             //change state in actually List

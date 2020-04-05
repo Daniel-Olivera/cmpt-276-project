@@ -83,8 +83,11 @@
         android:layout_height="30dp"
         android:layout_marginEnd="4dp"
         android:contentDescription="@string/restaurant_favourite_state"
-        android:src="@drawable/ic_favorite_border_black_24dp"
-        android:tint="@color/colorAccent"
+        android:scaleType="center"
+        android:scaleX="1.4"
+        android:scaleY="1.4"
+        android:src="@drawable/ic_star_border_black_24dp"
+        android:tint="@color/quantum_yellow800"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/txtRestaurantName" />
 
