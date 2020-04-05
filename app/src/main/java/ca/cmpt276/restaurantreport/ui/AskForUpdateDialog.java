@@ -53,6 +53,7 @@ public class AskForUpdateDialog extends DialogFragment {
                         clickedUpdate = true;
                         UpdateDialog updateDialog = new UpdateDialog(context);
                         FragmentManager fragmentManager = getFragmentManager();
+                        assert fragmentManager != null;
                         updateDialog.show(fragmentManager, "UpdateDialog");
 
 
