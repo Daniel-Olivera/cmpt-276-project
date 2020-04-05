@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -116,7 +115,6 @@ public class RestaurantActivity extends AppCompatActivity {
         ImageView favIcon = findViewById(R.id.clickableFavIcon);
         if (restaurant.isFavorite()) {
             restaurant.setFavorite(false);
-            Toast.makeText(this, "Restaurant removed from favorite", Toast.LENGTH_SHORT).show();
             favIcon.setImageResource(R.drawable.ic_star_border_black_24dp);
             manager.removeFromFavoriteList(restaurant);
 
@@ -132,7 +130,6 @@ public class RestaurantActivity extends AppCompatActivity {
         }
         else {
             restaurant.setFavorite(true);
-            Toast.makeText(this, "Restaurant added to favorite", Toast.LENGTH_SHORT).show();
             favIcon.setImageResource(R.drawable.ic_star_black_24dp);
             manager.addToFavoriteList(restaurant);
 
