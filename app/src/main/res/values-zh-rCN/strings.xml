@@ -212,6 +212,7 @@
     <string name="update_ask">您想要更新吗？</string>
     <string name="update_update">更新</string>
     <string name="srch_no_result">未找到任何结果！</string>
+    <string name="search_enabled">启用</string>
 
 
 </resources>
