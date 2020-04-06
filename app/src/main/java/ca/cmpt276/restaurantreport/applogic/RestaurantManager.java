@@ -45,8 +45,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
     private Context context;
     private SearchState searchState;
 
-
-
     //constructor with context of an activity passed because we need the context when we want to access the data files to read from
     private RestaurantManager(Context context) {
         restaurantList = new ArrayList<>();
@@ -56,9 +54,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
         this.context = context;
         this.searchState = SearchState.getInstance();
         fillViolationList();
-
-        //TODO: After getting the instance use it for making a new list of restaurants with the specific search values
-
     }
 
     //adds a Restaurant object to the list of restaurants
@@ -66,7 +61,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
         restaurantList.add(restaurant);
     }
     //overwrites the restaurant at index mentioned
-    public void set(int index, Restaurant restaurant) {
+    void set(int index, Restaurant restaurant) {
         restaurantList.set(index, restaurant);
     }
     //returns the restaurant in the list at index
@@ -106,15 +101,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
         this.filteredRestaurantList.clear();
     }
 
-
-    /*void addToFilterFavoriteList(Restaurant restaurant){
-        this.filteredFavoriteRestaurantList.add(restaurant);
-    }*/
-    /*public void clearFilterFavoriteList()
-    {
-        this.filteredFavoriteRestaurantList.clear();
-    }*/
-
     public List<Restaurant> getFavoriteRestaurantList()
     {
         return this.favoriteRestaurantList;
@@ -123,7 +109,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
     {
         return this.restaurantList;
     }
-
 
     public void addToFavoriteList (Restaurant restaurant)
     {
@@ -160,8 +145,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
         }
         return updatedFavouriteRestaurantList;
     }
-
-    public List<ShortViolation> getShortViolationList() {return this.shortViolationList; }
 
     public ShortViolation getShortViolation(int violationCode) {
         for(ShortViolation shortViolation :shortViolationList) {
@@ -406,13 +389,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
             if(!favMatched) {
                 iterator.remove();
             }
-
         }
-
-    }
-
-    public void clearFavoritesList() {
-        this.favoriteRestaurantList.clear();
     }
 
     public void clearRestaurants() {
