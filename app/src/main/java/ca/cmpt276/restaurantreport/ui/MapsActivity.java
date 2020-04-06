@@ -197,25 +197,24 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
             favouritesReadFromFile = true;
         }
 
-        boolean isRestaurantsUpdated = getIntent().getBooleanExtra("updatedFavouritesTag",
-                false);
-        if(isRestaurantsUpdated && !manager.getFavoriteRestaurantList().isEmpty()){
-            showUpdatedFavourites();
-        }
         getLocationPermission();
 
         updateLocationUI();
         mMap.setInfoWindowAdapter(new MapInfoWindowAdapter(this));
         mMap.setOnInfoWindowClickListener(this);
 
-        Bundle extras = getIntent().getExtras();
-        if(extras != null){
-            String trackingID = extras.getString("trackingID");
+        if(getIntent().getStringExtra("trackingID") != null){
+            String trackingID = getIntent().getStringExtra("trackingID");
             findAndShowMarker(trackingID);
         }
-        else
-        {
+        else{
             findDeviceLocation();
+        }
+
+        boolean isRestaurantsUpdated = getIntent().getBooleanExtra("updatedFavouritesTag",
+                false);
+        if(isRestaurantsUpdated && !manager.getFavoriteRestaurantList().isEmpty()){
+            showUpdatedFavourites();
         }
 
         clusterManager.setOnClusterClickListener(cluster -> {
