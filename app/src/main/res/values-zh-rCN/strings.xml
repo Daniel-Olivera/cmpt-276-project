@@ -198,7 +198,7 @@
     <string name="srch_low">低危</string>
     <string name="srch_mid">中危</string>
     <string name="srch_high">高危</string>
-    <string name="srch_num_crit_violations">严重违规数量：</string>
+    <string name="srch_num_crit_violations">严重违规数量（1年内）：</string>
     <string name="srch_favourited">加星标项</string>
     <string name="srch_greater_than">大于等于</string>
     <string name="srch_less_than">小于等于</string>

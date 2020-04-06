@@ -87,7 +87,7 @@
     <string name="srch_low">Low</string>
     <string name="srch_mid">Mid</string>
     <string name="srch_high">High</string>
-    <string name="srch_num_crit_violations">Number of Critical Violations:</string>
+    <string name="srch_num_crit_violations">Number of Critical Violations within 1 Year:</string>
     <string name="srch_favourited">Favourited</string>
     <string name="srch_0" translatable="false">0</string>
     <string name="srch_greater_than">Greater Than</string>
