@@ -383,15 +383,27 @@ public class RestaurantManager implements Iterable<Restaurant> {
             }.getType();
             favoriteRestaurantList = gson.fromJson(json, type);
         }
-        for(int i = 0 ; i < favoriteRestaurantList.size() ; i++)
-        {
+
+        Iterator<Restaurant> iterator = favoriteRestaurantList.iterator();
+
+        while(iterator.hasNext()){
+            boolean favMatched = false;
+            Restaurant res = iterator.next();
+
             for(int y = 0 ;y <restaurantList.size(); y++)
             {
-                if (favoriteRestaurantList.get(i).getTrackingNum().equals(restaurantList.get(y).getTrackingNum()))
+                if (res.getTrackingNum().equals(restaurantList.get(y).getTrackingNum()))
                 {
                     restaurantList.get(y).setFavorite(true);
+                    favMatched = true;
+                    break;
                 }
             }
+
+            if(!favMatched) {
+                iterator.remove();
+            }
+
         }
 
     }
