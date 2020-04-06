@@ -52,10 +52,10 @@ public class AskForUpdateDialog extends DialogFragment {
                         UpdateActivity.clickedUpdate = true;
                         clickedUpdate = true;
                         UpdateDialog updateDialog = new UpdateDialog(context);
+                        updateDialog.setCancelable(false);
                         FragmentManager fragmentManager = getFragmentManager();
                         assert fragmentManager != null;
                         updateDialog.show(fragmentManager, "UpdateDialog");
-
 
                         ProcessData processData = new ProcessData();
                         processData.readRestaurantData(restaurantDataURL, context);

@@ -199,12 +199,10 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
 
         boolean isRestaurantsUpdated = getIntent().getBooleanExtra("updatedFavouritesTag",
                 false);
-        if(true){
+        if(isRestaurantsUpdated && !manager.getFavoriteRestaurantList().isEmpty()){
             showUpdatedFavourites();
         }
         getLocationPermission();
-
-
 
         updateLocationUI();
         mMap.setInfoWindowAdapter(new MapInfoWindowAdapter(this));

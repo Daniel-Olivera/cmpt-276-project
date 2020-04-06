@@ -399,4 +399,8 @@ public class RestaurantManager implements Iterable<Restaurant> {
     public void clearFavoritesList() {
         this.favoriteRestaurantList.clear();
     }
+
+    public void clearRestaurants() {
+        this.restaurantList.clear();
+    }
 }

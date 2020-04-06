@@ -3,6 +3,7 @@ package ca.cmpt276.restaurantreport.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import java.util.Objects;
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.applogic.ProcessData;
 import ca.cmpt276.restaurantreport.applogic.ReadCSV;
+import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 
 import static ca.cmpt276.restaurantreport.ui.UpdateActivity.getWhenLastUpdated;
 
@@ -84,18 +86,21 @@ public class UpdateDialog extends DialogFragment {
             }
 
             if(!updateCancelled) {
+                cancelButton.setClickable(false);
+                cancelButton.setTextColor(Color.GRAY);
+                RestaurantManager manager = RestaurantManager.getInstance(context);
+                manager.clearRestaurants();
+                ReadCSV readCSV = new ReadCSV(context,true,0);
+                LocalDateTime currentTime = LocalDateTime.now();
+                String strCurrentTime = currentTime.toString();
+                saveWhenLastUpdated(strCurrentTime);
+                String dateLastSaved = getWhenLastUpdated(context);
+                ProcessData processData = new ProcessData();
+                processData.saveFinalCopy(context);
 
-                    ReadCSV readCSV = new ReadCSV(context,true,0);
-                    LocalDateTime currentTime = LocalDateTime.now();
-                    String strCurrentTime = currentTime.toString();
-                    saveWhenLastUpdated(strCurrentTime);
-                    String dateLastSaved = getWhenLastUpdated(context);
-                    ProcessData processData = new ProcessData();
-                    processData.saveFinalCopy(context);
-
-                    Intent intent = MapsActivity.makeIntent(context);
-                    intent.putExtra("updatedFavouritesTag", true);
-                    startActivity(intent);
+                Intent intent = MapsActivity.makeIntent(context);
+                intent.putExtra("updatedFavouritesTag", true);
+                startActivity(intent);
             }
         }).start();
 
