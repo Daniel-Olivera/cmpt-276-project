@@ -42,7 +42,7 @@ public class UpdateDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.update_dialog, container, false);
 
         progressBar = view.findViewById(R.id.progbarUpdateDialog);
-        Button cancelButton = view.findViewById(R.id.cancel_button);
+        Button cancelButton = view.findViewById(R.id.btnUpdateCancel);
 
         cancelButton.setOnClickListener(v -> {
             UpdateActivity.clickedCancel = true;
