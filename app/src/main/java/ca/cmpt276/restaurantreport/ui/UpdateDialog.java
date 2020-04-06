@@ -52,54 +52,50 @@ public class UpdateDialog extends DialogFragment {
         TextView title = view.findViewById(R.id.dialog_title);
         Button cancelButton = view.findViewById(R.id.cancel_button);
 
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UpdateActivity.clickedCancel = true;
+        cancelButton.setOnClickListener(v -> {
+            UpdateActivity.clickedCancel = true;
 
-                updateCancelled = true;
+            updateCancelled = true;
 
-                Objects.requireNonNull(getDialog()).dismiss();
-                Intent intent = MapsActivity.makeIntent(context);
-                startActivity(intent);
-            }
+            Objects.requireNonNull(getDialog()).dismiss();
+            Intent intent = MapsActivity.makeIntent(context);
+            startActivity(intent);
         });
         //textView = (TextView) findViewById(R.id.textView);
         // Start long running operation in a background thread
-        new Thread(new Runnable() {
-            public void run() {
-                while (progressStatus < 100) {
+        new Thread(() -> {
+            while (progressStatus < 100) {
 
-                    progressStatus += 2;
-                    // Update the progress bar and display the
-                    //current value in the text view
-                    handler.post(new Runnable() {
-                        public void run() {
-                            progressBar.setProgress(progressStatus);
-                        }
-                    });
-
-                    try {
-                        // Sleep for 200 milliseconds.
-                        Thread.sleep(200);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                progressStatus += 2;
+                // Update the progress bar and display the
+                //current value in the text view
+                handler.post(new Runnable() {
+                    public void run() {
+                        progressBar.setProgress(progressStatus);
                     }
+                });
+
+                try {
+                    // Sleep for 200 milliseconds.
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+            }
 
-                if(!updateCancelled) {
+            if(!updateCancelled) {
 
-                        ReadCSV readCSV = new ReadCSV(context,true,0);
-                        LocalDateTime currentTime = LocalDateTime.now();
-                        String strCurrentTime = currentTime.toString();
-                        saveWhenLastUpdated(strCurrentTime);
-                        String dateLastSaved = getWhenLastUpdated(context);
-                        ProcessData processData = new ProcessData();
-                        processData.saveFinalCopy(context);
+                    ReadCSV readCSV = new ReadCSV(context,true,0);
+                    LocalDateTime currentTime = LocalDateTime.now();
+                    String strCurrentTime = currentTime.toString();
+                    saveWhenLastUpdated(strCurrentTime);
+                    String dateLastSaved = getWhenLastUpdated(context);
+                    ProcessData processData = new ProcessData();
+                    processData.saveFinalCopy(context);
 
-                        Intent intent = MapsActivity.makeIntent(context);
-                        startActivity(intent);
-                }
+                    Intent intent = MapsActivity.makeIntent(context);
+                    intent.putExtra("updatedFavouritesTag", true);
+                    startActivity(intent);
             }
         }).start();
 

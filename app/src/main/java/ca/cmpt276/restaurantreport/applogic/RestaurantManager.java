@@ -66,7 +66,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
         restaurantList.add(restaurant);
     }
     //overwrites the restaurant at index mentioned
-    void set(int index, Restaurant restaurant) {
+    public void set(int index, Restaurant restaurant) {
         restaurantList.set(index, restaurant);
     }
     //returns the restaurant in the list at index
@@ -381,4 +381,7 @@ public class RestaurantManager implements Iterable<Restaurant> {
 
     }
 
+    public void clearFavoritesList() {
+        this.favoriteRestaurantList.clear();
+    }
 }

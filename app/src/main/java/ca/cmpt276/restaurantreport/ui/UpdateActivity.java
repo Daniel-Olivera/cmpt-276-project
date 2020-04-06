@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.util.Log;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -59,6 +60,7 @@ public class UpdateActivity extends AppCompatActivity {
         mQueue = Volley.newRequestQueue(this);
 
         updateFlag = getUpdateFlagValue(this);
+        RestaurantManager manager = RestaurantManager.getInstance(this);
 
         if(!isOnline()){
             Intent intent = MapsActivity.makeIntent(this);

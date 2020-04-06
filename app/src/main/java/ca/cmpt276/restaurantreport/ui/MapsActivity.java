@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -62,6 +63,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
     private final LatLng SFU_SURREY = new LatLng(49.1864, -122.8483);
     //change camera animation speed, lower number = higher speed
     private final int UPDATE_CAM_SPEED = 300;
+    boolean favouritesReadFromFile = false;
 
     private ClusterManager clusterManager;
     RestaurantManager manager;
@@ -188,7 +190,21 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
         moveRealignButton();
 
         populateRestaurants();
+
+        //executed only once
+        if(!favouritesReadFromFile) {
+            manager.readFavoriteList();
+            favouritesReadFromFile = true;
+        }
+
+        boolean isRestaurantsUpdated = getIntent().getBooleanExtra("updatedFavouritesTag",
+                false);
+        if(isRestaurantsUpdated){
+            showUpdatedFavourites();
+        }
         getLocationPermission();
+
+
 
         updateLocationUI();
         mMap.setInfoWindowAdapter(new MapInfoWindowAdapter(this));
@@ -212,6 +228,12 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
 
             return true;
         });
+    }
+
+    private void showUpdatedFavourites() {
+        NewStarredInspections newStarredInspections = new NewStarredInspections(this);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        newStarredInspections.show(fragmentManager, "newStarredInspections");
     }
 
     private void updateLocationUI() {

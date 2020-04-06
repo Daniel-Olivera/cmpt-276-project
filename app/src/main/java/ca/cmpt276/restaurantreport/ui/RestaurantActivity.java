@@ -116,32 +116,14 @@ public class RestaurantActivity extends AppCompatActivity {
         if (restaurant.isFavorite()) {
             restaurant.setFavorite(false);
             favIcon.setImageResource(R.drawable.ic_star_border_black_24dp);
+            manager.set(restaurantIndex, restaurant);
             manager.removeFromFavoriteList(restaurant);
-
-            //change state in actually List
-            List<Restaurant> fullList = manager.getFullRestaurantList();
-            for (int i = 0; i < fullList.size(); i++) {
-                Restaurant tempRestaurant = fullList.get(i);
-                if(restaurant.getTrackingNum().equals(tempRestaurant.getTrackingNum()))
-                {
-                    tempRestaurant.setFavorite(false);
-                }
-            }
         }
         else {
             restaurant.setFavorite(true);
             favIcon.setImageResource(R.drawable.ic_star_black_24dp);
             manager.addToFavoriteList(restaurant);
-
-            //change state in actually List
-            List<Restaurant> fullList = manager.getFullRestaurantList();
-            for (int i = 0; i < fullList.size(); i++) {
-                Restaurant tempRestaurant = fullList.get(i);
-                if(restaurant.getTrackingNum().equals(tempRestaurant.getTrackingNum()))
-                {
-                    tempRestaurant.setFavorite(true);
-                }
-            }
+            manager.set(restaurantIndex, restaurant);
         }
         //Update the favoriteList for SharedPreferences
         manager.saveFavoriteList();

@@ -31,10 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
     List<Restaurant> allRestaurantsList;
     RestaurantManager manager;
-    boolean executed = false;
-
-
-
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, MainActivity.class);
@@ -47,23 +43,15 @@ public class MainActivity extends AppCompatActivity {
 
         manager = RestaurantManager.getInstance(this);
 
-        //executed only once
-        if(!executed) {
-            manager.readFavoriteList();
-            executed = true;
-        }
-
         setupMapButton();
         setupSearchButton();
     }
-
 
     @Override
     protected void onResume(){
         super.onResume();
         setupListView();
     }
-
 
     private void setupSearchButton() {
         FloatingActionButton btnSearch = findViewById(R.id.btnFloatSearch);
@@ -82,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
 
    @Override
    public void onBackPressed(){
@@ -115,5 +102,4 @@ public class MainActivity extends AppCompatActivity {
 
         });
     }
-
 }
