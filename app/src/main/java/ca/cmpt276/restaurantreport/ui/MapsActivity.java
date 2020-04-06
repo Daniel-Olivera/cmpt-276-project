@@ -294,6 +294,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
         }
         CustomClusterRenderer customClusterRenderer = new CustomClusterRenderer(this, mMap, clusterManager);
         clusterManager.setRenderer(customClusterRenderer);
+
+
     }
 
     @Override
