@@ -35,7 +35,7 @@ public class NewStarredInspections extends DialogFragment {
         View dialog = inflater.inflate(R.layout.dialog_new_starred_inspections, container, false);
 
         manager = RestaurantManager.getInstance(context);
-        List<Restaurant> allRestaurantsList = manager.getFavoriteRestaurantList();
+        List<Restaurant> allRestaurantsList = manager.getUpdatedFavouriteRestaurantList();
 
         Collections.sort(allRestaurantsList, (firstRes, nextRes) -> firstRes.getName().compareTo(nextRes.getName()));
 
