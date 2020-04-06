@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import androidx.fragment.app.DialogFragment;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.adapter.RestaurantListAdapter;
@@ -23,7 +25,6 @@ import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 public class NewStarredInspections extends DialogFragment {
 
     private Context context;
-    private RestaurantManager manager;
 
     NewStarredInspections(Context context){
         this.context = context;
@@ -34,7 +35,7 @@ public class NewStarredInspections extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View dialog = inflater.inflate(R.layout.dialog_new_starred_inspections, container, false);
 
-        manager = RestaurantManager.getInstance(context);
+        RestaurantManager manager = RestaurantManager.getInstance(context);
         List<Restaurant> allRestaurantsList = manager.getFavoriteRestaurantList();
 
         Collections.sort(allRestaurantsList, (firstRes, nextRes) -> firstRes.getName().compareTo(nextRes.getName()));
@@ -57,6 +58,9 @@ public class NewStarredInspections extends DialogFragment {
             startActivity(intent);
 
         });
+
+        Button btnOK = dialog.findViewById(R.id.btnNewInspOK);
+        btnOK.setOnClickListener(v -> Objects.requireNonNull(getDialog()).dismiss());
 
         return dialog;
     }

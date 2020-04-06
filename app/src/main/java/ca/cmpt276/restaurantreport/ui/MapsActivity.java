@@ -199,7 +199,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
 
         boolean isRestaurantsUpdated = getIntent().getBooleanExtra("updatedFavouritesTag",
                 false);
-        if(isRestaurantsUpdated){
+        if(true){
             showUpdatedFavourites();
         }
         getLocationPermission();
