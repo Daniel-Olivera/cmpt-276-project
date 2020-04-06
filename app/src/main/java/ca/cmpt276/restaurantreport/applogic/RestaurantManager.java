@@ -145,12 +145,15 @@ public class RestaurantManager implements Iterable<Restaurant> {
     public List<Restaurant> getUpdatedFavouriteRestaurantList(){
         List<Restaurant> updatedFavouriteRestaurantList = new ArrayList<>();
 
-        for(int favResListIndex = 0; favResListIndex < favoriteRestaurantList.size(); favResListIndex++){
+        for(Restaurant restaurantInFavouriteList: favoriteRestaurantList){
             for(Restaurant restaurantInFullList: restaurantList){
-                if(favoriteRestaurantList.get(favResListIndex).getTrackingNum().equalsIgnoreCase(restaurantInFullList.getTrackingNum())){
-                    if(favoriteRestaurantList.get(favResListIndex).getLatestInspectionDate() != restaurantInFullList.getLatestInspectionDate()){
+                if(restaurantInFavouriteList.getTrackingNum().equalsIgnoreCase(restaurantInFullList.getTrackingNum())){
+                    if(restaurantInFavouriteList.getLatestInspectionDate() != restaurantInFullList.getLatestInspectionDate()){
                         updatedFavouriteRestaurantList.add(restaurantInFullList);
-                        favoriteRestaurantList.set(favResListIndex,restaurantInFullList);
+                        favoriteRestaurantList.set(favoriteRestaurantList.indexOf(restaurantInFavouriteList),restaurantInFullList);
+                    }
+                    else{
+                        favoriteRestaurantList.set(favoriteRestaurantList.indexOf(restaurantInFavouriteList),restaurantInFullList);
                     }
                 }
             }
