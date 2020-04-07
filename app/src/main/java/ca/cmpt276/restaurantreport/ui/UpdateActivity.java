@@ -7,8 +7,6 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
-import android.util.Log;
-import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -27,7 +25,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 import ca.cmpt276.restaurantreport.R;
-import ca.cmpt276.restaurantreport.applogic.ProcessData;
 import ca.cmpt276.restaurantreport.applogic.ReadCSV;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 
@@ -155,7 +152,6 @@ public class UpdateActivity extends AppCompatActivity {
             long daysFromLastUpdate = diffLastUpdateAndNow.toDays();
             diffLastUpdateAndNow = diffLastUpdateAndNow.minusDays(daysFromLastUpdate);
             long hoursFromLastUpdate = diffLastUpdateAndNow.toHours();
-            diffLastUpdateAndNow = diffLastUpdateAndNow.minusHours(hoursFromLastUpdate);
 
             if(daysFromLastUpdate > 0) {
                 return true;
@@ -173,22 +169,14 @@ public class UpdateActivity extends AppCompatActivity {
         if(lastUpdated.equalsIgnoreCase("never")){
             return true;
         }
+
         LocalDateTime timeOfLastUpdate = LocalDateTime.parse(lastUpdated);
-        return false;
+        return timeOfLastUpdate.isBefore(lastModifiedRestaurants) || timeOfLastUpdate.isBefore(lastModifiedInspections);
     }
 
     static public String getWhenLastUpdated (Context context) {
         SharedPreferences sharedPreferencesLastUpdated = context.getSharedPreferences("Update_prefs",MODE_PRIVATE);
         return sharedPreferencesLastUpdated.getString("last_updated","never");
-    }
-
-    private void saveWhenLastUpdated(String lastUpdated) {
-        SharedPreferences sharedPreferencesLastUpdated = UpdateActivity.this.
-                getSharedPreferences("Update_prefs", MODE_PRIVATE);
-
-        SharedPreferences.Editor editor = sharedPreferencesLastUpdated.edit();
-        editor.putString("last_updated",lastUpdated);
-        editor.apply();
     }
 
     private void saveUpdateFlag(@SuppressWarnings("SameParameterValue") int i) {
