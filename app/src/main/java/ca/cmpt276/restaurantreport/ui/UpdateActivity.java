@@ -36,7 +36,6 @@ public class UpdateActivity extends AppCompatActivity {
     private final int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private ReadCSV readCSV;
 
-    //MANAV
     private String dateModifyRestaurants;
     private String dateModifyInspections;
     boolean timeForUpdate;
@@ -187,6 +186,7 @@ public class UpdateActivity extends AppCompatActivity {
         editor.putInt("update_flag_value1",i);
         editor.apply();
     }
+
     static public int getUpdateFlagValue (Context context) {
         SharedPreferences sharedPreferencesUpdateFlag = context.getSharedPreferences("Update_flag_prefs",MODE_PRIVATE);
         return sharedPreferencesUpdateFlag.getInt("update_flag_value1",-1);
@@ -194,7 +194,6 @@ public class UpdateActivity extends AppCompatActivity {
 
     private void askUserForUpdate() {
 
-        RestaurantManager manager = RestaurantManager.getInstance(this);
         FragmentManager askUpdateFragmentManager = getSupportFragmentManager();
         AskForUpdateDialog askForUpdateDialog = new AskForUpdateDialog(csvUrl, reportUrl,
                 UpdateActivity.this);
