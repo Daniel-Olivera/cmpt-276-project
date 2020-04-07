@@ -41,6 +41,7 @@ import ca.cmpt276.restaurantreport.adapter.MapInfoWindowAdapter;
 import ca.cmpt276.restaurantreport.applogic.CustomClusterRenderer;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
+import ca.cmpt276.restaurantreport.applogic.SearchState;
 
 /*
 displays a google maps view showing the user where the restaurants are
@@ -67,6 +68,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
 
     private ClusterManager clusterManager;
     RestaurantManager manager;
+    SearchState searchState;
     List<Restaurant> allRestaurants;
 
     public MapsActivity() {
@@ -99,6 +101,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
         }
 
         manager = RestaurantManager.getInstance(this);
+        searchState = SearchState.getInstance();
         setupListButton();
         setupSearchButton();
     }
@@ -143,6 +146,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
 
     @Override
     public void onBackPressed(){
+        searchState.clearSearchState();
         finishAffinity();
     }
 
@@ -336,4 +340,5 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
     public static Intent makeIntent(Context context) {
         return new Intent(context, MapsActivity.class);
     }
+
 }
