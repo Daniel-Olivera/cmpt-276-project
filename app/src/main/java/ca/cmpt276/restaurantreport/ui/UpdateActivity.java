@@ -7,7 +7,6 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
-import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -26,7 +25,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 import ca.cmpt276.restaurantreport.R;
-import ca.cmpt276.restaurantreport.applogic.ProcessData;
 import ca.cmpt276.restaurantreport.applogic.ReadCSV;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 
@@ -36,11 +34,8 @@ public class UpdateActivity extends AppCompatActivity {
     private String reportUrl;
     private RequestQueue mQueue;
     private final int REQUEST_CODE_ASK_PERMISSIONS = 123;
-    private ProgressBar progressBar;
-    private ProcessData processData;
     private ReadCSV readCSV;
 
-    //MANAV
     private String dateModifyRestaurants;
     private String dateModifyInspections;
     boolean timeForUpdate;
@@ -59,6 +54,8 @@ public class UpdateActivity extends AppCompatActivity {
         mQueue = Volley.newRequestQueue(this);
 
         updateFlag = getUpdateFlagValue(this);
+        RestaurantManager manager = RestaurantManager.getInstance(this);
+        readCSV = new ReadCSV(this);
 
         if(!isOnline()){
             Intent intent = MapsActivity.makeIntent(this);
@@ -154,7 +151,6 @@ public class UpdateActivity extends AppCompatActivity {
             long daysFromLastUpdate = diffLastUpdateAndNow.toDays();
             diffLastUpdateAndNow = diffLastUpdateAndNow.minusDays(daysFromLastUpdate);
             long hoursFromLastUpdate = diffLastUpdateAndNow.toHours();
-            diffLastUpdateAndNow = diffLastUpdateAndNow.minusHours(hoursFromLastUpdate);
 
             if(daysFromLastUpdate > 0) {
                 return true;
@@ -172,22 +168,14 @@ public class UpdateActivity extends AppCompatActivity {
         if(lastUpdated.equalsIgnoreCase("never")){
             return true;
         }
+
         LocalDateTime timeOfLastUpdate = LocalDateTime.parse(lastUpdated);
-        return false;
+        return timeOfLastUpdate.isBefore(lastModifiedRestaurants) || timeOfLastUpdate.isBefore(lastModifiedInspections);
     }
 
     static public String getWhenLastUpdated (Context context) {
         SharedPreferences sharedPreferencesLastUpdated = context.getSharedPreferences("Update_prefs",MODE_PRIVATE);
         return sharedPreferencesLastUpdated.getString("last_updated","never");
-    }
-
-    private void saveWhenLastUpdated(String lastUpdated) {
-        SharedPreferences sharedPreferencesLastUpdated = UpdateActivity.this.
-                getSharedPreferences("Update_prefs", MODE_PRIVATE);
-
-        SharedPreferences.Editor editor = sharedPreferencesLastUpdated.edit();
-        editor.putString("last_updated",lastUpdated);
-        editor.apply();
     }
 
     private void saveUpdateFlag(@SuppressWarnings("SameParameterValue") int i) {
@@ -198,6 +186,7 @@ public class UpdateActivity extends AppCompatActivity {
         editor.putInt("update_flag_value1",i);
         editor.apply();
     }
+
     static public int getUpdateFlagValue (Context context) {
         SharedPreferences sharedPreferencesUpdateFlag = context.getSharedPreferences("Update_flag_prefs",MODE_PRIVATE);
         return sharedPreferencesUpdateFlag.getInt("update_flag_value1",-1);
@@ -205,7 +194,6 @@ public class UpdateActivity extends AppCompatActivity {
 
     private void askUserForUpdate() {
 
-        RestaurantManager manager = RestaurantManager.getInstance(this);
         FragmentManager askUpdateFragmentManager = getSupportFragmentManager();
         AskForUpdateDialog askForUpdateDialog = new AskForUpdateDialog(csvUrl, reportUrl,
                 UpdateActivity.this);
@@ -213,7 +201,7 @@ public class UpdateActivity extends AppCompatActivity {
         switch (updateFlag) {
             case -1: {
                 saveUpdateFlag(0);
-                readCSV = new ReadCSV(this, false, -1);
+                readCSV.getCSVData(this, false, updateFlag);
                 startActivity(new Intent(this, MapsActivity.class));
                 break;
             }
@@ -222,9 +210,7 @@ public class UpdateActivity extends AppCompatActivity {
                     askForUpdateDialog.show(askUpdateFragmentManager, "ask_for_update_dialog");
             }
                 else {
-                    if(manager.getRestaurants().isEmpty()) {
-                        readCSV = new ReadCSV(this, false, 0);
-                    }
+                    readCSV.getCSVData(this, false, updateFlag);
                     startActivity(new Intent(this, MapsActivity.class));
                 }
                 break;
