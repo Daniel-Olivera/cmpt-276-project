@@ -61,6 +61,7 @@ public class UpdateActivity extends AppCompatActivity {
 
         updateFlag = getUpdateFlagValue(this);
         RestaurantManager manager = RestaurantManager.getInstance(this);
+        readCSV = new ReadCSV(this);
 
         if(!isOnline()){
             Intent intent = MapsActivity.makeIntent(this);
@@ -215,7 +216,7 @@ public class UpdateActivity extends AppCompatActivity {
         switch (updateFlag) {
             case -1: {
                 saveUpdateFlag(0);
-                readCSV = new ReadCSV(this, false, -1);
+                readCSV.getCSVData(this, false, updateFlag);
                 startActivity(new Intent(this, MapsActivity.class));
                 break;
             }
@@ -224,9 +225,7 @@ public class UpdateActivity extends AppCompatActivity {
                     askForUpdateDialog.show(askUpdateFragmentManager, "ask_for_update_dialog");
             }
                 else {
-                    if(manager.getRestaurants().isEmpty()) {
-                        readCSV = new ReadCSV(this, false, 0);
-                    }
+                    readCSV.getCSVData(this, false, updateFlag);
                     startActivity(new Intent(this, MapsActivity.class));
                 }
                 break;

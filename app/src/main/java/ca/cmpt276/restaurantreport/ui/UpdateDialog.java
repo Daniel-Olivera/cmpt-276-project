@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresPermission;
 import androidx.fragment.app.DialogFragment;
 
 import java.time.LocalDateTime;
@@ -32,14 +33,9 @@ public class UpdateDialog extends DialogFragment {
     private ProgressBar progressBar;
     private int progressStatus = 0;
     private Handler handler = new Handler();
-    private ProcessData processData;
     private Context context;
-
     private boolean updateCancelled = false;
-
-    public int getProgressStatus() {
-        return progressStatus;
-    }
+    ReadCSV readCSV;
 
     UpdateDialog(Context context){
         this.context = context;
@@ -51,19 +47,17 @@ public class UpdateDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.update_dialog, container, false);
 
         progressBar = view.findViewById(R.id.progress_bar);
-        TextView title = view.findViewById(R.id.dialog_title);
         Button cancelButton = view.findViewById(R.id.cancel_button);
+        readCSV = new ReadCSV(context);
 
         cancelButton.setOnClickListener(v -> {
             UpdateActivity.clickedCancel = true;
-
             updateCancelled = true;
-
+            readCSV.getCSVData(context, false, -1);
             Objects.requireNonNull(getDialog()).dismiss();
             Intent intent = MapsActivity.makeIntent(context);
             startActivity(intent);
         });
-        //textView = (TextView) findViewById(R.id.textView);
         // Start long running operation in a background thread
         new Thread(() -> {
             while (progressStatus < 100) {
@@ -90,11 +84,11 @@ public class UpdateDialog extends DialogFragment {
                 cancelButton.setTextColor(Color.GRAY);
                 RestaurantManager manager = RestaurantManager.getInstance(context);
                 manager.clearRestaurants();
-                ReadCSV readCSV = new ReadCSV(context,true,0);
+                readCSV.getCSVData(context,true,0);
                 LocalDateTime currentTime = LocalDateTime.now();
                 String strCurrentTime = currentTime.toString();
                 saveWhenLastUpdated(strCurrentTime);
-                String dateLastSaved = getWhenLastUpdated(context);
+                getWhenLastUpdated(context);
                 ProcessData processData = new ProcessData();
                 processData.saveFinalCopy(context);
 

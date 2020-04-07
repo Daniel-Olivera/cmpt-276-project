@@ -26,18 +26,23 @@ public class ReadCSV {
     private boolean updateAvailable;
     private int flag;
 
-    public ReadCSV(Context context,boolean updateAvailable, int flag) {
+    public ReadCSV(Context context) {
+        manager = RestaurantManager.getInstance(context);
+    }
+
+    public void getCSVData(Context context, boolean updateAvailable, int flag){
         this.context = context;
         this.updateAvailable = updateAvailable;
         this.flag = flag;
 
-        readRestaurantData();
-        readInspectionData();
-
+        if (manager.getRestaurants().isEmpty() || updateAvailable) {
+            readRestaurantData();
+            readInspectionData();
+        }
     }
 
+
     private void readRestaurantData() {
-        manager = RestaurantManager.getInstance(context);
 
         if(updateAvailable){
 
