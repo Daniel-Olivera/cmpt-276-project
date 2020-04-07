@@ -37,8 +37,6 @@ public class UpdateActivity extends AppCompatActivity {
     private String reportUrl;
     private RequestQueue mQueue;
     private final int REQUEST_CODE_ASK_PERMISSIONS = 123;
-    private ProgressBar progressBar;
-    private ProcessData processData;
     private ReadCSV readCSV;
 
     //MANAV
