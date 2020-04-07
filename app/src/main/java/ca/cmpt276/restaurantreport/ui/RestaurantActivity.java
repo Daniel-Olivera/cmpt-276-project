@@ -34,14 +34,10 @@ public class RestaurantActivity extends AppCompatActivity {
         setContentView(R.layout.activity_restaurant);
         manager = RestaurantManager.getInstance(this);
 
-
-
         Intent intent = getIntent();
         String trackingNum = intent.getStringExtra("trackingNumber");
 
         List<Restaurant> listRes = manager.getRestaurants();
-
-
 
         for(int i = 0; i < listRes.size(); i++){
             assert trackingNum != null;
@@ -68,8 +64,6 @@ public class RestaurantActivity extends AppCompatActivity {
         else {
             favIcon.setImageResource(R.drawable.ic_star_border_black_24dp);
         }
-
-
 
         toolbar_title.setText(listRes.get(restaurantIndex).getName());
         manager.setText(txtAddress,R.string.rest_addr_prefix,address);
@@ -118,7 +112,6 @@ public class RestaurantActivity extends AppCompatActivity {
             favIcon.setImageResource(R.drawable.ic_star_border_black_24dp);
             manager.removeFromFavoriteList(restaurant);
 
-            //change state in actually List
             List<Restaurant> fullList = manager.getFullRestaurantList();
             for (int i = 0; i < fullList.size(); i++) {
                 Restaurant tempRestaurant = fullList.get(i);
@@ -133,7 +126,6 @@ public class RestaurantActivity extends AppCompatActivity {
             favIcon.setImageResource(R.drawable.ic_star_black_24dp);
             manager.addToFavoriteList(restaurant);
 
-            //change state in actually List
             List<Restaurant> fullList = manager.getFullRestaurantList();
             for (int i = 0; i < fullList.size(); i++) {
                 Restaurant tempRestaurant = fullList.get(i);
@@ -155,7 +147,6 @@ public class RestaurantActivity extends AppCompatActivity {
             coordinatesIntent.putExtra("trackingID", restaurant.getTrackingNum());
             startActivity(coordinatesIntent);
         });
-
     }
 
     public static Intent makeIntent(Context context, String trackingNum)

@@ -45,8 +45,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
     private Context context;
     private SearchState searchState;
 
-
-
     //constructor with context of an activity passed because we need the context when we want to access the data files to read from
     private RestaurantManager(Context context) {
         restaurantList = new ArrayList<>();
@@ -56,9 +54,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
         this.context = context;
         this.searchState = SearchState.getInstance();
         fillViolationList();
-
-        //TODO: After getting the instance use it for making a new list of restaurants with the specific search values
-
     }
 
     //adds a Restaurant object to the list of restaurants
@@ -106,15 +101,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
         this.filteredRestaurantList.clear();
     }
 
-
-    /*void addToFilterFavoriteList(Restaurant restaurant){
-        this.filteredFavoriteRestaurantList.add(restaurant);
-    }*/
-    /*public void clearFilterFavoriteList()
-    {
-        this.filteredFavoriteRestaurantList.clear();
-    }*/
-
     public List<Restaurant> getFavoriteRestaurantList()
     {
         return this.favoriteRestaurantList;
@@ -123,7 +109,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
     {
         return this.restaurantList;
     }
-
 
     public void addToFavoriteList (Restaurant restaurant)
     {
@@ -142,8 +127,24 @@ public class RestaurantManager implements Iterable<Restaurant> {
         }
     }
 
+    public List<Restaurant> getUpdatedFavouriteRestaurantList(){
+        List<Restaurant> updatedFavouriteRestaurantList = new ArrayList<>();
 
-    public List<ShortViolation> getShortViolationList() {return this.shortViolationList; }
+        for(Restaurant restaurantInFavouriteList: favoriteRestaurantList){
+            for(Restaurant restaurantInFullList: restaurantList){
+                if(restaurantInFavouriteList.getTrackingNum().equalsIgnoreCase(restaurantInFullList.getTrackingNum())){
+                    if(restaurantInFavouriteList.getLatestInspectionDate() != restaurantInFullList.getLatestInspectionDate()){
+                        updatedFavouriteRestaurantList.add(restaurantInFullList);
+                        favoriteRestaurantList.set(favoriteRestaurantList.indexOf(restaurantInFavouriteList),restaurantInFullList);
+                    }
+                    else{
+                        favoriteRestaurantList.set(favoriteRestaurantList.indexOf(restaurantInFavouriteList),restaurantInFullList);
+                    }
+                }
+            }
+        }
+        return updatedFavouriteRestaurantList;
+    }
 
     public ShortViolation getShortViolation(int violationCode) {
         for(ShortViolation shortViolation :shortViolationList) {
@@ -368,17 +369,30 @@ public class RestaurantManager implements Iterable<Restaurant> {
             }.getType();
             favoriteRestaurantList = gson.fromJson(json, type);
         }
-        for(int i = 0 ; i < favoriteRestaurantList.size() ; i++)
-        {
+
+        Iterator<Restaurant> iterator = favoriteRestaurantList.iterator();
+
+        while(iterator.hasNext()){
+            boolean favMatched = false;
+            Restaurant res = iterator.next();
+
             for(int y = 0 ;y <restaurantList.size(); y++)
             {
-                if (favoriteRestaurantList.get(i).getTrackingNum().equals(restaurantList.get(y).getTrackingNum()))
+                if (res.getTrackingNum().equals(restaurantList.get(y).getTrackingNum()))
                 {
                     restaurantList.get(y).setFavorite(true);
+                    favMatched = true;
+                    break;
                 }
             }
-        }
 
+            if(!favMatched) {
+                iterator.remove();
+            }
+        }
     }
 
+    public void clearRestaurants() {
+        this.restaurantList.clear();
+    }
 }

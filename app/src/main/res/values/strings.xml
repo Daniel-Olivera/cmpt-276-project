@@ -104,6 +104,8 @@
     <string name="restaurant_favourite_state" translatable="false">Shows Restaurant Favourite State</string>
     <string name="restaurant_details_fav_button" translatable="false">Click to Favaourite or Unfavourite a Restaurant</string>
     <string name="search_enabled">Enabled</string>
+    <string name="dialog_new_insp_ok">OK</string>
+    <string name="dialog_new_starred_inspections">Your favourites have new inspections!</string>
 
     <!--Short Violation data arrays-->
     <array name="violation_1">

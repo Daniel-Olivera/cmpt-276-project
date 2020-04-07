@@ -3,6 +3,7 @@ package ca.cmpt276.restaurantreport.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import java.util.Objects;
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.applogic.ProcessData;
 import ca.cmpt276.restaurantreport.applogic.ReadCSV;
+import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 
 import static ca.cmpt276.restaurantreport.ui.UpdateActivity.getWhenLastUpdated;
 
@@ -31,6 +33,7 @@ public class UpdateDialog extends DialogFragment {
     private Handler handler = new Handler();
     private Context context;
     private boolean updateCancelled = false;
+    ReadCSV readCSV;
 
     UpdateDialog(Context context){
         this.context = context;
@@ -43,46 +46,53 @@ public class UpdateDialog extends DialogFragment {
 
         progressBar = view.findViewById(R.id.progbarUpdateDialog);
         Button cancelButton = view.findViewById(R.id.btnUpdateCancel);
+        readCSV = new ReadCSV(context);
 
         cancelButton.setOnClickListener(v -> {
             UpdateActivity.clickedCancel = true;
             updateCancelled = true;
+            readCSV.getCSVData(context, false, -1);
             Objects.requireNonNull(getDialog()).dismiss();
             Intent intent = MapsActivity.makeIntent(context);
             startActivity(intent);
         });
-
         // Start long running operation in a background thread
-        new Thread(new Runnable() {
-            public void run() {
-                while (progressStatus < 100) {
+        new Thread(() -> {
+            while (progressStatus < 100) {
 
-                    progressStatus += 2;
-                    // Update the progress bar and display the
-                    //current value in the text view
-                    handler.post(() -> progressBar.setProgress(progressStatus));
-
-                    try {
-                        // Sleep for 200 milliseconds.
-                        Thread.sleep(200);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                progressStatus += 2;
+                // Update the progress bar and display the
+                //current value in the text view
+                handler.post(new Runnable() {
+                    public void run() {
+                        progressBar.setProgress(progressStatus);
                     }
+                });
+
+                try {
+                    // Sleep for 200 milliseconds.
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+            }
 
-                if(!updateCancelled) {
+            if(!updateCancelled) {
+                cancelButton.setClickable(false);
+                cancelButton.setTextColor(Color.GRAY);
+                RestaurantManager manager = RestaurantManager.getInstance(context);
+                manager.clearRestaurants();
+                readCSV.getCSVData(context,true,0);
+                LocalDateTime currentTime = LocalDateTime.now();
+                String strCurrentTime = currentTime.toString();
+                saveWhenLastUpdated(strCurrentTime);
+                getWhenLastUpdated(context);
+                ProcessData processData = new ProcessData();
+                processData.saveFinalCopy(context);
 
-                        new ReadCSV(context,true,0);
-                        LocalDateTime currentTime = LocalDateTime.now();
-                        String strCurrentTime = currentTime.toString();
-                        saveWhenLastUpdated(strCurrentTime);
-                        getWhenLastUpdated(context);
-                        ProcessData processData = new ProcessData();
-                        processData.saveFinalCopy(context);
-
-                        Intent intent = MapsActivity.makeIntent(context);
-                        startActivity(intent);
-                }
+                Intent intent = MapsActivity.makeIntent(context);
+                intent.putExtra("updatedFavouritesTag", true);
+                startActivity(intent);
             }
         }).start();
         return view;

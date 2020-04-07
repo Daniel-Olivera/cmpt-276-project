@@ -14,6 +14,8 @@ import java.util.Objects;
 
 import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.applogic.ProcessData;
+import ca.cmpt276.restaurantreport.applogic.ReadCSV;
+import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 
 /*
 This class is use for creating a Dialog Fragment that show additional
@@ -24,6 +26,8 @@ public class AskForUpdateDialog extends DialogFragment {
     private String inspectionsDataURL;
     private Context context;
     private boolean clickedUpdate = false;
+    private ReadCSV readCSV;
+    RestaurantManager manager;
     AskForUpdateDialog(String restaurantDataURL, String inspectionsDataURL, Context context)
     {
         this.restaurantDataURL = restaurantDataURL;
@@ -34,6 +38,9 @@ public class AskForUpdateDialog extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        RestaurantManager.getInstance(context);
+        readCSV = new ReadCSV(context);
     }
 
     @Override
@@ -42,8 +49,9 @@ public class AskForUpdateDialog extends DialogFragment {
         builder.setTitle(R.string.update_available)
                 .setMessage(R.string.update_ask)
                 .setNegativeButton(R.string.update_cancel, new DialogInterface.OnClickListener() {
+                    @Override
                     public void onClick(DialogInterface dialog, int id) {
-
+                            readCSV.getCSVData(context, false, -1);
                     }
                 })
                 .setPositiveButton(R.string.update_update, new DialogInterface.OnClickListener() {
@@ -52,10 +60,10 @@ public class AskForUpdateDialog extends DialogFragment {
                         UpdateActivity.clickedUpdate = true;
                         clickedUpdate = true;
                         UpdateDialog updateDialog = new UpdateDialog(context);
+                        updateDialog.setCancelable(false);
                         FragmentManager fragmentManager = getFragmentManager();
                         assert fragmentManager != null;
                         updateDialog.show(fragmentManager, "UpdateDialog");
-
 
                         ProcessData processData = new ProcessData();
                         processData.readRestaurantData(restaurantDataURL, context);
@@ -74,6 +82,7 @@ public class AskForUpdateDialog extends DialogFragment {
             Intent intent = MapsActivity.makeIntent(context);
             startActivity(intent);
         }
+
     }
 
 }

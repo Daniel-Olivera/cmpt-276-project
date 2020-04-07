@@ -213,6 +213,8 @@
     <string name="update_update">更新</string>
     <string name="srch_no_result">未找到任何结果！</string>
     <string name="search_enabled">启用</string>
+    <string name="dialog_new_insp_ok">好的</string>
+    <string name="dialog_new_starred_inspections">您所爱的餐厅有新的检查报告！</string>
 
 
 </resources>
