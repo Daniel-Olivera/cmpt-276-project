@@ -190,7 +190,7 @@ public class InspectionActivity extends AppCompatActivity {
 
         listView.setOnItemClickListener((parent, view, position, id) -> {
             FragmentManager fm = getSupportFragmentManager();
-            PopUpDialog popUp = new PopUpDialog(violationList.get(position).getDescription());
+            LongViolationDialog popUp = new LongViolationDialog(violationList.get(position).getDescription());
 
             popUp.show(fm, "pop_up_dialog");
         });

@@ -14,9 +14,9 @@ import ca.cmpt276.restaurantreport.R;
 This class is use for creating a Dialog Fragment that show additional
 detail about a violation that the user want to see
  */
-public class PopUpDialog extends DialogFragment {
+public class LongViolationDialog extends DialogFragment {
     private String message;
-    PopUpDialog(String message)
+    LongViolationDialog(String message)
     {
         this.message = message;
     }

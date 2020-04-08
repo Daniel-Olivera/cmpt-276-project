@@ -28,7 +28,7 @@ import static ca.cmpt276.restaurantreport.ui.UpdateActivity.getWhenLastUpdated;
 /*
 * Displays the download progress dialog
 * */
-public class UpdateDialog extends DialogFragment {
+public class DownloadProgressDialog extends DialogFragment {
 
     private ProgressBar progressBar;
     private int progressStatus = 0;
@@ -37,7 +37,7 @@ public class UpdateDialog extends DialogFragment {
     private boolean updateCancelled = false;
     ReadCSV readCSV;
 
-    UpdateDialog(Context context){
+    DownloadProgressDialog(Context context){
         this.context = context;
     }
 
