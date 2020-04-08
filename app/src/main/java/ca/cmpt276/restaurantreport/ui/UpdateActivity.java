@@ -33,7 +33,6 @@ public class UpdateActivity extends AppCompatActivity {
     private String csvUrl;
     private String reportUrl;
     private RequestQueue mQueue;
-    private final int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private ReadCSV readCSV;
 
     private String dateModifyRestaurants;

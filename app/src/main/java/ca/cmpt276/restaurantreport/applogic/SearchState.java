@@ -1,11 +1,8 @@
 package ca.cmpt276.restaurantreport.applogic;
-
+/*
+*Singleton to preserve the search state between activity switches
+* */
 public class SearchState {
-
-    /*
-    true if we clicked search on the search activity leading
-     to an ongoing search false when clicked clear
-    */
     private boolean searchStateActive;
 
     private boolean doHazardSearch;
@@ -56,8 +53,7 @@ public class SearchState {
     public void setSearchHazardLevel(String searchHazardLevel) {
         if(searchHazardLevel.equals("Mid")){
             this.searchHazardLevel = "Moderate";
-        }
-        else {
+        }else {
             this.searchHazardLevel = searchHazardLevel;
         }
     }
