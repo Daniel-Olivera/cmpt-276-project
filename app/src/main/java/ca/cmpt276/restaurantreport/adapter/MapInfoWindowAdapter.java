@@ -16,6 +16,9 @@ import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 
+/*
+Sets up how the info window on any given marker will display info
+* */
 public class MapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
     private Context context;
@@ -54,7 +57,6 @@ public class MapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
                 txtName.setText(restaurantName);
                 txtAddress.setText(address);
-                //txtHaz.setText(hazardLvl);
                 manager.setHazardLevelText(txtHaz,hazardLvl);
                 manager.setHazardIcon(hazardLvl, imgHaz);
                 break;

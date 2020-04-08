@@ -8,10 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.cmpt276.restaurantreport.R;
-/*
-* Code snippet modified from:
-* https://basememara.com/storing-multidimensional-resource-arrays-in-android/
-* */
+
 /*
 this class retrieve data from multi-dimensional array and store it
 in to a class

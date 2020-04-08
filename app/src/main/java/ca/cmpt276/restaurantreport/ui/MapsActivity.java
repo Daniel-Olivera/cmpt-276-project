@@ -60,8 +60,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
     private static final String LOCATION_KEY = "location";
     private static final String CAMERA_KEY = "camera_position";
     View mapView;
-    //SFU Surrey Campus
-    private final LatLng SFU_SURREY = new LatLng(49.1864, -122.8483);
     //change camera animation speed, lower number = higher speed
     private final int UPDATE_CAM_SPEED = 300;
     boolean favouritesReadFromFile = false;
@@ -92,7 +90,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
             assert mapFragment != null;
             mapFragment.getMapAsync(this);
         } catch (NullPointerException e) {
-            Log.d("MapView", "getMapAsync Returned null");
+            Log.e("MapView", "getMapAsync Returned null");
             e.printStackTrace();
         }
 
@@ -308,13 +306,10 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
 
         for(int i = 0; i < allRestaurants.size(); i++){
             if(trackingNum.equals(allRestaurants.get(i).getTrackingNum())) {
-                Restaurant currentRes = allRestaurants.get(i);
-
                 intent = RestaurantActivity.makeIntent(this, trackingNum);
                 break;
             }
         }
-
         startActivity(intent);
     }
 

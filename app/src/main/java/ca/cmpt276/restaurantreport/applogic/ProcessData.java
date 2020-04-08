@@ -18,12 +18,11 @@ import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+* Downloads and populates data in the application and saves it to the device
+* */
 public class ProcessData {
-    int currentLine;
-    int totalLine;
-    int totalRestaurant;
-
-
+    private int currentLine;
 
     public void readRestaurantData(String data, Context context) {
         try {
@@ -62,13 +61,6 @@ public class ProcessData {
         try {
             File root = context.getDir("RestaurantReport", Context.MODE_PRIVATE);
 
-            boolean isDirectoryCreated = root.mkdirs();
-
-            if(isDirectoryCreated)
-                Log.d("saveRestaurantData","Directory created successfully");
-            else
-                Log.d("saveRestaurantData","Directory was not created successfully");
-
             File gpxfile = new File(root, "RestaurantDetails.csv");
             CSVWriter writer = new CSVWriter(new FileWriter(gpxfile));
             writer.writeAll(restaurants);
@@ -87,18 +79,16 @@ public class ProcessData {
 
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String current;
-            List<String[]> reports = new ArrayList<String[]>();
             List<String> name = new ArrayList<String>();
 
             // Re-open the file to read it
 
             while ((current = in.readLine()) != null) {
-                if(!current.equals(",,,,,,"))
-                {
+                if (!current.equals(",,,,,,")) {
                     name.add(current);
                 }
-
             }
+
             in.close();
             connection.disconnect();
             saveReportData(name, context);
@@ -106,8 +96,6 @@ public class ProcessData {
             Log.e("readReportData","Failed to read report data");
             e.printStackTrace();
         }
-
-
     }
 
     private void saveReportData(List<String> reports, Context context) {
@@ -115,12 +103,6 @@ public class ProcessData {
 
             File root = context.getDir("RestaurantReport", Context.MODE_PRIVATE);
 
-            boolean isDirectoryCreated = root.mkdirs();
-
-            if(isDirectoryCreated)
-                Log.d("saveReportData","Directory created successfully");
-            else
-                Log.d("saveReportData","Directory was not created successfully");
             File gpxfile = new File(root, "RestaurantReports.csv");
             FileWriter writer = new FileWriter(gpxfile);
             for(int i =0 ;i < reports.size();i++)
@@ -132,11 +114,9 @@ public class ProcessData {
             writer.flush();
             writer.close();
 
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public void saveFinalCopy(Context context)
@@ -148,10 +128,10 @@ public class ProcessData {
         File source2 = new File(root, "RestaurantReports.csv");
         File dest2 = new File(root, "FinalRestaurantReports.csv");
 
-        FileChannel sourceChannel1 = null;
-        FileChannel destChannel1 = null;
-        FileChannel sourceChannel2 = null;
-        FileChannel destChannel2 = null;
+        FileChannel sourceChannel1;
+        FileChannel destChannel1;
+        FileChannel sourceChannel2;
+        FileChannel destChannel2;
         try {
             sourceChannel1 = new FileInputStream(source1).getChannel();
             destChannel1 = new FileOutputStream(dest1).getChannel();
@@ -168,10 +148,7 @@ public class ProcessData {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-
-
 }
 
 

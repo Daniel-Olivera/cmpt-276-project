@@ -59,18 +59,16 @@ public class SearchActivity extends AppCompatActivity {
         restaurantName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                //unused but required to be "implemented"
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String resName = restaurantName.getText().toString();
                 searchState.setSearchKeyWords(resName);
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-
+                //unused but required to be "implemented"
             }
         });
 
@@ -83,8 +81,8 @@ public class SearchActivity extends AppCompatActivity {
         violationNumberInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //unused but required to be "implemented"
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(!violationNumberInput.getText().toString().equals("")){
@@ -92,13 +90,11 @@ public class SearchActivity extends AppCompatActivity {
                     searchState.setNumOfCriticalViolations(numViolations);
                 }
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-
+                //unused but required to be "implemented"
             }
         });
-
         violationNumberInput.setText(numViolations);
     }
 
@@ -314,7 +310,6 @@ public class SearchActivity extends AppCompatActivity {
             RestaurantManager manager = RestaurantManager.getInstance(SearchActivity.this);
 
             manager.clearFilteredList();
-
 
             getSearchBarInput();
             getViolationInput();

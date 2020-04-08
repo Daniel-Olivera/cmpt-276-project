@@ -22,6 +22,10 @@ import ca.cmpt276.restaurantreport.adapter.RestaurantListAdapter;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 
+/*
+* Displays the favourite restaurants that have new inspections
+* after an update
+* */
 public class NewStarredInspections extends DialogFragment {
 
     private Context context;
@@ -56,7 +60,6 @@ public class NewStarredInspections extends DialogFragment {
 
             Intent intent = RestaurantActivity.makeIntent(context, trackingNum);
             startActivity(intent);
-
         });
 
         Button btnOK = dialog.findViewById(R.id.btnNewInspOK);

@@ -1,16 +1,9 @@
 package ca.cmpt276.restaurantreport.applogic;
 
 import android.content.Context;
-import android.util.Log;
 
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /*
 This class store all data about each Inspection of the restaurants in the
