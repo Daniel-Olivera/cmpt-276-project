@@ -213,7 +213,6 @@ public class RestaurantManager implements Iterable<Restaurant> {
             if(numInspMon == numCurMon){
                 int result = currentDay - inspectionDay;
                 if(result > 1){
-                    //output = result + " days ago";
                     output = context.getString(R.string.get_date_ago_day_s,Integer.toString(result));
                 }
                 else if(result < 1){

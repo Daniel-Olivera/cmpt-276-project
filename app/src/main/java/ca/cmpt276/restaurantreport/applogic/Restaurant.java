@@ -25,7 +25,6 @@ public class Restaurant implements ClusterItem {
     private String physicalCity;
     private String facType;
 
-
     private String mTitle;
     private String mSnippet;
 
@@ -33,11 +32,8 @@ public class Restaurant implements ClusterItem {
     private double longitude;
 
     private LatLng mPosition;
-
     private List<Inspection> Inspections = new ArrayList<>();
-
     private boolean favorite;
-
 
 
     public Restaurant(String trackingNum, String Name, String physicalAddr, String physicalCity, String facType, double latitude, double longitude) {
@@ -52,7 +48,6 @@ public class Restaurant implements ClusterItem {
         this.mPosition = new LatLng(latitude,longitude);
         this.mTitle = Name;
         this.mSnippet = trackingNum;
-
     }
 
     public Restaurant() {
@@ -142,7 +137,7 @@ public class Restaurant implements ClusterItem {
         return issueCount;
     }
 
-    public int getNumCritViolationsWithinLastYear(){
+    int getNumCritViolationsWithinLastYear(){
         LocalDate currentDate = LocalDate.now();
         LocalDate dateOfInspection;
 

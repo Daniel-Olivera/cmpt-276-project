@@ -25,8 +25,10 @@ import ca.cmpt276.restaurantreport.applogic.ReadCSV;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 
 import static ca.cmpt276.restaurantreport.ui.UpdateActivity.getWhenLastUpdated;
-
-public class UpdateDialog extends DialogFragment {
+/*
+* Displays the download progress dialog
+* */
+public class DownloadProgressDialog extends DialogFragment {
 
     private ProgressBar progressBar;
     private int progressStatus = 0;
@@ -35,7 +37,7 @@ public class UpdateDialog extends DialogFragment {
     private boolean updateCancelled = false;
     ReadCSV readCSV;
 
-    UpdateDialog(Context context){
+    DownloadProgressDialog(Context context){
         this.context = context;
     }
 
@@ -44,8 +46,8 @@ public class UpdateDialog extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.update_dialog, container, false);
 
-        progressBar = view.findViewById(R.id.progress_bar);
-        Button cancelButton = view.findViewById(R.id.cancel_button);
+        progressBar = view.findViewById(R.id.progbarUpdateDialog);
+        Button cancelButton = view.findViewById(R.id.btnUpdateCancel);
         readCSV = new ReadCSV(context);
 
         cancelButton.setOnClickListener(v -> {
@@ -95,7 +97,6 @@ public class UpdateDialog extends DialogFragment {
                 startActivity(intent);
             }
         }).start();
-
         return view;
     }
 

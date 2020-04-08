@@ -41,6 +41,7 @@ import ca.cmpt276.restaurantreport.adapter.MapInfoWindowAdapter;
 import ca.cmpt276.restaurantreport.applogic.CustomClusterRenderer;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
+import ca.cmpt276.restaurantreport.applogic.SearchState;
 
 /*
 displays a google maps view showing the user where the restaurants are
@@ -60,13 +61,14 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
     private static final String CAMERA_KEY = "camera_position";
     View mapView;
     //SFU Surrey Campus
-    private final LatLng SFU_SURREY = new LatLng(49.1864, -122.8483);
+    private final LatLng DEFAULT_LOCATION = new LatLng(49.1864, -122.8483);
     //change camera animation speed, lower number = higher speed
     private final int UPDATE_CAM_SPEED = 300;
     boolean favouritesReadFromFile = false;
 
     private ClusterManager clusterManager;
     RestaurantManager manager;
+    SearchState searchState;
     List<Restaurant> allRestaurants;
 
     public MapsActivity() {
@@ -90,7 +92,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
             assert mapFragment != null;
             mapFragment.getMapAsync(this);
         } catch (NullPointerException e) {
-            Log.d("MapView", "getMapAsync Returned null");
+            Log.e("MapView", "getMapAsync Returned null");
             e.printStackTrace();
         }
 
@@ -99,6 +101,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
         }
 
         manager = RestaurantManager.getInstance(this);
+        searchState = SearchState.getInstance();
         setupListButton();
         setupSearchButton();
     }
@@ -143,6 +146,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
 
     @Override
     public void onBackPressed(){
+        searchState.clearSearchState();
         finishAffinity();
     }
 
@@ -260,10 +264,15 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
                     if (task.isSuccessful()) {
                         // Set the map's camera position to the current location of the device.
                         lastKnownLocation = (Location) task.getResult();
-                            assert lastKnownLocation != null;
+
+                        if(lastKnownLocation != null){
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                      new LatLng(lastKnownLocation.getLatitude(),
                                             lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                            }
+                            else{
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION,DEFAULT_ZOOM));
+                            }
                     }
                     else {
                         mMap.getUiSettings().setMyLocationButtonEnabled(false);
@@ -304,13 +313,10 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
 
         for(int i = 0; i < allRestaurants.size(); i++){
             if(trackingNum.equals(allRestaurants.get(i).getTrackingNum())) {
-                Restaurant currentRes = allRestaurants.get(i);
-
                 intent = RestaurantActivity.makeIntent(this, trackingNum);
                 break;
             }
         }
-
         startActivity(intent);
     }
 
@@ -336,4 +342,5 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
     public static Intent makeIntent(Context context) {
         return new Intent(context, MapsActivity.class);
     }
+
 }

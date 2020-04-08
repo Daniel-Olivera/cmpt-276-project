@@ -21,7 +21,7 @@ import ca.cmpt276.restaurantreport.applogic.Restaurant;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 
 /*
-This class show the details about the Restaurant
+This class shows the details about the Restaurant
 and list of inspection related to it
  */
 public class RestaurantActivity extends AppCompatActivity {

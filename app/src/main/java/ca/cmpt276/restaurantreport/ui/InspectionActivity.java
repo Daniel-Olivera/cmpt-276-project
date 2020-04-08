@@ -32,7 +32,6 @@ This class show the details about the inspection
 and list of violation related to it
 
  */
-
 public class InspectionActivity extends AppCompatActivity {
 
     RestaurantManager manager;
@@ -89,7 +88,7 @@ public class InspectionActivity extends AppCompatActivity {
         try {
             inspectionDate = LocalDate.parse(dateOfInspection, DateTimeFormatter.BASIC_ISO_DATE);
         } catch (DateTimeParseException e) {
-            Log.d("InspectionActivity","String cannot be parsed into LocalDate");
+            Log.e("InspectionActivity","String cannot be parsed into LocalDate");
             e.printStackTrace();
         }
 
@@ -191,7 +190,7 @@ public class InspectionActivity extends AppCompatActivity {
 
         listView.setOnItemClickListener((parent, view, position, id) -> {
             FragmentManager fm = getSupportFragmentManager();
-            PopUpDialog popUp = new PopUpDialog(violationList.get(position).getDescription());
+            LongViolationDialog popUp = new LongViolationDialog(violationList.get(position).getDescription());
 
             popUp.show(fm, "pop_up_dialog");
         });

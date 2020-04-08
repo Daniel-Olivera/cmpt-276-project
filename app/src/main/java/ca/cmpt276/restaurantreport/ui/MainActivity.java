@@ -3,12 +3,8 @@ package ca.cmpt276.restaurantreport.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,8 +18,6 @@ import ca.cmpt276.restaurantreport.adapter.RestaurantListAdapter;
 import ca.cmpt276.restaurantreport.applogic.Restaurant;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 import ca.cmpt276.restaurantreport.applogic.SearchState;
-
-
 /*
 This class show the list of all restaurants in the database
  */
@@ -31,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     List<Restaurant> allRestaurantsList;
     RestaurantManager manager;
+    SearchState searchState;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, MainActivity.class);
@@ -42,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         manager = RestaurantManager.getInstance(this);
+        searchState = SearchState.getInstance();
 
         setupMapButton();
         setupSearchButton();
@@ -73,11 +69,11 @@ public class MainActivity extends AppCompatActivity {
 
    @Override
    public void onBackPressed(){
+        searchState.clearSearchState();
         finishAffinity();
     }
 
     private void setupListView(){
-
         allRestaurantsList = manager.getRestaurants();
 
         //Sorts all the restaurants by name

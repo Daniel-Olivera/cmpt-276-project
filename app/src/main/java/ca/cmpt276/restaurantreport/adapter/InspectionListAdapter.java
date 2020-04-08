@@ -16,16 +16,11 @@ import ca.cmpt276.restaurantreport.R;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 
 /*
-most of the code was learned/taken from:
-https://www.youtube.com/watch?v=5Tm--PHhbJo
-*/
-/*
 This class is used for putting data about each inspection
 to a Linear Layout that show all the inspection of a restaurant
 */
 
 public class InspectionListAdapter extends ArrayAdapter<String> {
-    //private final Context context;
     private int[] critNum;
     private int[] nonCritNum;
     private String[] lastInspec;
@@ -38,7 +33,6 @@ public class InspectionListAdapter extends ArrayAdapter<String> {
         this.nonCritNum = nonCritNum;
         this.lastInspec = lastInspec;
         this.hazardLevels = hazardLevel;
-        //this.context = c;
         this.manager = RestaurantManager.getInstance(c);
     }
 
