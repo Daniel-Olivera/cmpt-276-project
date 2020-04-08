@@ -60,6 +60,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
     private static final String LOCATION_KEY = "location";
     private static final String CAMERA_KEY = "camera_position";
     View mapView;
+    //SFU Surrey Campus
+    private final LatLng DEFAULT_LOCATION = new LatLng(49.1864, -122.8483);
     //change camera animation speed, lower number = higher speed
     private final int UPDATE_CAM_SPEED = 300;
     boolean favouritesReadFromFile = false;
@@ -262,10 +264,15 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
                     if (task.isSuccessful()) {
                         // Set the map's camera position to the current location of the device.
                         lastKnownLocation = (Location) task.getResult();
-                            assert lastKnownLocation != null;
+
+                        if(lastKnownLocation != null){
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                      new LatLng(lastKnownLocation.getLatitude(),
                                             lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                            }
+                            else{
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION,DEFAULT_ZOOM));
+                            }
                     }
                     else {
                         mMap.getUiSettings().setMyLocationButtonEnabled(false);
