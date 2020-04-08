@@ -25,7 +25,9 @@ import ca.cmpt276.restaurantreport.applogic.ReadCSV;
 import ca.cmpt276.restaurantreport.applogic.RestaurantManager;
 
 import static ca.cmpt276.restaurantreport.ui.UpdateActivity.getWhenLastUpdated;
-
+/*
+* Displays the download progress dialog
+* */
 public class UpdateDialog extends DialogFragment {
 
     private ProgressBar progressBar;

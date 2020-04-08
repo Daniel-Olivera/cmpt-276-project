@@ -9,9 +9,9 @@ public class Violation {
     private String violationDescriptor;
 
     public Violation(String violationCode, String violationCriticality, String violationDescriptor) {
-        this.violationCode = "";
-        this.violationCriticality = "";
-        this.violationDescriptor = "";
+        this.violationCode = violationCode;
+        this.violationCriticality = violationCriticality;
+        this.violationDescriptor = violationDescriptor;
     }
 
     public Violation(){}
@@ -36,21 +36,7 @@ public class Violation {
         this.violationDescriptor = violationDescriptor;
     }
 
-    public boolean isCritical(){
-        return violationCriticality.equals("Critical");
-    }
-
-    public String getDescription()
-    {
+    public String getDescription() {
         return  violationDescriptor + "\n";
-    }
-
-    @Override
-    public String toString() {
-        return "Violation{" +
-                "violationCode='" + violationCode + '\'' +
-                ", violationCriticality='" + violationCriticality + '\'' +
-                ", violationDescriptor='" + violationDescriptor + '\'' +
-                '}';
     }
 }

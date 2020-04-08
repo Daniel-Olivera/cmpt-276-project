@@ -19,5 +19,4 @@ public class ShortViolation {
     public String getShortDescriptor() {
         return shortDescriptor;
     }
-
 }

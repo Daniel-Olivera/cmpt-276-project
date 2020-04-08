@@ -27,7 +27,7 @@ public class AskForUpdateDialog extends DialogFragment {
     private Context context;
     private boolean clickedUpdate = false;
     private ReadCSV readCSV;
-    RestaurantManager manager;
+
     AskForUpdateDialog(String restaurantDataURL, String inspectionsDataURL, Context context)
     {
         this.restaurantDataURL = restaurantDataURL;
@@ -70,7 +70,6 @@ public class AskForUpdateDialog extends DialogFragment {
                         processData.readReportData(inspectionsDataURL,context);
                     }
                 });
-
         return builder.create();
     }
 
@@ -82,7 +81,5 @@ public class AskForUpdateDialog extends DialogFragment {
             Intent intent = MapsActivity.makeIntent(context);
             startActivity(intent);
         }
-
     }
-
 }
